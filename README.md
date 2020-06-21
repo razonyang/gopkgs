@@ -26,9 +26,7 @@ $ go build --buildmode=plugin postgres/postgres.go
 
 Checkout [releases](https://github.com/razonyang/gopkgs/releases) page and download.
 
-## Usage
-
-### Configuration
+## Configuration
 
 Configuration is a JSON file.
 
@@ -49,6 +47,9 @@ Configuration is a JSON file.
 - `db`:
     - `driver`: database driver: sqlite3, mysql, postgres. You need to download corresponding plugin from [releases](https://github.com/razonyang/gopkgs/releases), and put it in the `plugins` directory.
     - `dsn`: data source name, depends on what driver you use.
+        - `sqlite3`: `/path/to/gopkgs.db`
+        - `mysql`: `user:password@tcp(localhost:3306)/gopkgs?charset=utf8mb4&parseTime=True&loc=Local`
+        - `postgres`: `postgres://user:password@localhost/gopkgs?sslmode=verify-full`
     - `tableName`: the name of packages table.
 
 The `config.json` of the current directory will be used by default, you can specify the configuration file via `-c` or `--config` flag:
@@ -56,6 +57,8 @@ The `config.json` of the current directory will be used by default, you can spec
 ```shell
 $ gopkgs -c /etc/gopkgs/config.json
 ```
+
+## Usage
 
 ### Start HTTP server
 
@@ -73,7 +76,7 @@ location / {
 }
 
 location @gopkgsproxy {
-	proxy_set_header Host $host;
+    proxy_set_header Host $host;
     proxy_pass http://127.0.0.1:8080;
 }  
 ```
