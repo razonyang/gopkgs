@@ -1,0 +1,9 @@
+{
+    "addr": ":8080",
+    "plugins": "plugins",
+    "db": {
+        "driver": "sqlite3",
+        "dsn": "/tmp/gopkgs.db",
+        "tableName": "packages"
+    }
+}
