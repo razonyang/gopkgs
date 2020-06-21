@@ -11,5 +11,4 @@ func NewDB(dsn string) (*gorm.DB, error) {
 }
 
 func main() {
-
 }
