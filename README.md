@@ -12,8 +12,10 @@ The major advantages of using custom import path is that you don't need to chang
 ```shell
 $ git clone https://github.com/razonyang/gopkgs.git
 $ cd gopkgs
-$ go install
+$ packr2 install
 ```
+
+> `go get -u github.com/gobuffalo/packr/v2/packr2` for installing `packr2`.
 
 Rebuild plugins
 

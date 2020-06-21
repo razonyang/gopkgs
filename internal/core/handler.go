@@ -1,28 +1,11 @@
 package core
 
 import (
-	"html/template"
+	"net/http"
 
 	"clevergo.tech/clevergo"
 	"github.com/razonyang/gopkgs/internal/models"
 	"gorm.io/gorm"
-)
-
-var (
-	tmplHTML = `<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="go-import" content="{{ .pkg.ImportMeta }}">
-<meta http-equiv="refresh" content="0; url={{ .pkg.DocsURL }}">
-<title>Package {{ .pkg.Prefix }}</title>
-</head>
-<body>
-Nothing to see here; <a href="{{ .pkg.DocsURL }}">move along</a>.
-</body>
-</html>
-`
-	tmpl = template.Must(template.New("pacakge").Parse(tmplHTML))
 )
 
 // RegisterHandlers registers handlers.
@@ -41,8 +24,7 @@ func RegisterHandlers(r clevergo.Router, db *gorm.DB) {
 			return err
 		}
 
-		c.SetContentTypeHTML()
-		return tmpl.Execute(c.Response, clevergo.Map{
+		return c.Render(http.StatusOK, "package.tmpl", clevergo.Map{
 			"pkg": pkg,
 		})
 	})
