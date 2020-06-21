@@ -9,3 +9,6 @@ import (
 func NewDB(dsn string) (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
 }
+
+func main() {
+}
