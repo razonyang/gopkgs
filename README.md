@@ -3,6 +3,8 @@
 
 `gopkgs` is a CLI application and HTTP service that manage custom import path of your Go packages.
 
+Custom import path is useful, you don't need to change the import path when you host your code in other place, such as github, gitlab, gitee or even your own server.
+
 ## Installation
 
 ### Source
