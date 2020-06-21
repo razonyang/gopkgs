@@ -1,11 +1,30 @@
 # GOPKGs
 [![Build Status](https://img.shields.io/travis/razonyang/gopkgs?style=flat-square)](https://travis-ci.org/razonyang/gopkgs)
-[![Coverage Status](https://img.shields.io/coveralls/github/razonyang/gopkgs?style=flat-square)](https://coveralls.io/github/razonyang/gopkgs)
-[![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/razonyang/gopkgs?tab=doc)
-[![Go Report Card](https://goreportcard.com/badge/github.com/razonyang/gopkgs?style=flat-square)](https://goreportcard.com/report/github.com/razonyang/gopkgs)
-[![Release](https://img.shields.io/github/release/razonyang/gopkgs.svg?style=flat-square)](https://github.com/razonyang/gopkgs/releases)
 
-`gopkgs` is a CLI application that manage custom import path of your Go packages.
+`gopkgs` is a CLI application and HTTP service that manage custom import path of your Go packages.
+
+## Installation
+
+### Source
+
+```shell
+$ git clone https://github.com/razonyang/gopkgs.git
+$ cd gopkgs
+$ go install
+```
+
+Rebuild plugins
+
+```shell
+$ cd plugins
+$ go build --buildmode=plugin mysql/mysql.go
+$ go build --buildmode=plugin sqlite3/sqlite3.go
+$ go build --buildmode=plugin postgres/postgres.go
+```
+
+### Binary
+
+Checkout [releases](https://github.com/razonyang/gopkgs/releases) page and download.
 
 ## Usage
 
@@ -28,11 +47,11 @@ Configuration is a JSON file.
 - `addr`: HTTP server address.
 - `plugins`: the location of plugins.
 - `db`:
-    - `driver`: database driver: sqlite3, mysql, postgres.
+    - `driver`: database driver: sqlite3, mysql, postgres. You need to download corresponding plugin from [releases](https://github.com/razonyang/gopkgs/releases), and put it in the `plugins` directory.
     - `dsn`: data source name, depends on what driver you use.
     - `tableName`: the name of packages table.
 
-The "config.json" of current directory will be used by default, you can specify the configuration file via `-c` or `--config` flag:
+The `config.json` of the current directory will be used by default, you can specify the configuration file via `-c` or `--config` flag:
 
 ```shell
 $ gopkgs -c /etc/gopkgs/config.json
@@ -48,10 +67,9 @@ $ gopkgs serve
 
 You may also need to set up a reverse proxy, let's take Nginx as example:
 
-```
+```nginx
 location / {
-    # ...
-	try_files $uri $uri/ @gopkgsproxy;
+    try_files $uri $uri/ @gopkgsproxy;
 }
 
 location @gopkgsproxy {
@@ -81,7 +99,7 @@ $ gopkgs add \
 And then checkout the output.
 
 ```shell
-$ curl http://example.com/foo
+$ curl https://example.com/foo
 <!DOCTYPE html>
 <html>
 <head>
