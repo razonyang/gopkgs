@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"clevergo.tech/plugins"
 	"github.com/razonyang/gopkgs/internal/core"
 	"github.com/razonyang/gopkgs/internal/models"
 	"github.com/urfave/cli/v2"
@@ -17,7 +18,7 @@ const version = "v0.1.0"
 var (
 	cfg           = &core.Config{}
 	db            *gorm.DB
-	pluginManager *core.PluginManager
+	pluginManager *plugins.Manager
 	app           = &cli.App{
 		EnableBashCompletion: true,
 		Version:              version,
@@ -41,7 +42,7 @@ var (
 				return err
 			}
 
-			pluginManager = core.NewPluginManager(cfg.Plugins)
+			pluginManager = plugins.New(cfg.Plugins)
 
 			if err := initDB(c.Bool("debug")); err != nil {
 				return err
