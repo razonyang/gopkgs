@@ -5,6 +5,14 @@
 
 The major advantages of using custom import path is that you don't need to change the import path when you are going to host your code elsewhere.
 
+## Online preview
+
+```shell
+$ curl "https://clevergo.tech/clevergo?go-get=1"
+$ curl "https://clevergo.tech/captchas?go-get=1"
+$ curl "https://clevergo.tech/form?go-get=1"
+```
+
 ## Installation
 
 ### Source
