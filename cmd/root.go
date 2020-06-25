@@ -6,22 +6,18 @@ import (
 	"log"
 	"os"
 
-	"clevergo.tech/plugins"
 	"github.com/razonyang/gopkgs/internal/core"
 	"github.com/razonyang/gopkgs/internal/models"
 	"github.com/urfave/cli/v2"
 	"gorm.io/gorm"
 )
 
-const version = "v0.1.0"
-
 var (
-	cfg           = &core.Config{}
-	db            *gorm.DB
-	pluginManager *plugins.Manager
-	app           = &cli.App{
+	cfg = &core.Config{}
+	db  *gorm.DB
+	app = &cli.App{
 		EnableBashCompletion: true,
-		Version:              version,
+		Version:              core.Version,
 		Name:                 "gopkgs",
 		Usage:                "custom and manage your package import path",
 		Flags: []cli.Flag{
@@ -41,8 +37,6 @@ var (
 			if err := parseConfig(c.String("config")); err != nil {
 				return err
 			}
-
-			pluginManager = plugins.New(cfg.Plugins)
 
 			if err := initDB(c.Bool("debug")); err != nil {
 				return err
@@ -72,15 +66,10 @@ func Execute() {
 	}
 }
 
-func initDB(debug bool) error {
-	symbol, err := pluginManager.Lookup(cfg.DB.Driver+".so", "NewDB")
+func initDB(debug bool) (err error) {
+	db, err = core.NewDB(cfg.DB.DSN)
 	if err != nil {
-		return err
-	}
-	f := symbol.(func(string) (*gorm.DB, error))
-	db, err = f(cfg.DB.DSN)
-	if err != nil {
-		return err
+		return
 	}
 	if debug {
 		db = db.Debug()

@@ -1,4 +1,6 @@
-package main
+// +build mysql
+
+package core
 
 import (
 	"gorm.io/driver/mysql"
@@ -8,7 +10,4 @@ import (
 // NewDB opens a database.
 func NewDB(dsn string) (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
-}
-
-func main() {
 }

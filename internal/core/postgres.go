@@ -1,4 +1,6 @@
-package main
+// +build postgres
+
+package core
 
 import (
 	"gorm.io/driver/postgres"
@@ -8,7 +10,4 @@ import (
 // NewDB opens a database.
 func NewDB(dsn string) (*gorm.DB, error) {
 	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
-}
-
-func main() {
 }

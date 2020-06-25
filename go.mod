@@ -6,7 +6,6 @@ require (
 	clevergo.tech/clevergo v0.3.0
 	clevergo.tech/jetpackr v0.1.0
 	clevergo.tech/jetrenderer v0.1.0
-	clevergo.tech/plugins v0.1.0
 	github.com/CloudyKit/jet/v3 v3.0.0
 	github.com/go-ozzo/ozzo-validation/v4 v4.2.1
 	github.com/gobuffalo/packr/v2 v2.8.0

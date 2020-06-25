@@ -12,19 +12,12 @@ The major advantages of using custom import path is that you don't need to chang
 ```shell
 $ git clone https://github.com/razonyang/gopkgs.git
 $ cd gopkgs
-$ packr2 install
+$ packr2 build --tag [database]
 ```
+
+- `database`: `mysql`, `sqlite3` or `postgres`.
 
 > `go get -u github.com/gobuffalo/packr/v2/packr2` for installing `packr2`.
-
-Rebuild plugins
-
-```shell
-$ cd plugins
-$ go build --buildmode=plugin mysql/mysql.go
-$ go build --buildmode=plugin sqlite3/sqlite3.go
-$ go build --buildmode=plugin postgres/postgres.go
-```
 
 ### Binary
 
@@ -37,7 +30,6 @@ Configuration is a JSON file.
 ```json
 {
     "addr": ":8080",
-    "plugins": "plugins",
     "db": {
         "driver": "sqlite3",
         "dsn": "gopkgs.db",
@@ -47,9 +39,7 @@ Configuration is a JSON file.
 ```
 
 - `addr`: HTTP server address.
-- `plugins`: the location of plugins.
 - `db`:
-    - `driver`: database driver: sqlite3, mysql, postgres. You need to download corresponding plugin from [releases](https://github.com/razonyang/gopkgs/releases), and put it in the `plugins` directory.
     - `dsn`: data source name, depends on what driver you use.
         - `sqlite3`: `/path/to/gopkgs.db`
         - `mysql`: `user:password@tcp(localhost:3306)/gopkgs?charset=utf8mb4&parseTime=True&loc=Local`

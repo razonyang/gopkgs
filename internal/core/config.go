@@ -4,8 +4,6 @@ package core
 type Config struct {
 	// HTTP server address.
 	Addr string `json:"addr"`
-	// Plugins location.
-	Plugins string `json:"plugins"`
 	// Database
 	DB DBConfig `json:"db"`
 }
@@ -14,6 +12,4 @@ type Config struct {
 type DBConfig struct {
 	// Data source name.
 	DSN string `json:"dsn"`
-	// Database driver.
-	Driver string `json:"driver"`
 }
