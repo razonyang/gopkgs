@@ -77,7 +77,7 @@ $ gopkgs -c /etc/gopkgs/config.json
 $ gopkgs serve
 ```
 
-> You can use [supervisord](http://supervisord.org/) to manage gopkgs HTTP service.
+> You can use `systemd` or [supervisord](http://supervisord.org/) to manage gopkgs HTTP service.
 
 You may also need to set up a reverse proxy, let's take Nginx as example:
 
