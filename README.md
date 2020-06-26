@@ -17,7 +17,7 @@ The source code of `clevergo.tech/clevergo` is hosted at [GitHub](https://github
 # Install package
 $ go get -u clevergo.tech/clevergo
 
-# Checkout the package infomation
+# Checkout the package information
 $ curl "https://clevergo.tech/clevergo?go-get=1"
 ```
 
