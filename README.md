@@ -1,21 +1,25 @@
 # GOPKGs
 [![Build Status](https://img.shields.io/travis/razonyang/gopkgs?style=flat-square)](https://travis-ci.org/razonyang/gopkgs)
 
-`gopkgs` is a CLI application and HTTP service that manage custom import path of your Go packages.
+`gopkgs` is a CLI application and HTTP service that manage customized import path of your Go packages.
 
 The major advantages of using custom import path is that you don't need to change the import path when you are going to host your code elsewhere.
 
 ## Online preview
 
+The source code of `clevergo.tech/clevergo` is hosted at [GitHub](https://github.com/clevergo/clevergo).
+
 ```shell
+# Install package
+$ go get -u clevergo.tech/clevergo
+
+# Checkout the package infomation
 $ curl "https://clevergo.tech/clevergo?go-get=1"
-$ curl "https://clevergo.tech/captchas?go-get=1"
-$ curl "https://clevergo.tech/form?go-get=1"
 ```
 
 ## Installation
 
-### Source
+### Build from source
 
 ```shell
 $ git clone https://github.com/razonyang/gopkgs.git
@@ -90,7 +94,7 @@ $ gopkgs add <prefix> <vcs> <repo-root> [<docs-url>]
 ```
 
 - `prefix`: the prefix of import path.
-- `vcs`: bzr, fossil, git, hg, svn.
+- `vcs`: version control system, `bzr`, `fossil`, `git`, `hg`, `svn`.
 - `repo-root`: the location of your repository.
 - `docs-url`: URL of documentations, optional.
 
