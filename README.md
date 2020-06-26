@@ -5,6 +5,10 @@
 
 The major advantages of using custom import path is that you don't need to change the import path when you are going to host your code elsewhere.
 
+## How it works.
+
+Checkout [Remote import paths](https://golang.org/cmd/go/#hdr-Remote_import_paths) for details.
+
 ## Online preview
 
 The source code of `clevergo.tech/clevergo` is hosted at [GitHub](https://github.com/clevergo/clevergo).
@@ -27,7 +31,7 @@ $ cd gopkgs
 $ packr2 build --tag [database]
 ```
 
-- `database`: `mysql`, `sqlite3` or `postgres`.
+- `database`: `mysql`, `sqlite3`, `postgres` or `sqlserver`.
 
 > `go get -u github.com/gobuffalo/packr/v2/packr2` for installing `packr2`.
 
@@ -56,6 +60,7 @@ Configuration is a JSON file.
         - `sqlite3`: `/path/to/gopkgs.db`
         - `mysql`: `user:password@tcp(localhost:3306)/gopkgs?charset=utf8mb4&parseTime=True&loc=Local`
         - `postgres`: `postgres://user:password@localhost/gopkgs?sslmode=verify-full`
+        - `sqlserver`: `sqlserver://user:password@localhost:9930?database=gopkgs`
     - `tableName`: the name of packages table.
 
 The `config.json` of the current directory will be used by default, you can specify the configuration file via `-c` or `--config` flag:
