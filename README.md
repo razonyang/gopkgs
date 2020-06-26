@@ -11,7 +11,7 @@ Checkout [Remote import paths](https://golang.org/cmd/go/#hdr-Remote_import_path
 
 ## Online preview
 
-The source code of `clevergo.tech/clevergo` is hosted at [GitHub](https://github.com/clevergo/clevergo).
+The source code of [clevergo.tech/clevergo](https://github.com/clevergo/clevergo/blob/master/go.mod) is hosted at [GitHub](https://github.com/clevergo/clevergo).
 
 ```shell
 # Install package
