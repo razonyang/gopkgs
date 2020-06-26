@@ -7,7 +7,7 @@ The major advantages of using custom import path is that you don't need to chang
 
 ## How it works.
 
-Checkout [Remote import paths](https://golang.org/cmd/go/#hdr-Remote_import_paths) for details.
+Checkout [remote import paths](https://golang.org/cmd/go/#hdr-Remote_import_paths) for details.
 
 ## Online preview
 
@@ -47,7 +47,6 @@ Configuration is a JSON file.
 {
     "addr": ":8080",
     "db": {
-        "driver": "sqlite3",
         "dsn": "gopkgs.db",
         "tableName": "packages"
     }
@@ -140,7 +139,7 @@ docs: https://pkg.go.dev/example.com/foo?tab=doc
 
 ### Edit package
 
-**Modify VCS**
+**VCS**
 
 ```shell
 $ gopkgs set-vcs example.com/foo svn
