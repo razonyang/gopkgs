@@ -5,9 +5,16 @@
 
 The major advantages of using custom import path is that you don't need to change the import path when you are going to host your code elsewhere.
 
-## How it works.
+## How it works?
 
 Checkout [remote import paths](https://golang.org/cmd/go/#hdr-Remote_import_paths) for details.
+
+## Prerequirement
+
+- A public server for serving `gopkgs` service.
+- A domain.
+- A database, `mysql`, `sqlite3`, `postgres` or `sqlserver`.
+
 
 ## Online preview
 
