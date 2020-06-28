@@ -3,7 +3,7 @@ module github.com/razonyang/gopkgs
 go 1.13
 
 require (
-	clevergo.tech/clevergo v0.3.0
+	clevergo.tech/clevergo v0.4.0
 	clevergo.tech/jetpackr v0.1.0
 	clevergo.tech/jetrenderer v0.1.0
 	github.com/CloudyKit/jet/v3 v3.0.0
