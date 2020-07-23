@@ -16,8 +16,8 @@ var (
 	app = &cli.App{
 		EnableBashCompletion: true,
 		Version:              core.Version,
-		Name:                 "gopkgservice",
-		Usage:                "Go Packages Service",
+		Name:                 "gopkgs",
+		Usage:                "Go Packages",
 		Before: func(c *cli.Context) error {
 			if err := godotenv.Load(); err != nil {
 				return err
