@@ -17,17 +17,10 @@
 {{ end }}
 
 {{ yield filterForm(page=.pagination.Page, limit=.pagination.Limit) content }}
-<div class="form-row">
-  <div class="col-auto">
-    {{ yield domainsDropdown(domains=.domains, value=.queryParams.DomainID) }}
-  </div>
-  <div class="col-auto">
-    <input type="text" class="form-control mr-sm-2" placeholder="Path" name="path" value="{{ .queryParams.Path }}">
-  </div>
-  <div class="col-auto">
-    {{ yield packageVCSDropdown(options=.vcs, value=.queryParams.VCS) }}
-  </div>
-</div>
+{{ yield domainsDropdown(domains=.domains, value=.queryParams.DomainID) }}
+<input type="text" class="form-control mr-sm-2 mb-2" placeholder="Path" name="path" value="{{ .queryParams.Path }}">
+{{ yield packageVCSDropdown(options=.vcs, value=.queryParams.VCS) }}
+<button type="submit" class="btn btn-primary mr-sm-2 mb-2"><i class="fas fa-search"></i> Search</button>
 {{ end }}
 
 <div class="table-responsive">

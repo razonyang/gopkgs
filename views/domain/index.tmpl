@@ -15,11 +15,8 @@
 {{ end }}
 
 {{ yield filterForm(page=.pagination.Page, limit=.pagination.Limit) content }}
-<div class="form-row">
-  <div class="col-auto">
-    <input type="text" class="form-control" placeholder="Name" name="name" value="{{ .queryParams.Name }}">
-  </div>
-</div>
+<input type="text" class="form-control mb-2 mr-sm-2" placeholder="Name" name="name" value="{{ .queryParams.Name }}">
+<button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Search</button>
 {{ end }}
 
 <div class="table-responsive">

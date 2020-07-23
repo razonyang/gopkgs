@@ -12,27 +12,28 @@
     {{ yield header() }}
     <div class="container-fluid">
       <div class="row">
-        <main role="main" class="col-12">
-          <h1>
+        <div class="col-12">
+          <h1 class="border-bottom mb-3 text-break">
             <i class="fas fa-cube"></i> <span>{{ .pkg.Prefix() }}</span>
           </h1>
-          <hr>
-          <table class="table table-bordered table-striped">
-            <tbody>
-              <tr>
-                <th width="180px"><i class="fas fa-fw fa-code"></i> Repository</th>
-                <td>
-                  <a href="{{ .pkg.Root }}" target="_blank">{{ .pkg.Root }}</a>
-                  <span class="badge badge-primary">{{ .pkg.VCS }}</span>
-                </td>
-              </tr>
-              <tr>
-                <th><i class="fas fa-fw fa-file"></i> Documentations</th>
-                <td><a href="{{ .pkg.DocsURL() }}" target="_blank">{{ .pkg.DocsURL() }}</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </main>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                  <th width="180px"><i class="fas fa-fw fa-code"></i> Repository</th>
+                  <td>
+                    <a href="{{ .pkg.Root }}" target="_blank">{{ .pkg.Root }}</a>
+                    <span class="badge badge-primary">{{ .pkg.VCS }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th><i class="fas fa-fw fa-file"></i> Documentations</th>
+                  <td><a href="{{ .pkg.DocsURL() }}" target="_blank">{{ .pkg.DocsURL() }}</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     {{ yield footer() }}
