@@ -2,7 +2,7 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Go Packages</a>
+      <a class="navbar-brand" href="{{ siteURL }}">Go Packages</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -17,23 +17,23 @@
               <span class="dropdown-item-text">Signed in as <strong>{{ user.Nickname }}</strong></span>
               <li><hr class="dropdown-divider"></li>
               <li>
-                <a class="dropdown-item" href="/dashboard">
+                <a class="dropdown-item" href="{{ siteURL }}/dashboard">
                   <i class="fas fa-fw fa-tachometer-alt"></i> Dashboard
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="/domain">
+                <a class="dropdown-item" href="{{ siteURL }}/domain">
                   <i class="fas fa-fw fa-globe"></i> Your domains
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="/package">
+                <a class="dropdown-item" href="{{ siteURL }}/package">
                   <i class="fas fa-fw fa-cubes"></i> Your packages
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
               <li>
-                <a class="dropdown-item" href="/logout">
+                <a class="dropdown-item" href="{{ siteURL }}/logout">
                   <i class="fas fa-fw fa-sign-out-alt"></i> Logout
                 </a>
               </li>
@@ -41,7 +41,7 @@
           </li>
           {{ else }}
           <li class="nav-item">
-            <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a class="nav-link" href="{{ siteURL }}/login"><i class="fas fa-sign-in-alt"></i> Login</a>
           </li>
           {{ end }}
         </ul>

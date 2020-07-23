@@ -90,6 +90,11 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 		vars.Set("user", authmiddleware.GetIdentity(ctx))
 		vars.Set("csrf", nosurf.Token(c.Request))
 		vars.Set("alert", sessionManager.Pop(ctx, "alert"))
+		schema := "http://"
+		if c.Request.TLS != nil {
+			schema = "https://"
+		}
+		vars.Set("siteURL", schema+osenv.MustGet("APP_HOST"))
 		vars.SetFunc("date", func(args jet.Arguments) reflect.Value {
 			args.RequireNumOfArguments("date", 1, 1)
 			date := args.Get(0).Interface().(time.Time)
