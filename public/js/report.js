@@ -20,6 +20,7 @@ $(function() {
     });
 
     $('#reportFilterForm').submit(function() {
+        loadOverview();
         loadInfo();
         return false;
     });
@@ -50,7 +51,7 @@ function loadPackages(domainID) {
 }
 
 function loadOverview() {
-    $.get("/report/overview", {}, function(resp) {
+    $.get("/report/overview", $('#reportFilterForm').serialize(), function(resp) {
         $('#overviewToday').text(resp.data.today);
         $('#overviewYesterday').text(resp.data.yesterday);
         $('#overviewLastSevenDays').text(resp.data.last_seven_days);
