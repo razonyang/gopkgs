@@ -1,8 +1,8 @@
 package report
 
 import (
-	"fmt"
 	"net/http"
+	"time"
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
@@ -13,20 +13,21 @@ import (
 
 func (h *Handler) overview(c *clevergo.Context) error {
 	ctx := c.Context()
-	query := squirrel.Select(
-		"IFNULL(SUM(IF(DATE(actions.created_at)=CURRENT_DATE(), 1, 0)), 0) as today",
-		"IFNULL(SUM(IF(DATE(actions.created_at)=CURRENT_DATE() - INTERVAL 1 DAY, 1, 0)), 0) as yesterday",
-		"IFNULL(SUM(IF(DATE(actions.created_at)>=CURRENT_DATE() - INTERVAL 6 DAY, 1, 0)), 0) as last_seven_days",
-		"COUNT(1) as last_thirty_days",
-	).From("actions").
+	now := time.Now()
+	query := squirrel.Select().
+		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.Format("2006-01-02")), "today")).
+		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -1).Format("2006-01-02")), "yesterday")).
+		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -6).Format("2006-01-02")), "last_seven_days")).
+		Column(squirrel.Alias(squirrel.Expr("COUNT(1)"), "last_thirty_days")).
+		From("actions").
 		LeftJoin("packages ON packages.id = actions.package_id").
 		LeftJoin("domains ON domains.id = packages.domain_id").
 		Where(squirrel.Eq{
 			"actions.kind":    models.ActionGoGet,
 			"domains.user_id": h.UserID(ctx),
 		}).
-		Where(squirrel.Gt{
-			"actions.created_at": "CURRENT_DATE() - INTERVAL 29 DAY",
+		Where(squirrel.GtOrEq{
+			"actions.created_at": now.AddDate(0, 0, -29).Format("2006-01-02"),
 		})
 
 	var queryParams QueryParams
@@ -48,7 +49,6 @@ func (h *Handler) overview(c *clevergo.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(sql, args)
 	var overview Overview
 	if err := h.DB.GetContext(ctx, &overview, sql, args...); err != nil {
 		return err
