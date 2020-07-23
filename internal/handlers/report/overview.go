@@ -17,7 +17,7 @@ func (h *Handler) overview(c *clevergo.Context) error {
 	query := squirrel.Select().
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.Format("2006-01-02")), "today")).
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -1).Format("2006-01-02")), "yesterday")).
-		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -6).Format("2006-01-02")), "last_seven_days")).
+		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)>=?, 1, 0)), 0)", now.AddDate(0, 0, -6).Format("2006-01-02")), "last_seven_days")).
 		Column(squirrel.Alias(squirrel.Expr("COUNT(1)"), "last_thirty_days")).
 		From("actions").
 		LeftJoin("packages ON packages.id = actions.package_id").
