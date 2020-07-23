@@ -46,7 +46,11 @@ var serveCmd = &cli.Command{
 	Action: func(c *cli.Context) error {
 		startCrond()
 
-		clevergo.SetLogger(provideLogger())
+		logger, err := provideLogger()
+		if err != nil {
+			return err
+		}
+		clevergo.SetLogger(logger)
 		app := clevergo.New()
 		app.Decoder = form.New()
 		sessionManager := provideSessionManager()
@@ -122,7 +126,12 @@ func provideSessionManager() *scs.SessionManager {
 	return m
 }
 
-func provideLogger() log.Logger {
-	logger, _ := zap.NewDevelopment()
-	return logger.Sugar()
+func provideLogger() (log.Logger, error) {
+	cfg := zap.NewProductionConfig()
+	cfg.OutputPaths = append(cfg.OutputPaths, osenv.Get("LOG_FILE", "/var/log/gopkgs.log"))
+	logger, err := cfg.Build()
+	if err != nil {
+		return nil, err
+	}
+	return logger.Sugar(), nil
 }
