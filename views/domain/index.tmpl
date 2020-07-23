@@ -22,21 +22,23 @@
 </div>
 {{ end }}
 
-<table class="table table-hove table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">Domain</th>
-        <th scope="col" width="180px">Created at</th>
-        <th scope="col" width="180px">Updated at</th>
-        <th scope="col" width="228px">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-        {{ range .domains }}
-        {{ include "./item.tmpl" }}
-        {{ end }}
-    </tbody>
-</table>
+<div class="table-responsive">
+  <table class="table table-hove table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Domain</th>
+          <th scope="col">Created at</th>
+          <th scope="col">Updated at</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          {{ range .domains }}
+          {{ include "./item.tmpl" }}
+          {{ end }}
+      </tbody>
+  </table>
+</div>
 
 {{ yield pagination(page=.pagination.Page, total=.pagination.PageCount()) }}
 

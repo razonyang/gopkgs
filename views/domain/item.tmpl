@@ -1,5 +1,5 @@
 <tr class="domain-item" data-id="{{ .ID }}" data-verified="{{ .Verified }}">
-    <td>
+    <td class="text-nowrap">
       {{ if .Verified }}
       <i class="text-success fas fa-check-circle"></i>
       {{ else }}
@@ -10,9 +10,9 @@
           <span class="badge badge-primary"><i class="fas fa-cubes"></i>  {{ .PackageCount }}</span>
       </a>
     </td>
-    <td>{{ .CreatedAt | date}}</td>
-    <td>{{ .UpdatedAt | date}}</td>
-    <td>
+    <td class="text-nowrap">{{ .CreatedAt | date}}</td>
+    <td class="text-nowrap">{{ .UpdatedAt | date}}</td>
+    <td class="text-nowrap">
       {{ if !.Verified }}
       <a class="btn btn-sm btn-warning text-white btn-verify" href="/domain/verify/{{ .ID }}">
         Verify

@@ -1,14 +1,14 @@
 <tr>
-    <td>
+    <td class="text-nowrap">
     {{ .Prefix() }}
     </td>
-    <td>
+    <td class="text-nowrap">
         {{ .Root }}
         <span class="badge badge-primary">{{ .VCS }}</span>
     </td>
-    <td>{{ .CreatedAt | date}}</td>
-    <td>{{ .UpdatedAt | date}}</td>
-    <td>
+    <td class="text-nowrap">{{ .CreatedAt | date}}</td>
+    <td class="text-nowrap">{{ .UpdatedAt | date}}</td>
+    <td class="text-nowrap">
     <a class="btn btn-sm btn-success text-white" role="button" href="http://{{ .Prefix() }}?go-get=1" target="_blank">
         <i class="fas fa-eye"></i> View
     </a>
