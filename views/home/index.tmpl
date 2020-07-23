@@ -1,0 +1,19 @@
+{{ extends "/layouts/main.tmpl" }}
+
+{{ block body() }}
+<div class="jumbotron text-white bg-dark">
+    <h1 class="display-4 text-center">
+        Go Packages <i class="fas fa-cubes"></i>
+    </h1>
+    <p class="lead text-center">Custom your Go package import paths.</p>
+    <hr class="my-4">
+    <div class="text-center">
+        <a class="btn btn-primary btn-lg" href="/dashboard" role="button">
+            Getting Started <i class="fas fa-arrow-right"></i>
+        </a>
+        <a class="btn btn-success btn-lg ml-3" target="_blank" href="https://github.com/razonyang/gopkgs" role="button">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+    </div>
+</div>
+{{ end }}

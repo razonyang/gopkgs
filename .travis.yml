@@ -1,0 +1,17 @@
+os:
+  - linux
+language: go
+service:
+  mysql
+go:
+  - 1.13.x
+  - 1.14.x
+  - master
+env:
+  GO111MODULE=on
+jobs:
+  allow_failures:
+    - go: master
+  fast_finish: true
+script:
+  - go test -v ./...

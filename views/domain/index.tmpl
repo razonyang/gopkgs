@@ -1,0 +1,43 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/filter-form.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+{{ import "/widgets/pagination.tmpl" }}
+
+{{ block body() }}
+<script src="/assets/js/domain.js"></script>
+
+{{ yield pageHeader(title="Domains") content }}
+<div class="btn-toolbar mb-2 mb-md-0">
+  <a class="btn btn-sm btn-primary" href="/domain/create">
+      <i class="fas fa-plus"></i> Add
+  </a>
+</div>
+{{ end }}
+
+{{ yield filterForm(page=.pagination.Page, limit=.pagination.Limit) content }}
+<div class="form-row">
+  <div class="col-auto">
+    <input type="text" class="form-control" placeholder="Name" name="name" value="{{ .queryParams.Name }}">
+  </div>
+</div>
+{{ end }}
+
+<table class="table table-hove table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Domain</th>
+        <th scope="col" width="180px">Created at</th>
+        <th scope="col" width="180px">Updated at</th>
+        <th scope="col" width="228px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{ range .domains }}
+        {{ include "./item.tmpl" }}
+        {{ end }}
+    </tbody>
+</table>
+
+{{ yield pagination(page=.pagination.Page, total=.pagination.PageCount()) }}
+
+{{ end }}

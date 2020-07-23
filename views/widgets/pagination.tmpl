@@ -1,0 +1,23 @@
+{{ block pagination(page, total) }}
+<ul id="pagination" class="pagination pagination-sm my-3"></ul>
+
+<script src="https://cdn.jsdelivr.net/npm/twbs-pagination@1.4.1/jquery.twbsPagination.min.js" integrity="sha256-IBEH1IP83PwVcp2JrSp5OWsLw/iDmms7LpXnrz9tsPs=" crossorigin="anonymous"></script>
+<script>
+    var current = {{ page }}
+    var total = {{ total }}
+     $('#pagination').twbsPagination({
+        totalPages: total,
+        visiblePages: 5,
+        startPage: current,
+        hideOnlyOnePage: true,
+        onPageClick: function (event, page) {
+            if (page == current) {
+                return
+            }
+            var filterForm = $('#filterForm');
+            filterForm.find('input[name="page"]').val(page);
+            filterForm.submit();
+        }
+    });
+</script>
+{{ end }}

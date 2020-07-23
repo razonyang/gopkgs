@@ -1,0 +1,11 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+{{ import "form.tmpl" }}
+
+{{ block body() }}
+
+{{ yield pageHeader(title="Update domain: "+.domain.Name) }}
+
+{{ yield domainForm() }}
+
+{{ end }}

@@ -1,0 +1,30 @@
+{{ import "head.tmpl" }}
+{{ import "header.tmpl" }}
+{{ import "footer.tmpl" }}
+{{ import "sidebar.tmpl" }}
+{{ import "alert.tmpl" }}
+{{ import "toasts.tmpl" }}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    {{ yield head() }}
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <script src="/assets/js/dashboard.js"></script>
+  </head>
+  <body>
+    {{ yield header() }}
+    <div class="container-fluid">
+      <div class="row">
+       {{ yield sidebar() }}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-1 px-4 mb-5">
+          {{ yield alert() }}
+          {{ yield body() }}
+        </main>
+      </div>
+    </div>
+    {{ yield footer() }}
+    {{ yield toasts() }}
+  </body>
+</html>
+

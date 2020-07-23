@@ -1,0 +1,11 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+{{ import "form.tmpl" }}
+
+{{ block body() }}
+
+{{ yield pageHeader(title="Add package") }}
+
+{{ yield form() }}
+
+{{ end }}

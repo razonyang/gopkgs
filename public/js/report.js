@@ -1,0 +1,86 @@
+var goGetChart;
+
+$(function() {
+    loadOverview();
+    goGetChart = new Chart(document.getElementById("goGetChart").getContext("2d"), {
+        type: "line",
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    });
+    loadInfo();
+    loadDomains();
+
+    $('#reportFilterForm select[name="domain_id"]').on('change', function() {
+        loadPackages($(this).val());
+    });
+
+    $('#reportFilterForm').submit(function() {
+        loadInfo();
+        return false;
+    });
+});
+
+function loadDomains() {
+    $.get("/api/domains", {}, function(resp) {
+        var ele = $('#reportFilterForm select[name="domain_id"]')
+        var options = ['<option value="">Domain</option>'];
+        for (var i = 0; i < resp.data.length; i ++) {
+            options.push('<option value="' + resp.data[i].id + '">' + resp.data[i].name + '</option>')
+        }
+        ele.empty().html(options.join(""))
+    }, 'json');
+}
+
+function loadPackages(domainID) {
+    $.get("/api/packages", {
+        domain_id: domainID,
+    }, function(resp) {
+        var ele = $('#reportFilterForm select[name="package_id"]')
+        var options = ['<option value="">Package</option>'];
+        for (var i = 0; i < resp.data.length; i ++) {
+            options.push('<option value="' + resp.data[i].id + '">' + resp.data[i].path + '</option>')
+        }
+        ele.empty().html(options.join(""))
+    }, 'json');
+}
+
+function loadOverview() {
+    $.get("/report/overview", {}, function(resp) {
+        $('#overviewToday').text(resp.data.today);
+        $('#overviewYesterday').text(resp.data.yesterday);
+        $('#overviewLastSevenDays').text(resp.data.last_seven_days);
+        $('#overviewLastThirtyDays').text(resp.data.last_thirty_days);
+    }, 'json');
+}
+
+function loadInfo() {
+    goGetChart.reset();
+    $.get("/report/info", $('#reportFilterForm').serialize(), function(resp) {
+        var lines = resp.data
+        lineChartData = {
+            labels: [],
+        };
+        dataset = [];
+        for (var i = 0; i < lines.length; i++) {
+            lineChartData.labels.push(lines[i].date.substring(0, 10));
+            dataset.push(lines[i].count);
+        }
+        lineChartData.datasets = [
+            {
+                label: "go-get",
+                lineTension: 0,
+                data: dataset,
+                fill: false,
+                borderColor: 'rgb(87, 146, 221)',
+            }
+        ]; 
+
+        goGetChart.data = lineChartData
+        goGetChart.update();
+    }, 'json');
+}

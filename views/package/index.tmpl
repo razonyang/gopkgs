@@ -1,0 +1,53 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/filter-form.tmpl" }}
+{{ import "/widgets/package-vcs-dropdown.tmpl" }}
+{{ import "/widgets/domains-dropdown.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+{{ import "/widgets/pagination.tmpl" }}
+
+{{ block body() }}
+<script src="/assets/js/package.js"></script>
+
+{{ yield pageHeader(title="Packages") content}}
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <a class="btn btn-sm btn-primary" href="/package/create">
+        <i class="fas fa-plus"></i> Add
+    </a>
+  </div>
+{{ end }}
+
+{{ yield filterForm(page=.pagination.Page, limit=.pagination.Limit) content }}
+<div class="form-row">
+  <div class="col-auto">
+    {{ yield domainsDropdown(domains=.domains, value=.queryParams.DomainID) }}
+  </div>
+  <div class="col-auto">
+    <input type="text" class="form-control mr-sm-2" placeholder="Path" name="path" value="{{ .queryParams.Path }}">
+  </div>
+  <div class="col-auto">
+    {{ yield packageVCSDropdown(options=.vcs, value=.queryParams.VCS) }}
+  </div>
+</div>
+{{ end }}
+
+<table class="table table-hove table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Path</th>
+        <th scope="col">Repository</th>
+        <th scope="col" width="180px">Created at</th>
+        <th scope="col" width="180px">Updated at</th>
+        <th scope="col" width="320px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{ range .packages }}
+          {{ include "item.tmpl" }}
+        {{ end }}
+    </tbody>
+</table>
+<ul id="pagination-demo" class="pagination-sm"></ul>
+
+{{ yield pagination(page=.pagination.Page, total=.pagination.PageCount()) }}
+
+{{ end }}

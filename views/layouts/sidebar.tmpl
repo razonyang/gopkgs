@@ -1,0 +1,40 @@
+{{ block sidebar() }}
+
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/domain">
+            <i class="fas fa-fw fa-globe"></i>
+            Domains
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/package">
+            <i class="fas fa-fw fa-cubes"></i>
+            Packages
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/report">
+            <i class="fas fa-fw fa-chart-line"></i>
+            Report
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/razonyang/gopkgs/issues/new" target="_blank">
+            <i class="fas fa-fw fa-comments"></i>
+            Feedback
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{{ end }}

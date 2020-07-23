@@ -1,0 +1,28 @@
+<tr class="domain-item" data-id="{{ .ID }}" data-verified="{{ .Verified }}">
+    <td>
+      {{ if .Verified }}
+      <i class="text-success fas fa-check-circle"></i>
+      {{ else }}
+      <i class="text-warning fas fa-spinner fa-spin"></i>
+      {{ end }}
+      {{ .Name }}
+      <a class="" href="/package?domain_id={{ .ID }}">
+          <span class="badge badge-primary"><i class="fas fa-cubes"></i>  {{ .PackageCount }}</span>
+      </a>
+    </td>
+    <td>{{ .CreatedAt | date}}</td>
+    <td>{{ .UpdatedAt | date}}</td>
+    <td>
+      {{ if !.Verified }}
+      <a class="btn btn-sm btn-warning text-white btn-verify" href="/domain/verify/{{ .ID }}">
+        Verify
+      </a>
+      {{ end }}
+      <a class="btn btn-sm btn-primary text-white" href="/domain/edit/{{ .ID }}">
+        <i class="fas fa-edit"></i> Edit
+      </a>
+      <button class="btn btn-sm btn-danger text-white" onclick="deleteDomain({{ .ID }})" {{ if !.CanDelete() }}disabled{{ end }}>
+        <i class="fas fa-trash"></i> Delete
+      </button>
+    </td>
+</tr>

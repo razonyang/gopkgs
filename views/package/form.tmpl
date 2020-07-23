@@ -1,0 +1,38 @@
+{{ import "/widgets/package-vcs-dropdown.tmpl" }}
+{{ import "/widgets/domains-dropdown.tmpl" }}
+
+{{ block form() }}
+<form class="needs-validation" method="POST" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf }}">
+    <div class="form-group">
+      <label for="path">Import Path</label>
+      <div class="input-group">
+          {{ yield domainsDropdown(domains=.domains, value=.form.DomainID, allowEmpty=false) }}
+          <div class="input-group-prepend">
+            <div class="input-group-text">/</div>
+          </div>
+          <input type="text" class="form-control" name="path" required value="{{ .form.Path }}">
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="vcs">VCS</label>
+      {{ yield packageVCSDropdown(options=.vcs, value=.form.VCS, allowEmpty=false) }}
+    </div>
+    <div class="form-group">
+      <label for="vcs">Repository URL</label>
+      <input type="text" class="form-control" name="root" placeholder="https://github.com/user/repo" required value="{{ .form.Root }}">
+      <div class="invalid-feedback">
+        Please provide a valid URL.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="vcs">Documentation URL</label>
+      <input type="url" class="form-control" name="docs" placeholder="Optional, pkg.go.dev is used by default." aria-describedby="docsHelp" value="{{ .form.Docs }}">
+      <div class="invalid-feedback">
+        Please provide a valid URL.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{{ end }}

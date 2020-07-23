@@ -1,0 +1,10 @@
+{{ block packageVCSDropdown(options, value, allowEmpty=true) }}
+<select class="form-control mr-sm-2" name="vcs">
+    {{ if allowEmpty }}
+    <option value="">Version Control System</option>
+    {{ end }}
+    {{ range options }}
+    <option{{ if . == value }} selected{{ end }}>{{ . }}</option>
+    {{ end }}
+</select>
+{{ end }}

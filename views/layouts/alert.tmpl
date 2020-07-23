@@ -1,0 +1,7 @@
+{{ block alert() }}
+{{ if alert }}
+<div class="alert alert-{{ alert.Style }}" role="alert">
+    {{ alert.Message }}
+</div>
+{{ end }}
+{{ end }}

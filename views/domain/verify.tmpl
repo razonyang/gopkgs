@@ -1,0 +1,99 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+
+{{ block body() }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rainbow-code@2.1.4/themes/css/solarized-light.css" integrity="sha256-BDYnm/hmhWwCS8jjUsm3fJnbDRF4ov1WGgAK6hplc7A=" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/rainbow-code@2.1.4/dist/rainbow.min.js" integrity="sha256-U3qKclWUfnlVLmqlGAkZ1i5LrrD199fdA9AnDFuRWdc=" crossorigin="anonymous"></script>
+<script src="/assets/js/domain-verify.js"></script>
+
+{{ yield pageHeader(title="Verify domain") content }}
+<div class="btn-toolbar mb-2 mb-md-0">
+  {{ if .domain.Verified }}
+  <button class="btn btn-success">Verified</button>
+  {{ else }}
+  <button class="btn btn-warning text-white" id="btnVerify" data-id="{{ .domain.ID }}">
+    Verify
+  </button>
+  {{ end }}
+</div>
+{{ end }}
+
+<p>Please add the following DNS records to <span class="text-primary font-weight-bold">{{ .domain.Name }}</span>.</p>
+
+<table class="table table-hove table-bordered table-striped">
+  <thead>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Content</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CNAME</td>
+      <td>{{ .domain.Name }}</td>
+      <td>{{ .host }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="mt-5 mb-3 text-info font-weight-bold">If your domain has been used in other HTTP services, you probably need to set up reverse proxy.</div>
+
+<div>
+  <p></p>
+  <ul>
+    <li>Forward requests that URL query string contains <code>go-get=1</code>, for the <code>go tools</code>.</li>
+    <li>
+      In order to verify domain ownership, you should forward requests those paths beginning with <code>/.well-known/gopkgs-challenge/</code>.
+      Or <a href="/domain/challenge-txt/{{ .domain.ID }}" target="_blank">download</a> the verification file and save it as <code>/.well-known/gopkgs-challenge/{{ .domain.ChallengeTXT }}</code>.
+    </li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <ul class="nav nav-tabs" id="proxyTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="nginx-tab" data-toggle="tab" href="#nginx" role="tab" aria-controls="nginx" aria-selected="true">Nginx</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="apache-tab" data-toggle="tab" href="#apache" role="tab" aria-controls="apache" aria-selected="false">Apache</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="caddy-tab" data-toggle="tab" href="#caddy" role="tab" aria-controls="caddy" aria-selected="false">Caddy</a>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="proxyTabContent">
+
+      <div class="tab-pane fade show active" id="nginx" role="tabpanel" aria-labelledby="nginx-tab">
+        <p>
+          <pre><code data-language="nginx">location / {
+  root   /usr/share/nginx/html;
+  index  index.html index.htm;
+  try_files $uri $uri/ @gopkgsproxy;
+}
+
+location @gopkgsproxy {
+  proxy_set_header Host $host;
+  proxy_pass https://{{ .host }};
+}</code></pre>
+        </p>
+      </div>
+
+      <div class="tab-pane fade" id="apache" role="tabpanel" aria-labelledby="apache-tab">
+        <p>
+          <pre><code data-language="apache">TBD</code></pre>
+        </p>
+      </div>
+
+      <div class="tab-pane fade" id="caddy" role="tabpanel" aria-labelledby="caddy-tab">
+        <p>
+          <pre><code data-language="caddy">TBD</code></pre>
+        </p>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+{{ end }}

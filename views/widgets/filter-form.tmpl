@@ -1,0 +1,16 @@
+{{ block filterForm(page, limit) }}
+<div class="filter-form mx-2 mb-4">
+    <form id="filterForm" class="form-inline">
+        {{ if page }}
+        <input type="hidden" name="page" value="{{ page }}">
+        {{ end }}
+        {{ if limit }}
+        <input type="hidden" name="limit" value="{{ limit }}">
+        {{ end }}
+        {{ yield content }}
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+        </div>
+    </form>
+</div>
+{{ end }}

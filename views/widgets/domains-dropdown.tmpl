@@ -1,0 +1,10 @@
+{{ block domainsDropdown(domains, value, allowEmpty=true) }}
+<select class="form-control mr-sm-2" name="domain_id">
+    {{ if allowEmpty }}
+    <option value="">Domain</option>
+    {{ end }}
+    {{ range domains }}
+    <option{{ if .ID == value }} selected{{ end }} value="{{ .ID }}">{{ .Name }}</option>
+    {{ end }}
+</select>
+{{ end }}

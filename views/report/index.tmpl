@@ -1,0 +1,71 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+
+{{ block body() }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script src="/assets/js/report.js"></script>
+
+{{ yield pageHeader(title="Report") }}
+
+<div class="row mb-5">
+    <div class="card-deck col-12">
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fas fa-cloud-download-alt"></i> 
+                    <span id="overviewToday"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </h1>
+                <p class="card-text">Today</p>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fas fa-cloud-download-alt"></i> 
+                    <span id="overviewYesterday"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </h1>
+                <p class="card-text">Yesterday</p>
+            </div>
+        </div>
+        <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fas fa-cloud-download-alt"></i> 
+                    <span id="overviewLastSevenDays"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </h1>
+                <p class="card-text">Last 7 days</p>
+            </div>
+        </div>
+        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fas fa-cloud-download-alt"></i> 
+                    <span id="overviewLastThirtyDays"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </h1>
+                <p class="card-text">Last 30 days</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form class="form-inline" id="reportFilterForm">
+            <select class="form-control mr-sm-2" name="domain_id">
+                <option value="">Domain</option>
+            </select>
+
+            <select class="form-control mr-sm-2" name="package_id">
+                <option value="">Package</option>
+            </select>
+
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
+    <div class="col-12">
+        <canvas id="goGetChart" class="col-12"></canvas>
+    </div>
+</div>
+{{ end }}
