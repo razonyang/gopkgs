@@ -9,7 +9,6 @@ import (
 
 func ErrorHandler(next clevergo.Handle) clevergo.Handle {
 	return func(c *clevergo.Context) error {
-		return next(c)
 		if err := next(c); err != nil {
 			return c.Render(http.StatusOK, "error.tmpl", clevergo.Map{
 				"error": err,

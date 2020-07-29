@@ -1,5 +1,13 @@
 {{ extends "/layouts/main.tmpl" }}
 
 {{ block body() }}
-<h1>{{ .error.Error() }}</h1>
+<div class="container">
+    <h1 class="border-bottom mb-3">{{ .error.Status() }} - {{ .error.Error() }}</h1>
+    <p>
+        The above error occurred while the Web server was processing your request.
+    </p>
+    <p>
+        Please contact us if you think this is a server error. Thank you.
+    </p>
+</div>
 {{ end }}

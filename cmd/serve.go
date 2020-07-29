@@ -55,8 +55,8 @@ var serveCmd = &cli.Command{
 		app.Decoder = form.New()
 		sessionManager := provideSessionManager()
 		app.Use(
-			core.ErrorHandler,
 			clevergo.WrapHH(sessionManager.LoadAndSave),
+			core.ErrorHandler,
 			authmiddleware.New(core.NewSessionAuthenticator(sessionManager)),
 			middleware.GoGet(db),
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
