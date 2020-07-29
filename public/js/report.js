@@ -51,6 +51,11 @@ function loadPackages(domainID) {
 }
 
 function loadOverview() {
+    var loading = '<i class="fas fa-circle-notch fa-spin"></i>';
+    $('#overviewToday').html(loading);
+    $('#overviewYesterday').html(loading);
+    $('#overviewLastSevenDays').html(loading);
+    $('#overviewLastThirtyDays').html(loading);
     $.get("/report/overview", $('#reportFilterForm').serialize(), function(resp) {
         $('#overviewToday').text(resp.data.today);
         $('#overviewYesterday').text(resp.data.yesterday);
