@@ -2,7 +2,8 @@
 
 {{ block body() }}
 <div class="container">
-    <h1 class="border-bottom mb-3">{{ .error.Status() }} - {{ .error.Error() }}</h1>
+    <h1 class="border-bottom mb-3">{{ .error.Status() }} - {{ .statusText }}</h1>
+    <p class="text-danger">{{ .error.Error() }}</p>
     <p>
         The above error occurred while the Web server was processing your request.
     </p>
