@@ -52,7 +52,7 @@ WHERE package_id = ?
 	}
 
 	badge := shields.New("downloads", fmt.Sprintf("%d/%s", count, interval))
-	badge.LabelColor = shields.ColorGreen
+	badge.Color = shields.ColorBrightGreen
 	if err := badge.ParseRequest(c.Request); err != nil {
 		return err
 	}
