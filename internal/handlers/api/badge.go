@@ -14,15 +14,13 @@ import (
 
 func (h *Handler) download(c *clevergo.Context) error {
 	interval := c.Params.String("interval")
-	toDate := time.Now()
-	var fromDate time.Time
+	fromDate := time.Now()
 	switch interval {
 	case "day":
-		fromDate = toDate.AddDate(0, 0, -1)
 	case "week":
-		fromDate = toDate.AddDate(0, 0, -7)
+		fromDate = fromDate.AddDate(0, 0, -6)
 	case "month":
-		fromDate = toDate.AddDate(0, 0, -30)
+		fromDate = fromDate.AddDate(0, 0, -29)
 	default:
 		return fmt.Errorf("invalid interval parameter")
 	}
@@ -44,10 +42,10 @@ func (h *Handler) download(c *clevergo.Context) error {
 	query := `
 SELECT COUNT(1) FROM actions
 WHERE package_id = ? 
-	AND created_at BETWEEN ? AND ?
+	AND created_at >= ?
 `
 	var count int64
-	if err := h.DB.GetContext(ctx, &count, query, pkg.ID, fromDate.Format("2006-01-02"), toDate.Format("2006-01-02")); err != nil {
+	if err := h.DB.GetContext(ctx, &count, query, pkg.ID, fromDate.Format("2006-01-02")); err != nil {
 		return err
 	}
 
