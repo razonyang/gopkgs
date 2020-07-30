@@ -15,6 +15,14 @@ $(function() {
     $('.toast').on('hidden.bs.toast', function () {
         $(this).remove();
     });
+
+
+    var currentURL = window.location.href;
+    $('a.nav-link').each(function() {
+        if (currentURL.startsWith($(this).attr('href'))) {
+            $(this).addClass('active');
+        }
+    });
 });
 
 function notify(message, type) {

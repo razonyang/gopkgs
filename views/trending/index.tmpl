@@ -1,0 +1,45 @@
+{{ extends "/layouts/main.tmpl" }}
+
+{{ block body() }}
+<div class="container">
+
+    <div class="jumbotron bg-white">
+        <h1 class="display-4 text-center">
+            <i class="fas fa-chart-line"></i> Trending
+        </h1>
+        <hr class="my-4">
+        <form class="form-inline float-right">
+            <div class="form-group mr-4">
+                <select class="form-control" onchange="submit()" name="interval">
+                    {{ range _, item := .intervals }}
+                    <option value="{{ item.Value }}"{{ if item.Value == .interval }} selected{{ end }}>{{ item.Label }}</option>
+                    {{ end }}
+                </select>
+            </div>
+        </form>
+        
+        <div class="clearfix"></div>
+
+        <div class="card-body bg-transparent">
+            {{ range .packages }}
+            <div class="card mb-3 col-12">
+                <div class="card-header bg-transparent">
+                    <i class="fas fa-cube"></i> <span class="font-weight-bold">{{ .Prefix() }}</span> 
+                    <span class="badge badge-success">
+                        <i class="fas fa-cloud-download-alt"></i> {{ .Downloads }}
+                    </span>
+                </div>
+                <div class="card-body text-muted">
+                    No description provided.
+                </div>
+                <div class="card-footer bg-transparent text-right">
+                    <a class="btn btn-primary btn-sm" href="{{ .Root }}" target="_blank">Repository</a>
+                    <a class="btn btn-info btn-sm" href="{{ .DocsURL() }}" target="_blank">Documentations</a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+
+</div>
+{{ end }}

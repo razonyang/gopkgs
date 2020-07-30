@@ -28,6 +28,7 @@ import (
 	"github.com/razonyang/gopkgs/internal/handlers/home"
 	"github.com/razonyang/gopkgs/internal/handlers/pkg"
 	"github.com/razonyang/gopkgs/internal/handlers/report"
+	"github.com/razonyang/gopkgs/internal/handlers/trending"
 	"github.com/razonyang/gopkgs/internal/handlers/user"
 	"github.com/razonyang/gopkgs/internal/middleware"
 	"github.com/razonyang/gopkgs/internal/web"
@@ -77,6 +78,7 @@ var serveCmd = &cli.Command{
 			&report.Handler{basicHandler},
 			&api.Handler{basicHandler},
 			&badge.Handler{basicHandler},
+			&trending.Handler{basicHandler},
 		}
 		for _, handler := range handlers {
 			handler.Register(app)
