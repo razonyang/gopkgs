@@ -22,6 +22,7 @@ import (
 	"github.com/justinas/nosurf"
 	"github.com/razonyang/gopkgs/internal/core"
 	"github.com/razonyang/gopkgs/internal/handlers/api"
+	"github.com/razonyang/gopkgs/internal/handlers/badge"
 	"github.com/razonyang/gopkgs/internal/handlers/dashboard"
 	"github.com/razonyang/gopkgs/internal/handlers/domain"
 	"github.com/razonyang/gopkgs/internal/handlers/home"
@@ -60,7 +61,7 @@ var serveCmd = &cli.Command{
 			authmiddleware.New(core.NewSessionAuthenticator(sessionManager)),
 			middleware.GoGet(db),
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
-			middleware.IsAuthenticated("/login", clevergo.PathSkipper("/", "/callback", "/login", "/assets/*", "/.well-known/*", "/api/badges/*")),
+			middleware.IsAuthenticated("/login", clevergo.PathSkipper("/", "/callback", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*")),
 			clevergo.WrapHH(nosurf.NewPure),
 		)
 		app.Renderer = provideRenderer(sessionManager)
@@ -75,6 +76,7 @@ var serveCmd = &cli.Command{
 			&domain.Handler{basicHandler},
 			&report.Handler{basicHandler},
 			&api.Handler{basicHandler},
+			&badge.Handler{basicHandler},
 		}
 		for _, handler := range handlers {
 			handler.Register(app)
