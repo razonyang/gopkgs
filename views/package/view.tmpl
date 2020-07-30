@@ -15,6 +15,11 @@
         <div class="col-12">
           <h1 class="border-bottom mb-3 text-break">
             <i class="fas fa-cube"></i> <span>{{ .pkg.Prefix() }}</span>
+            <p>
+              <img src="{{ siteURL }}/badges/downloads/day/{{ .pkg.Prefix() }}" />
+              <img src="{{ siteURL }}/badges/downloads/week/{{ .pkg.Prefix() }}" />
+              <img src="{{ siteURL }}/badges/downloads/month/{{ .pkg.Prefix() }}" />
+            </p>
           </h1>
           <div class="table-responsive">
             <table class="table table-bordered table-striped">
