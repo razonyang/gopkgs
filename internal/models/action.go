@@ -36,3 +36,8 @@ func (act *Action) Save(ctx context.Context, db *sqlx.DB) error {
 	)
 	return err
 }
+
+func CountActionsByKindAndDate(ctx context.Context, db *sqlx.DB, count *int64, kind string, fromDate time.Time) error {
+	query := "SELECT COUNT(1) FROM actions WHERE kind = ? AND created_at >= ?"
+	return db.GetContext(ctx, count, query, kind, fromDate.Format("2006-01-02"))
+}

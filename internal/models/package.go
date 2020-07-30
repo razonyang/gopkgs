@@ -104,6 +104,11 @@ func (pkg Package) Delete(ctx context.Context, db *sqlx.DB) error {
 	return err
 }
 
+func CountPackages(ctx context.Context, db *sqlx.DB, count *int64) error {
+	query := "SELECT COUNT(1) FROM packages"
+	return db.GetContext(ctx, count, query)
+}
+
 func CountPackagesByUser(ctx context.Context, db *sqlx.DB, count *int64, userID string) error {
 	query := "SELECT COUNT(p.id) FROM packages p LEFT JOIN domains d ON d.id = p.domain_id WHERE d.user_id = ?"
 	return db.GetContext(ctx, count, query, userID)

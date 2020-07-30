@@ -122,6 +122,11 @@ func (d *Domain) Delete(ctx context.Context, db *sqlx.DB) error {
 	return err
 }
 
+func CountDomains(ctx context.Context, db *sqlx.DB, count *int64) error {
+	query := "SELECT COUNT(id) FROM domains"
+	return db.GetContext(ctx, count, query)
+}
+
 func CountDomainsByUser(ctx context.Context, db *sqlx.DB, count *int64, userID string) error {
 	query := "SELECT COUNT(id) FROM domains WHERE user_id = ?"
 	return db.GetContext(ctx, count, query, userID)

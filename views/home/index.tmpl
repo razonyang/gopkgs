@@ -7,6 +7,38 @@
     </h1>
     <p class="lead text-center">Custom your Go package import paths.</p>
     <hr class="my-4">
+    <div class="row mb-5">
+        <div class="col-md-4 col-sm-12">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <i class="fas fa-globe"></i> {{ .domains }}
+                    </h1>
+                    <p class="card-text">Domains</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <i class="fas fa-cubes"></i> {{ .packages }}
+                    </h1>
+                    <p class="card-text">Packages</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <i class="fas fa-cloud-download-alt"></i> {{ .downloads }}
+                    </h1>
+                    <p class="card-text">Serving <b>go get</b> requests per month</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="text-center">
         <a class="btn btn-primary btn-lg mb-2" href="/dashboard" role="button">
             Getting Started <i class="fas fa-arrow-right"></i>

@@ -40,3 +40,7 @@ body > .container-fluid {
     right: 15px;
     bottom: 15px;
 }
+
+.bg-orange {
+    background-color: orange !important;
+}
