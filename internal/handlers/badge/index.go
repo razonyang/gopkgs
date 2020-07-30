@@ -8,6 +8,7 @@ import (
 	"clevergo.tech/clevergo"
 	"clevergo.tech/osenv"
 	"github.com/razonyang/gopkgs/internal/core"
+	"github.com/razonyang/gopkgs/internal/web"
 )
 
 type Handler struct {
@@ -20,7 +21,9 @@ func (h *Handler) Register(router clevergo.Router) {
 }
 
 func (h *Handler) index(c *clevergo.Context) error {
-	return c.Render(http.StatusOK, "badge/index.tmpl", clevergo.Map{})
+	return c.Render(http.StatusOK, "badge/index.tmpl", clevergo.Map{
+		"page": web.NewPage("Badges"),
+	})
 }
 
 func (h *Handler) download(c *clevergo.Context) error {
