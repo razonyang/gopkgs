@@ -6,6 +6,7 @@ import (
 
 	"clevergo.tech/clevergo"
 	"github.com/razonyang/gopkgs/internal/models"
+	"github.com/razonyang/gopkgs/internal/web"
 )
 
 type Packages struct {
@@ -51,6 +52,7 @@ LIMIT ?
 	}
 
 	return c.Render(http.StatusOK, "trending/index.tmpl", clevergo.Map{
+		"page":     web.NewPage("Trending"),
 		"interval": interval,
 		"intervals": []Interval{
 			{"Today", "day"},
