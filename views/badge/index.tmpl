@@ -1,0 +1,30 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+
+{{ block body() }}
+
+{{ yield pageHeader(title="Badges") }}
+<script>
+    var siteURL = "{{ siteURL }}";
+</script>
+<script src="/assets/js/badge.js"></script>
+
+<form id="badgeForm" class="form-inline mb-2">
+    <select class="form-control mb-2 mr-2" name="interval" onchange="loadBadge()">
+        <option>day</option>
+        <option>week</option>
+        <option>month</option>
+    </select>
+
+    <input class="form-control mb-2 mr-2" name="package" placeholder="Package" onblur="loadBadge()">
+</form>
+
+<p>
+    <code id="badgeURL"></code>
+</p>
+
+<p>
+    <img id="badgePreview" src="" />
+</p>
+
+{{ end }}

@@ -15,7 +15,12 @@ type Handler struct {
 }
 
 func (h *Handler) Register(router clevergo.Router) {
+	router.Get("/badges", h.index)
 	router.Get("/badges/downloads/:interval/*path", h.download)
+}
+
+func (h *Handler) index(c *clevergo.Context) error {
+	return c.Render(http.StatusOK, "badge/index.tmpl", clevergo.Map{})
 }
 
 func (h *Handler) download(c *clevergo.Context) error {
