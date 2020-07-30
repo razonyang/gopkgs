@@ -14,6 +14,7 @@ require (
 	clevergo.tech/log v0.2.0
 	clevergo.tech/osenv v0.2.0
 	clevergo.tech/pagination v0.3.0
+	clevergo.tech/shields v0.2.0
 	github.com/CloudyKit/jet/v4 v4.1.0
 	github.com/Masterminds/squirrel v1.4.0
 	github.com/alexedwards/scs/redisstore v0.0.0-20200528164450-40c2a5f7eae8

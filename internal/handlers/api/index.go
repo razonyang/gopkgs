@@ -7,6 +7,7 @@ import (
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
 	"github.com/razonyang/gopkgs/internal/core"
+	"github.com/razonyang/gopkgs/internal/middleware"
 	"github.com/razonyang/gopkgs/internal/models"
 )
 
@@ -15,8 +16,10 @@ type Handler struct {
 }
 
 func (h *Handler) Register(router clevergo.Router) {
-	router.Get("/api/domains", h.domains)
-	router.Get("/api/packages", h.packages)
+	api := router.Group("/api", clevergo.RouteGroupMiddleware(middleware.APIErrorHandler))
+	api.Get("/domains", h.domains)
+	api.Get("/packages", h.packages)
+	api.Get("/badges/downloads/:interval/*path", h.download)
 }
 
 func (h *Handler) domains(c *clevergo.Context) error {
