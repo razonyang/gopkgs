@@ -3,9 +3,15 @@
 
 A self-host HTTP service that allow customizing your Go package import paths.
 
-## Live
+## Features
 
-I launch up an HTTP service(https://pkg.clevergo.tech) for meeting my own needs. With this service, you only need a domain name to customize the import path of your package.
+- [x] Reports.
+- [x] Badges.
+- [ ] I18N.
+
+## Preview
+
+I launch up a free HTTP service(https://pkg.clevergo.tech). With this service, you only need a domain name to customize the import path of your packages.
 
 The rest of sections introduces how to host on your own server.
 
