@@ -69,7 +69,7 @@ func (h *Handler) getDailyReportCard(ctx context.Context, userID string) (card C
 }
 
 func (h *Handler) getMonthlyReportCard(ctx context.Context, userID string) (card Card, err error) {
-	card = NewCard("Daily Report", "cloud-download-alt", "info", "/report")
+	card = NewCard("Monthly Report", "cloud-download-alt", "info", "/report")
 	return card, h.getReport(ctx, &card.Count, userID, time.Now().AddDate(0, 0, -29))
 }
 
