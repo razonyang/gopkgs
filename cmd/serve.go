@@ -14,7 +14,7 @@ import (
 	"clevergo.tech/jetrenderer"
 	"clevergo.tech/log"
 	"clevergo.tech/osenv"
-	"github.com/CloudyKit/jet/v4"
+	"github.com/CloudyKit/jet/v5"
 	"github.com/alexedwards/scs/redisstore"
 	"github.com/alexedwards/scs/v2"
 	"github.com/gobuffalo/packr/v2"
