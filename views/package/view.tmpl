@@ -21,6 +21,9 @@
               <img src="{{ siteURL }}/badges/downloads/month/{{ .pkg.Prefix() }}" />
             </p>
           </h1>
+          {{ if .pkg.Description }}
+          <p>{{ .pkg.Description }}</p>
+          {{ end }}
           <div class="table-responsive">
             <table class="table table-bordered table-striped">
               <tbody>
