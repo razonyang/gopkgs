@@ -20,6 +20,7 @@ func (h *Handler) Register(router clevergo.Router) {
 	router.Post("/package/create", h.create)
 	router.Get("/package/edit/:id", h.update)
 	router.Post("/package/edit/:id", h.update)
+	router.Get("/package/view/:id", h.view)
 	router.Delete("/package/:id", middleware.APIErrorHandler(h.delete))
 }
 

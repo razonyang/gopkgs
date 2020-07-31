@@ -11,7 +11,7 @@
     </td>
     <td class="text-nowrap">{{ .UpdatedAt | date }}</td>
     <td class="text-nowrap">
-    <a class="btn btn-sm btn-success text-white" role="button" href="http://{{ .Prefix() }}?go-get=1" target="_blank">
+    <a class="btn btn-sm btn-success text-white" role="button" href="/package/view/{{ .ID }}" target="_blank">
         <i class="fas fa-eye"></i> View
     </a>
     <a class="btn btn-sm btn-info text-white" role="button" href="{{ .DocsURL() }}" target="_blank">
