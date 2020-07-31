@@ -56,6 +56,8 @@ func (f *Form) Validate() error {
 		validation.Field(&f.VCS, validation.Required, validation.In(models.VCSGit, models.VCSSvn, models.VCSBzr, models.VCSHg, models.VCSFossil)),
 		validation.Field(&f.Root, validation.Required),
 		validation.Field(&f.Docs, is.URL),
+		validation.Field(&f.Homepage, is.URL),
+		validation.Field(&f.License, is.URL),
 	)
 }
 
