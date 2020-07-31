@@ -42,7 +42,8 @@ LEFT JOIN (
 	WHERE created_at >= ?
 	GROUP BY package_id
 ) actions ON actions.package_id = packages.id
-WHERE actions.package_id IS NOT NULL
+WHERE packages.private = 0
+	AND actions.package_id IS NOT NULL
 ORDER BY actions.downloads DESC, domains.name ASC, packages.path ASC
 LIMIT ?
 `
