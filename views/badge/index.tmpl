@@ -4,27 +4,38 @@
 {{ block body() }}
 
 {{ yield pageHeader(title="Badges") }}
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
 <script>
     var siteURL = "{{ siteURL }}";
 </script>
 <script src="/assets/js/badge.js"></script>
 
 <form id="badgeForm" class="form-inline mb-2">
+    <select class="form-control mb-2 mr-2" name="style" onchange="loadBadge()">
+        <option value="flat" selected>Flat</option>
+        <option value="flat-square">Flat Square</option>
+        <option value="for-the-badge">For the badge</option>
+        <option value="plastic">Plastic</option>
+        <option value="social">Social</option>
+    </select>
     <select class="form-control mb-2 mr-2" name="interval" onchange="loadBadge()">
         <option>day</option>
         <option>week</option>
-        <option>month</option>
+        <option selected>month</option>
     </select>
 
     <input class="form-control mb-2 mr-2" name="package" placeholder="Package" onblur="loadBadge()">
+
+    <img id="badgePreview" src="" /><img id="badgePreview" src="" />
 </form>
 
-<p>
-    <code id="badgeURL"></code>
-</p>
-
-<p>
-    <img id="badgePreview" src="" />
-</p>
+<div class="form-group mb-3">
+    <div class="input-group">
+        <input class="form-control" id="badgeURL" value="" placeholder="Badge URL">
+        <button class="btn-copy" data-clipboard-target="#badgeURL">
+            <i class="fas fa-copy" title="Copy to clipboard"></i>
+        </button>
+    </div>
+</div>
 
 {{ end }}
