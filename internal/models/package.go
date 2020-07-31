@@ -29,6 +29,8 @@ type Package struct {
 	Root        string `db:"root" json:"root" schema:"root"`
 	Docs        string `db:"docs" json:"docs" schema:"docs"`
 	Description string `db:"description" json:"description" schema:"description"`
+	Homepage    string `db:"homepage" json:"homepage" schema:"homepage"`
+	License     string `db:"license" json:"license" schema:"license"`
 
 	Domain Domain `db:"domain,prefix=domain."`
 }
@@ -48,10 +50,10 @@ func (pkg *Package) Insert(ctx context.Context, db *sqlx.DB) error {
 	pkg.CreatedAt = now
 	pkg.UpdatedAt = now
 	query := `
-INSERT INTO packages(domain_id, private, path, vcs, root, docs, description, created_at, updated_at)
-VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+INSERT INTO packages(domain_id, private, path, vcs, root, docs, description, homepage, license, created_at, updated_at)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `
-	res, err := db.ExecContext(ctx, query, pkg.DomainID, pkg.Private, pkg.Path, pkg.VCS, pkg.Root, pkg.Docs, pkg.Description, now, now)
+	res, err := db.ExecContext(ctx, query, pkg.DomainID, pkg.Private, pkg.Path, pkg.VCS, pkg.Root, pkg.Docs, pkg.Description, pkg.Homepage, pkg.License, now, now)
 	if err != nil {
 		return err
 	}
@@ -64,8 +66,8 @@ VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
 
 func (pkg *Package) Update(ctx context.Context, db *sqlx.DB) error {
 	pkg.UpdatedAt = time.Now()
-	query := "UPDATE packages SET domain_id = ?, private = ?, path = ?, vcs = ?, root = ?, docs = ?, description = ?, updated_at = ? WHERE id = ?"
-	_, err := db.ExecContext(ctx, query, pkg.DomainID, pkg.Private, pkg.Path, pkg.VCS, pkg.Root, pkg.Docs, pkg.Description, pkg.UpdatedAt, pkg.ID)
+	query := "UPDATE packages SET domain_id = ?, private = ?, path = ?, vcs = ?, root = ?, docs = ?, description = ?, homepage = ?, license = ?, updated_at = ? WHERE id = ?"
+	_, err := db.ExecContext(ctx, query, pkg.DomainID, pkg.Private, pkg.Path, pkg.VCS, pkg.Root, pkg.Docs, pkg.Description, pkg.Homepage, pkg.License, pkg.UpdatedAt, pkg.ID)
 	if err != nil {
 		return err
 	}

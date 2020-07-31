@@ -36,6 +36,20 @@
       </div>
     </div>
     <div class="form-group mb-3">
+      <label for="homepage">Homepage</label>
+      <input type="url" class="form-control" name="homepage" placeholder="" aria-describedby="homepageHelp" value="{{ .form.Homepage }}">
+      <div class="invalid-feedback">
+        Please provide a valid URL.
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="license">License</label>
+      <input type="url" class="form-control" name="license" placeholder="" aria-describedby="licenseHelp" value="{{ .form.License }}">
+      <div class="invalid-feedback">
+        Please provide a valid URL.
+      </div>
+    </div>
+    <div class="form-group mb-3">
       <label for="description">Description</label>
       <textarea class="form-control" name="description" placeholder="Description">{{ .form.Description }}</textarea>
     </div>
