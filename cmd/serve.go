@@ -121,8 +121,17 @@ func provideSessionManager() *scs.SessionManager {
 		MaxIdle: 10,
 		Dial: func() (redis.Conn, error) {
 			db, _ := strconv.Atoi(osenv.Get("REDIS_DATABASE", "0"))
-			return redis.Dial("tcp", osenv.Get("REDIS_ADDR", "localhost:6379"), redis.DialDatabase(db))
+			opts := []redis.DialOption{redis.DialDatabase(db)}
+			if password := osenv.Get("REDIS_PASSWORD"); password != "" {
+				opts = append(opts, redis.DialPassword(password))
+			}
+			return redis.Dial("tcp", osenv.Get("REDIS_ADDR", "localhost:6379"), opts...)
 		},
+	}
+
+	_, err := pool.Get().Do("PING")
+	if err != nil {
+		panic(err)
 	}
 
 	gob.Register(map[string]interface{}{})
