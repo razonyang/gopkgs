@@ -29,7 +29,7 @@ func GoGet(db *sqlx.DB, queue *machinery.Server) clevergo.MiddlewareFunc {
 			go func() {
 				_, err := queue.SendTaskWithContext(context.Background(), &tasks.Signature{
 					UUID: uuid.New().String(),
-					Name: "go-get",
+					Name: "package.action",
 					Args: []tasks.Arg{
 						{Name: "kind", Type: "string", Value: models.ActionGoGet},
 						{Name: "packageID", Type: "int64", Value: pkg.ID},

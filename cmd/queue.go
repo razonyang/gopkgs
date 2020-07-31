@@ -15,7 +15,7 @@ var queueCmd = &cli.Command{
 	Action: func(c *cli.Context) error {
 		packageTask := tasks.NewPackage(db)
 		err := queue.RegisterTasks(map[string]interface{}{
-			"go-get": packageTask.AddAction,
+			"package.action": packageTask.Action,
 		})
 		if err != nil {
 			return err
