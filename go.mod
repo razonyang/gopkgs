@@ -18,6 +18,7 @@ require (
 	github.com/CloudyKit/jet/v4 v4.1.0 // indirect
 	github.com/CloudyKit/jet/v5 v5.0.0
 	github.com/Masterminds/squirrel v1.4.0
+	github.com/RichardKnop/machinery v1.9.1
 	github.com/alexedwards/scs/redisstore v0.0.0-20200528164450-40c2a5f7eae8
 	github.com/alexedwards/scs/v2 v2.3.1
 	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
