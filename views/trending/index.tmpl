@@ -20,6 +20,9 @@
     <div class="clearfix"></div>
 
     <div class="card-body bg-transparent">
+        {{ if len(.packages) == 0 }}
+        <h1 class="text-center text-muted">No data</h1>
+        {{ end }}
         {{ range .packages }}
         <div class="card mb-3 col-12">
             <div class="card-header bg-transparent">
@@ -36,8 +39,22 @@
                 {{ end }}
             </div>
             <div class="card-footer bg-transparent text-right">
-                <a class="btn btn-primary btn-sm mb-2" href="{{ .Root }}" target="_blank">Repository</a>
-                <a class="btn btn-info btn-sm mb-2" href="{{ .DocsURL() }}" target="_blank">Documentations</a>
+                {{ if .Homepage }}
+                <a class="btn btn-success btn-sm mb-2" href="{{ .Homepage }}" target="_blank">
+                    <i class="fas fa-home"></i> Homepage
+                </a>
+                {{ end }}
+                <a class="btn btn-primary btn-sm mb-2" href="{{ .Root }}" target="_blank">
+                    <i class="fas fa-code"></i> Repository
+                </a>
+                <a class="btn btn-info btn-sm mb-2" href="{{ .DocsURL() }}" target="_blank">
+                    <i class="fas fa-file"></i> Documentations
+                </a>
+                {{ if .License }}
+                <a class="btn btn-secondary btn-sm mb-2" href="{{ .License }}" target="_blank">
+                    <i class="fas fa-ribbon"></i> License
+                </a>
+                {{ end }}
             </div>
         </div>
         {{ end }}
