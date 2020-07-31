@@ -7,8 +7,8 @@ import (
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
-	"github.com/razonyang/gopkgs/internal/models"
-	"github.com/razonyang/gopkgs/internal/web"
+	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
 func (h *Handler) overview(c *clevergo.Context) error {

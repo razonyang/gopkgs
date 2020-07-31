@@ -7,8 +7,8 @@ import (
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/osenv"
-	"github.com/razonyang/gopkgs/internal/core"
-	"github.com/razonyang/gopkgs/internal/web"
+	"pkg.razonyang.com/gopkgs/internal/core"
+	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
 type Handler struct {

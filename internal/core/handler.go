@@ -6,7 +6,7 @@ import (
 	"clevergo.tech/authmiddleware"
 	"github.com/alexedwards/scs/v2"
 	"github.com/jmoiron/sqlx"
-	"github.com/razonyang/gopkgs/internal/web/alert"
+	"pkg.razonyang.com/gopkgs/internal/web/alert"
 )
 
 type Handler struct {

@@ -9,7 +9,7 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/razonyang/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 type Form struct {

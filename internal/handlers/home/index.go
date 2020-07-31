@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"clevergo.tech/clevergo"
-	"github.com/razonyang/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 func (h *Handler) index(c *clevergo.Context) error {

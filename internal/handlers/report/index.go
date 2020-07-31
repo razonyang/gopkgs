@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"clevergo.tech/clevergo"
-	"github.com/razonyang/gopkgs/internal/web"
+	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
 func (h *Handler) index(c *clevergo.Context) error {

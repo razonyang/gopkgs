@@ -6,9 +6,9 @@ import (
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
-	"github.com/razonyang/gopkgs/internal/core"
-	"github.com/razonyang/gopkgs/internal/middleware"
-	"github.com/razonyang/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/core"
+	"pkg.razonyang.com/gopkgs/internal/middleware"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 type Handler struct {

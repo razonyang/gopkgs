@@ -8,8 +8,8 @@ import (
 
 	"clevergo.tech/clevergo"
 	"github.com/coreos/go-oidc"
-	"github.com/razonyang/gopkgs/internal/core"
-	"github.com/razonyang/gopkgs/internal/web/alert"
+	"pkg.razonyang.com/gopkgs/internal/core"
+	"pkg.razonyang.com/gopkgs/internal/web/alert"
 )
 
 func (h *Handler) callback(c *clevergo.Context) error {

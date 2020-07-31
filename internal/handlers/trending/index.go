@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"clevergo.tech/clevergo"
-	"github.com/razonyang/gopkgs/internal/models"
-	"github.com/razonyang/gopkgs/internal/web"
+	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
 type Packages struct {

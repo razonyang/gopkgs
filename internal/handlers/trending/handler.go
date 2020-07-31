@@ -2,7 +2,7 @@ package trending
 
 import (
 	"clevergo.tech/clevergo"
-	"github.com/razonyang/gopkgs/internal/core"
+	"pkg.razonyang.com/gopkgs/internal/core"
 )
 
 type Handler struct {

@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"clevergo.tech/clevergo"
-	"github.com/razonyang/gopkgs/internal/models"
-	"github.com/razonyang/gopkgs/internal/web/alert"
+	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/web/alert"
 )
 
 func (h *Handler) update(c *clevergo.Context) error {

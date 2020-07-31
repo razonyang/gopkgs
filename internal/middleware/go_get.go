@@ -6,8 +6,8 @@ import (
 
 	"clevergo.tech/clevergo"
 	"github.com/jmoiron/sqlx"
-	"github.com/razonyang/gopkgs/internal/models"
-	"github.com/razonyang/gopkgs/internal/web"
+	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
 func GoGet(db *sqlx.DB) clevergo.MiddlewareFunc {

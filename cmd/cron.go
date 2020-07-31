@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/razonyang/gopkgs/internal/jobs"
+	"pkg.razonyang.com/gopkgs/internal/jobs"
 	"github.com/robfig/cron/v3"
 )
 

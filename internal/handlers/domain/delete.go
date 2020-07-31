@@ -6,7 +6,7 @@ import (
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
-	"github.com/razonyang/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 func (h *Handler) delete(c *clevergo.Context) error {

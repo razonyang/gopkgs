@@ -7,8 +7,8 @@ import (
 	"clevergo.tech/osenv"
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
-	"github.com/razonyang/gopkgs/internal/core"
 	"github.com/urfave/cli/v2"
+	"pkg.razonyang.com/gopkgs/internal/core"
 )
 
 var (
