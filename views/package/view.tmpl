@@ -38,6 +38,18 @@
                   <th><i class="fas fa-fw fa-file"></i> Documentations</th>
                   <td><a href="{{ .pkg.DocsURL() }}" target="_blank">{{ .pkg.DocsURL() }}</a></td>
                 </tr>
+                {{ if .pkg.Homepage }}
+                <tr>
+                  <th><i class="fas fa-fw fa-home"></i> Homepage</th>
+                  <td><a href="{{ .pkg.Homepage }}" target="_blank">{{ .pkg.Homepage }}</a></td>
+                </tr>
+                {{ end }}
+                {{ if .pkg.License }}
+                <tr>
+                  <th><i class="fas fa-fw fa-ribbon"></i> License</th>
+                  <td><a href="{{ .pkg.License }}" target="_blank">{{ .pkg.License }}</a></td>
+                </tr>
+                {{ end }}
               </tbody>
             </table>
           </div>
