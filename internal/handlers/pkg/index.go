@@ -61,7 +61,7 @@ func (h *Handler) index(c *clevergo.Context) error {
 	selectQuery, selectArgs, err := query.Columns("packages.*", `domains.id as "domain.id"`, `domains.name as "domain.name"`).
 		Limit(p.UnsignedLimit()).
 		Offset(p.UnsignedOffset()).
-		OrderBy("packages.id DESC").
+		OrderBy("packages.updated_at DESC", "packages.id DESC").
 		ToSql()
 	if err != nil {
 		return err
