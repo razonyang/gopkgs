@@ -20,6 +20,8 @@ import (
 	"github.com/gobuffalo/packr/v2"
 	"github.com/gomodule/redigo/redis"
 	"github.com/justinas/nosurf"
+	"github.com/urfave/cli/v2"
+	"go.uber.org/zap"
 	"pkg.razonyang.com/gopkgs/internal/core"
 	"pkg.razonyang.com/gopkgs/internal/handlers/api"
 	"pkg.razonyang.com/gopkgs/internal/handlers/badge"
@@ -32,8 +34,6 @@ import (
 	"pkg.razonyang.com/gopkgs/internal/handlers/user"
 	"pkg.razonyang.com/gopkgs/internal/middleware"
 	"pkg.razonyang.com/gopkgs/internal/web"
-	"github.com/urfave/cli/v2"
-	"go.uber.org/zap"
 
 	_ "github.com/doug-martin/goqu/v9/dialect/mysql"
 )
