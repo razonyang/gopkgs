@@ -52,18 +52,20 @@ func initialize() (err error) {
 		return
 	}
 
-	redisCfg, err := config.NewFromEnvironment()
+	queueCfg, err := config.NewFromEnvironment()
 	if err != nil {
 		return
 	}
-	redisCfg.TLSConfig = nil
+	queueCfg.DefaultQueue = "gopkgs_tasks"
+	queueCfg.TLSConfig = nil
+	queueCfg.Redis = &config.RedisConfig{}
 
 	redisHost := osenv.Get("REDIS_ADDR", "localhost:6379")
 	redisPassword := osenv.Get("REDIS_PASSWORD", "")
 	redisDB, _ := strconv.Atoi(osenv.Get("REDIS_DATABASE", "0"))
-	broker := redisbroker.New(redisCfg, redisHost, redisPassword, "", redisDB)
-	backend := redisbackend.New(redisCfg, redisHost, redisPassword, "", redisDB)
-	queue = machinery.NewServer(redisCfg, broker, backend)
+	broker := redisbroker.New(queueCfg, redisHost, redisPassword, "", redisDB)
+	backend := redisbackend.New(queueCfg, redisHost, redisPassword, "", redisDB)
+	queue = machinery.NewServer(queueCfg, broker, backend)
 
 	return nil
 }
