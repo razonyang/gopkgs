@@ -1,5 +1,5 @@
-{{ block packageVCSDropdown(options, value, allowEmpty=true) }}
-<select class="form-control mr-sm-2 mb-2" name="vcs">
+{{ block packageVCSDropdown(options, value, allowEmpty=true, class="mr-sm-2 mb-2") }}
+<select class="form-control {{ class }}" name="vcs">
     {{ if allowEmpty }}
     <option value="">Version Control System</option>
     {{ end }}

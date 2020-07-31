@@ -6,8 +6,8 @@
     <input type="hidden" name="csrf_token" value="{{ csrf }}">
     <div class="form-group">
       <label for="path">Import Path</label>
-      <div class="input-group">
-          {{ yield domainsDropdown(domains=.domains, value=.form.DomainID, allowEmpty=false) }}
+      <div class="input-group mb-2">
+          {{ yield domainsDropdown(domains=.domains, value=.form.DomainID, allowEmpty=false, class="col-md-2") }}
           <div class="input-group-prepend">
             <div class="input-group-text">/</div>
           </div>
@@ -15,14 +15,12 @@
         </div>
     </div>
     <div class="form-group">
-      <label for="vcs">VCS</label>
-      {{ yield packageVCSDropdown(options=.vcs, value=.form.VCS, allowEmpty=false) }}
-    </div>
-    <div class="form-group">
-      <label for="vcs">Repository URL</label>
-      <input type="text" class="form-control" name="root" placeholder="https://github.com/user/repo" required value="{{ .form.Root }}">
-      <div class="invalid-feedback">
-        Please provide a valid URL.
+      <div class="input-group mb-2">
+        {{ yield packageVCSDropdown(options=.vcs, value=.form.VCS, allowEmpty=false, class="mr-sm-2 col-md-2") }}
+        <input type="text" class="form-control" name="root" placeholder="https://github.com/user/repo" required value="{{ .form.Root }}">
+        <div class="invalid-feedback">
+          Please provide a valid URL.
+        </div>
       </div>
     </div>
     <div class="form-group">
