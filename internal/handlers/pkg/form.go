@@ -11,14 +11,17 @@ import (
 )
 
 type Form struct {
-	db       *sqlx.DB
-	pkg      *models.Package
-	userID   string
-	DomainID int64  `json:"domain_id" schema:"domain_id"`
-	Path     string `json:"path" schema:"path"`
-	VCS      string `json:"vcs" schema:"vcs"`
-	Root     string `json:"root" schema:"root"`
-	Docs     string `json:"docs" schema:"docs"`
+	db            *sqlx.DB
+	pkg           *models.Package
+	userID        string
+	DomainID      int64  `json:"domain_id" schema:"domain_id"`
+	Path          string `json:"path" schema:"path"`
+	VCS           string `json:"vcs" schema:"vcs"`
+	Root          string `json:"root" schema:"root"`
+	Docs          string `json:"docs" schema:"docs"`
+	Private       bool   `json:"-" schema:"-"`
+	PrivateSwitch string `json:"private" schema:"private"`
+	Description   string `json:"description" schema:"description"`
 }
 
 func newForm(db *sqlx.DB, userID string) *Form {
@@ -36,6 +39,8 @@ func newFormPkg(db *sqlx.DB, userID string, pkg *models.Package) *Form {
 	f.Root = f.pkg.Root
 	f.VCS = f.pkg.VCS
 	f.Docs = f.pkg.Docs
+	f.Private = f.pkg.Private
+	f.Description = f.pkg.Description
 	return f
 }
 
@@ -82,6 +87,8 @@ func (f *Form) validatePath(ctx context.Context, value interface{}) error {
 func (f *Form) Create(ctx context.Context) (pkg *models.Package, err error) {
 	pkg = models.NewPackage(f.DomainID, f.Path, f.VCS, f.Root)
 	pkg.Docs = f.Docs
+	pkg.Description = f.Description
+	pkg.Private = f.PrivateValue()
 	err = pkg.Insert(ctx, f.db)
 	return
 }
@@ -92,5 +99,14 @@ func (f *Form) Update(ctx context.Context) (err error) {
 	f.pkg.Root = f.Root
 	f.pkg.VCS = f.VCS
 	f.pkg.Docs = f.Docs
+	f.pkg.Description = f.Description
+	f.pkg.Private = f.PrivateValue()
 	return f.pkg.Update(ctx, f.db)
+}
+
+func (f *Form) PrivateValue() bool {
+	if f.PrivateSwitch != "" {
+		return true
+	}
+	return false
 }

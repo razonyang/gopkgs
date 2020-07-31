@@ -6,7 +6,7 @@
     <input type="hidden" name="csrf_token" value="{{ csrf }}">
     <div class="form-group">
       <label for="path">Import Path</label>
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
           {{ yield domainsDropdown(domains=.domains, value=.form.DomainID, allowEmpty=false, class="col-md-2") }}
           <div class="input-group-prepend">
             <div class="input-group-text">/</div>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="form-group">
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
         {{ yield packageVCSDropdown(options=.vcs, value=.form.VCS, allowEmpty=false, class="mr-sm-2 col-md-2") }}
         <input type="text" class="form-control" name="root" placeholder="https://github.com/user/repo" required value="{{ .form.Root }}">
         <div class="invalid-feedback">
@@ -23,14 +23,24 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="vcs">Documentation URL</label>
+    <div class="custom-control custom-switch mb-3">
+      <input type="checkbox" class="custom-control-input" id="privateSwitch" name="private"{{ if .form.Private }} checked{{ end }}>
+      <label class="custom-control-label" for="privateSwitch">Private</label>
+    </div>
+    <div class="form-group mb-3">
+      <label for="docs">Documentation URL</label>
       <input type="url" class="form-control" name="docs" placeholder="Optional, pkg.go.dev is used by default." aria-describedby="docsHelp" value="{{ .form.Docs }}">
       <div class="invalid-feedback">
         Please provide a valid URL.
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group mb-3">
+      <label for="docs">Description</label>
+      <textarea class="form-control" name="description" placeholder="Description">{{ .form.Description }}</textarea>
+    </div>
+    <div class="form-group mb-3">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
 
 {{ end }}
