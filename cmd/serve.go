@@ -53,10 +53,16 @@ var serveCmd = &cli.Command{
 			return err
 		}
 		clevergo.SetLogger(logger)
-		app := clevergo.New()
+		app := clevergo.Pure()
+		if core.IsDevelopMode() {
+			app.Use(clevergo.Logging())
+		}
+
 		app.Decoder = form.New()
 		sessionManager := provideSessionManager()
 		app.Use(
+			clevergo.Recovery(),
+			clevergo.ServerHeader("CleverGo"),
 			clevergo.WrapHH(sessionManager.LoadAndSave),
 			core.ErrorHandler,
 			authmiddleware.New(core.NewSessionAuthenticator(sessionManager)),
