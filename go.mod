@@ -14,6 +14,7 @@ require (
 	clevergo.tech/log v0.2.0
 	clevergo.tech/osenv v0.2.0
 	clevergo.tech/pagination v0.3.0
+	clevergo.tech/pprof v0.1.0
 	clevergo.tech/shields v0.2.1
 	github.com/CloudyKit/jet/v4 v4.1.0 // indirect
 	github.com/CloudyKit/jet/v5 v5.0.0
@@ -28,7 +29,6 @@ require (
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/go-ozzo/ozzo-validation/v4 v4.2.1
 	github.com/gobuffalo/packr/v2 v2.8.0
-	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/gomodule/redigo v1.8.2
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/schema v1.1.0
@@ -42,12 +42,8 @@ require (
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli/v2 v2.2.0
 	go.uber.org/zap v1.15.0
-	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
-	golang.org/x/net v0.0.0-20200707034311-ab3426394381 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sys v0.0.0-20200722175500-76b94024e4b6 // indirect
-	google.golang.org/appengine v1.6.6 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 	gorm.io/driver/mysql v0.3.1
 	gorm.io/gorm v0.2.24

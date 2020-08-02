@@ -14,6 +14,7 @@ import (
 	"clevergo.tech/jetrenderer"
 	"clevergo.tech/log"
 	"clevergo.tech/osenv"
+	"clevergo.tech/pprof"
 	"github.com/CloudyKit/jet/v5"
 	"github.com/alexedwards/scs/redisstore"
 	"github.com/alexedwards/scs/v2"
@@ -70,12 +71,14 @@ var serveCmd = &cli.Command{
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(
 				"/", "/callback", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*",
-				"/trending",
+				"/trending", "/debug/pprof/*",
 			)),
 			clevergo.WrapHH(nosurf.NewPure),
 		)
 		app.Renderer = provideRenderer(sessionManager)
 		app.ServeFiles("/assets", packr.New("public", "../public"))
+
+		pprof.RegisterHandler(app)
 
 		basicHandler := core.NewHandler(db, sessionManager)
 		handlers := []web.Handler{
