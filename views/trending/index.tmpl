@@ -4,7 +4,7 @@
 
 <div class="jumbotron bg-white">
     <h1 class="display-4 text-center">
-        <i class="fas fa-chart-line"></i> Trending
+        <i class="fas fa-fw fa-chart-line"></i> Trending
     </h1>
     <hr class="my-4">
     <form class="form-inline float-right">
@@ -26,9 +26,9 @@
         {{ range .packages }}
         <div class="card mb-3 col-12">
             <div class="card-header bg-transparent">
-                <i class="fas fa-cube"></i> <span class="font-weight-bold">{{ .Prefix() }}</span> 
+                <i class="fas fa-fw fa-cube"></i> <span class="font-weight-bold">{{ .Prefix() }}</span> 
                 <span class="badge badge-success">
-                    <i class="fas fa-cloud-download-alt"></i> {{ .Downloads }}
+                    <i class="fas fa-fw fa-download"></i> {{ .Downloads }}
                 </span>
             </div>
             <div class="card-body">
@@ -41,18 +41,18 @@
             <div class="card-footer bg-transparent text-right">
                 {{ if .Homepage }}
                 <a class="btn btn-success btn-sm mb-2" href="{{ .Homepage }}" target="_blank">
-                    <i class="fas fa-home"></i> Homepage
+                    <i class="fas fa-fw fa-home"></i> Homepage
                 </a>
                 {{ end }}
                 <a class="btn btn-primary btn-sm mb-2" href="{{ .Root }}" target="_blank">
-                    <i class="fas fa-code"></i> Repository
+                    <i class="fas fa-fw fa-code"></i> Repository
                 </a>
                 <a class="btn btn-info btn-sm mb-2" href="{{ .DocsURL() }}" target="_blank">
-                    <i class="fas fa-file"></i> Documentations
+                    <i class="fas fa-fw fa-file"></i> Documentations
                 </a>
                 {{ if .License }}
                 <a class="btn btn-secondary btn-sm mb-2" href="{{ .License }}" target="_blank">
-                    <i class="fas fa-ribbon"></i> License
+                    <i class="fas fa-fw fa-ribbon"></i> License
                 </a>
                 {{ end }}
             </div>

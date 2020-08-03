@@ -9,14 +9,14 @@
 {{ yield pageHeader(title="Domains") content }}
 <div class="btn-toolbar mb-2 mb-md-0">
   <a class="btn btn-sm btn-primary" href="/domain/create">
-      <i class="fas fa-plus"></i> Add
+      <i class="fas fa-fw fa-plus"></i> Add
   </a>
 </div>
 {{ end }}
 
 {{ yield filterForm(page=.pagination.Page, limit=.pagination.Limit) content }}
 <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Name" name="name" value="{{ .queryParams.Name }}">
-<button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Search</button>
+<button type="submit" class="btn btn-primary mb-2"><i class="fas fa-fw fa-search"></i> Search</button>
 {{ end }}
 
 <div class="table-responsive">

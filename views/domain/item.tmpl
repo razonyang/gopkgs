@@ -7,7 +7,7 @@
       {{ end }}
       {{ .Name }}
       <a class="" href="/package?domain_id={{ .ID }}">
-          <span class="badge badge-primary"><i class="fas fa-cubes"></i>  {{ .PackageCount }}</span>
+          <span class="badge badge-primary"><i class="fas fa-fw fa-cubes"></i>  {{ .PackageCount }}</span>
       </a>
     </td>
     <td class="text-nowrap">{{ .CreatedAt | date}}</td>
@@ -19,10 +19,10 @@
       </a>
       {{ end }}
       <a class="btn btn-sm btn-primary text-white" href="/domain/edit/{{ .ID }}">
-        <i class="fas fa-edit"></i> Edit
+        <i class="fas fa-fw fa-edit"></i> Edit
       </a>
       <button class="btn btn-sm btn-danger text-white" onclick="deleteDomain({{ .ID }})" {{ if !.CanDelete() }}disabled{{ end }}>
-        <i class="fas fa-trash"></i> Delete
+        <i class="fas fa-fw fa-trash"></i> Delete
       </button>
     </td>
 </tr>

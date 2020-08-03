@@ -12,16 +12,16 @@
     <td class="text-nowrap">{{ .UpdatedAt | date }}</td>
     <td class="text-nowrap">
     <a class="btn btn-sm btn-success text-white" role="button" href="/package/view/{{ .ID }}" target="_blank">
-        <i class="fas fa-eye"></i> View
+        <i class="fas fa-fw fa-eye"></i> View
     </a>
     <a class="btn btn-sm btn-info text-white" role="button" href="{{ .DocsURL() }}" target="_blank">
-        <i class="fas fa-file"></i> Docs
+        <i class="fas fa-fw fa-file"></i> Docs
     </a>
     <a class="btn btn-sm btn-primary text-white" role="button" href="/package/edit/{{ .ID }}">
-        <i class="fas fa-edit"></i> Edit
+        <i class="fas fa-fw fa-edit"></i> Edit
     </a>
     <a class="btn btn-sm btn-danger text-white" role="button" onclick="deletePackage({{ .ID }})">
-        <i class="fas fa-trash"></i> Delete
+        <i class="fas fa-fw fa-trash"></i> Delete
     </a>
     </td>
 </tr>

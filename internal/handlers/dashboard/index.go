@@ -64,12 +64,12 @@ func (h *Handler) getPackageCard(ctx context.Context, userID string) (card Card,
 }
 
 func (h *Handler) getDailyReportCard(ctx context.Context, userID string) (card Card, err error) {
-	card = NewCard("Daily Report", "cloud-download-alt", "secondary", "/report")
+	card = NewCard("Daily Report", "download", "secondary", "/report")
 	return card, h.getReport(ctx, &card.Count, userID, time.Now())
 }
 
 func (h *Handler) getMonthlyReportCard(ctx context.Context, userID string) (card Card, err error) {
-	card = NewCard("Monthly Report", "cloud-download-alt", "info", "/report")
+	card = NewCard("Monthly Report", "download", "info", "/report")
 	return card, h.getReport(ctx, &card.Count, userID, time.Now().AddDate(0, 0, -29))
 }
 

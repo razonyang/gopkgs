@@ -26,13 +26,13 @@ $(function() {
 });
 
 function notify(message, type) {
-    var title = '<i class="fas fa-check-circle text-success"></i> SUCCESS'
+    var title = '<i class="fas fa-fw fa-check-circle text-success"></i> SUCCESS'
     switch (type) {
         case 'warning':
-            title = '<i class="fas fa-exclamation-circle text-warning"></i> WARNING'
+            title = '<i class="fas fa-fw fa-exclamation-circle text-warning"></i> WARNING'
             break;
         case 'error':
-            title = '<i class="fas fa-exclamation-circle text-danger"></i> ERROR'
+            title = '<i class="fas fa-fw fa-exclamation-circle text-danger"></i> ERROR'
             break;
     }
     var eleID = 'toast-' + $('.toast').length; 

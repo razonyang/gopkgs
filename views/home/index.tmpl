@@ -3,7 +3,7 @@
 {{ block body() }}
 <div class="jumbotron text-white bg-dark">
     <h1 class="display-4 text-center">
-        <i class="fas fa-cubes"></i> Go Packages
+        <i class="fas fa-fw fa-cubes"></i> Go Packages
     </h1>
     <p class="lead text-center">Custom your Go package import paths.</p>
     <hr class="my-4">
@@ -12,7 +12,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
-                        <i class="fas fa-globe"></i> {{ .domains }}
+                        <i class="fas fa-fw fa-globe"></i> {{ .domains }}
                     </h1>
                     <p class="card-text">Domains</p>
                 </div>
@@ -22,7 +22,7 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
-                        <i class="fas fa-cubes"></i> {{ .packages }}
+                        <i class="fas fa-fw fa-cubes"></i> {{ .packages }}
                     </h1>
                     <p class="card-text">Packages</p>
                 </div>
@@ -32,7 +32,7 @@
             <div class="card text-white bg-info mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
-                        <i class="fas fa-cloud-download-alt"></i> {{ .downloads }}
+                        <i class="fas fa-fw fa-download"></i> {{ .downloads }}
                     </h1>
                     <p class="card-text">Serving <b>go get</b> requests per month</p>
                 </div>
@@ -41,10 +41,10 @@
     </div>
     <div class="text-center">
         <a class="btn btn-primary btn-lg mb-2" href="/dashboard" role="button">
-            Getting Started <i class="fas fa-arrow-right"></i>
+            Getting Started <i class="fas fa-fw fa-arrow-right"></i>
         </a>
         <a class="btn btn-success btn-lg ml-3 mb-2" target="_blank" href="https://github.com/razonyang/gopkgs" role="button">
-            <i class="fab fa-github"></i> GitHub
+            <i class="fab fa-fw fa-github"></i> GitHub
         </a>
     </div>
 </div>
