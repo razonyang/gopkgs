@@ -40,10 +40,10 @@ require (
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/sirupsen/logrus v1.6.0 // indirect
 	github.com/stretchr/testify v1.6.1
+	github.com/tdewolff/minify/v2 v2.8.0
 	github.com/urfave/cli/v2 v2.2.0
 	go.uber.org/zap v1.15.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
-	golang.org/x/sys v0.0.0-20200722175500-76b94024e4b6 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 	gorm.io/driver/mysql v0.3.1
 	gorm.io/gorm v0.2.24
