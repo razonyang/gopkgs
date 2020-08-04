@@ -24,6 +24,7 @@ require (
 	github.com/alexedwards/scs/v2 v2.3.1
 	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible
+	github.com/dgraph-io/ristretto v0.0.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/doug-martin/goqu/v9 v9.9.0
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
