@@ -79,7 +79,7 @@ function loadInfo() {
         lineChartData.datasets = [
             {
                 label: "go-get",
-                lineTension: 0,
+                // lineTension: 0,
                 data: dataset,
                 fill: false,
                 borderColor: 'rgb(87, 146, 221)',
