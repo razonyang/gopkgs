@@ -76,6 +76,7 @@ var serveCmd = &cli.Command{
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(
 				"/", "/callback", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*",
 				"/trending", "/debug/pprof/*",
+				"/signup",
 			)),
 			clevergo.WrapHH(nosurf.NewPure),
 		)
@@ -84,7 +85,7 @@ var serveCmd = &cli.Command{
 
 		pprof.RegisterHandler(app)
 
-		basicHandler := core.NewHandler(db, sessionManager)
+		basicHandler := core.NewHandler(db, sessionManager, queue)
 		handlers := []web.Handler{
 			&home.Handler{basicHandler},
 			&dashboard.Handler{basicHandler},

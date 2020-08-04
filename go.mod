@@ -27,6 +27,7 @@ require (
 	github.com/dgraph-io/ristretto v0.0.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/doug-martin/goqu/v9 v9.9.0
+	github.com/go-mail/mail v2.3.1+incompatible
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/go-ozzo/ozzo-validation/v4 v4.2.1
 	github.com/gobuffalo/packr/v2 v2.8.0
@@ -44,7 +45,9 @@ require (
 	github.com/tdewolff/minify/v2 v2.8.0
 	github.com/urfave/cli/v2 v2.2.0
 	go.uber.org/zap v1.15.0
+	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 	gorm.io/driver/mysql v0.3.1
 	gorm.io/gorm v0.2.24

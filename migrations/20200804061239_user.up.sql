@@ -5,6 +5,8 @@ CREATE TABLE `users`(
     `email_verified` TINYINT NOT NULL DEFAULT 0,
     `verification_token` VARCHAR(32) NULL,
     `hashed_password` VARCHAR(128) NOT NULL,
+    `created_at` DATETIME NOT NULL,
+    `updated_at` DATETIME NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_users_username` (`username`),
     UNIQUE KEY `idx_users_email` (`email`),

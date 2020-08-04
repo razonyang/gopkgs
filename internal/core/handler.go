@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"clevergo.tech/authmiddleware"
+	"github.com/RichardKnop/machinery/v2"
 	"github.com/alexedwards/scs/v2"
 	"github.com/jmoiron/sqlx"
 	"pkg.razonyang.com/gopkgs/internal/web/alert"
@@ -12,12 +13,14 @@ import (
 type Handler struct {
 	DB             *sqlx.DB
 	SessionManager *scs.SessionManager
+	Queue          *machinery.Server
 }
 
-func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager) Handler {
+func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager, queue *machinery.Server) Handler {
 	return Handler{
 		DB:             db,
 		SessionManager: sessionManager,
+		Queue:          queue,
 	}
 }
 

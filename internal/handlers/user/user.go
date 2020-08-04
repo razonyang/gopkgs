@@ -13,4 +13,6 @@ func (h *Handler) Register(router clevergo.Router) {
 	router.Get("/login", h.login)
 	router.Get("/callback", h.callback)
 	router.Get("/logout", h.logout)
+	router.Get("/signup", h.signup)
+	router.Post("/signup", h.signup)
 }

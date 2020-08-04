@@ -16,6 +16,7 @@ var queueCmd = &cli.Command{
 		packageTask := tasks.NewPackage(db)
 		err := queue.RegisterTasks(map[string]interface{}{
 			"package.action": packageTask.Action,
+			"sendMail":       tasks.SendMail,
 		})
 		if err != nil {
 			return err

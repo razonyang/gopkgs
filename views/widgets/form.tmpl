@@ -1,0 +1,39 @@
+{{ block form(method="POST", action="", class="") }}
+<form class="{{ class }}" action="{{ action }}" method="{{ method }}" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf }}">
+    {{ yield content }}
+</form>
+{{ end }}
+
+
+{{ block csrfInputField() }}
+<input type="hidden" name="csrf_token" value="{{ csrf }}">
+{{ end }}
+
+{{ block inputField(form, field, type="text", value="", required=true, placeholder="") }}
+{{ hasErr := form.HasError(field) }}
+<input 
+    type="{{ type }}"
+    class="form-control {{ if hasErr }}is-invalid{{ else if value != "" }}is-valid{{ end }}"
+    name="{{ field }}"
+    placeholder="{{ if placeholder }}{{ placeholder }}{{ else }}{{ field }}{{ end }}"
+    value="{{ value }}"
+    {{ if required }}required{{ end }}>
+{{ if hasErr }}
+<div id="{{ field }}Feedback" class="invalid-feedback">
+    {{ form.GetError(field) }}
+</div>
+{{ end }}
+{{ end }}
+
+{{ block formGroup() }}
+<div class="form-group">
+    {{ yield content }}
+</div>
+{{ end }}
+
+{{ block inputGroup() }}
+<div class="input-group">
+    {{ yield content }}
+</div>
+{{ end }}
