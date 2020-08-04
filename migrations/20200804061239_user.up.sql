@@ -8,5 +8,6 @@ CREATE TABLE `users`(
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_users_username` (`username`),
     UNIQUE KEY `idx_users_email` (`email`),
+    KEY `idx_users_email_verified` (`email_verified`),
     UNIQUE KEY `idx_users_verification_token` (`verification_token`)
 );
