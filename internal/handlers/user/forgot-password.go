@@ -61,7 +61,7 @@ func sendResetPasswordEmail(queue *machinery.Server, user *models.User) error {
 	var buf bytes.Buffer
 	err := tmplResetPasswordEmail.Execute(&buf, clevergo.Map{
 		"user": user,
-		"link": fmt.Sprintf("%s/reset-password?token=%s", osenv.Get("APP_URL", "http://localhost:8080"), user.VerificationToken.String),
+		"link": fmt.Sprintf("%s/reset-password?token=%s", osenv.Get("APP_URL", "http://localhost:8080"), user.PasswordResetToken.String),
 	})
 	if err != nil {
 		return err
