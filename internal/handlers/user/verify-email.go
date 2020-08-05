@@ -18,12 +18,17 @@ func (h *Handler) verifyEmail(c *clevergo.Context) error {
 		return err
 	}
 	if user.ID > 0 && !user.IsVerificationExpired() {
-		_, err = h.DB.ExecContext(ctx, "UPDATE users SET email_verified = 1, verification_token=NULL WHERE id = ?", user.ID)
+		user.EmailVerified = true
+		_, err = h.DB.ExecContext(ctx, "UPDATE users SET email_verified = ?, verification_token=NULL WHERE id = ?", user.EmailVerified, user.ID)
 		if err != nil {
 			return err
 		}
 
+		// update session
+		h.SessionManager.Put(ctx, "auth_user", user)
+
 		h.AddAlert(ctx, alert.NewSuccess("Email verified."))
+
 		return c.Redirect(http.StatusFound, "/login")
 	}
 
