@@ -29,7 +29,7 @@ type User struct {
 }
 
 func NewUser(username, email, password string) (*User, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPassword, err := generatePassword(password)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func NewUser(username, email, password string) (*User, error) {
 	user := &User{
 		Username:          username,
 		Email:             email,
-		HashedPassword:    string(hashedPassword),
+		HashedPassword:    hashedPassword,
 		VerificationToken: GenerateVerificationToken(),
 	}
 
@@ -56,8 +56,21 @@ func FindUserByVerificationToken(ctx context.Context, db *sqlx.DB, dest interfac
 	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE verification_token = ?", token)
 }
 
+func FindUserByPasswordResetToken(ctx context.Context, db *sqlx.DB, dest interface{}, token string) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE password_reset_token = ?", token)
+}
+
 func (u *User) GetID() string {
 	return strconv.FormatInt(u.ID, 10)
+}
+
+func (u *User) SetPassword(ctx context.Context, db *sqlx.DB, password string) (err error) {
+	u.HashedPassword, err = generatePassword(password)
+	if err != nil {
+		return
+	}
+	_, err = db.ExecContext(ctx, "UPDATE users SET hashed_password = ?, password_reset_token = null WHERE id = ?", u.HashedPassword, u.ID)
+	return
 }
 
 func (u *User) Insert(ctx context.Context, db *sqlx.DB) error {
@@ -123,4 +136,13 @@ func isUniqueTokenExpired(token sql.NullString) bool {
 	}
 
 	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
+}
+
+func generatePassword(password string) (string, error) {
+	bs, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bs), nil
 }
