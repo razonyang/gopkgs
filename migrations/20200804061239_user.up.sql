@@ -13,3 +13,9 @@ CREATE TABLE `users`(
     KEY `idx_users_email_verified` (`email_verified`),
     UNIQUE KEY `idx_users_verification_token` (`verification_token`)
 );
+
+ALTER TABLE `domains` DROP INDEX `idx_domains_user_id_name`;
+ALTER TABLE `domains` DROP COLUMN `user_id`;
+ALTER TABLE `domains` ADD COLUMN `user_id` BIGINT NOT NULL DEFAULT 0 AFTER `id`;
+CREATE INDEX `idx_domains_user_id` ON `domains` (`user_id`);
+UPDATE `domains` SET `user_id`=1;
