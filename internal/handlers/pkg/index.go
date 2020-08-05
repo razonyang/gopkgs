@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"clevergo.tech/authmiddleware"
 	"clevergo.tech/clevergo"
 	"clevergo.tech/pagination"
 	"github.com/Masterminds/squirrel"
@@ -22,7 +21,7 @@ func (h *Handler) index(c *clevergo.Context) error {
 	p := pagination.NewFromContext(c)
 
 	ctx := c.Context()
-	userID := authmiddleware.GetIdentity(ctx).GetID()
+	userID := h.UserID(ctx)
 
 	var queryParams QueryParams
 	if err := web.DecodeQueryParams(c, &queryParams); err != nil {

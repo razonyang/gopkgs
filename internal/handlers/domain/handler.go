@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"clevergo.tech/authmiddleware"
 	"clevergo.tech/clevergo"
 	"pkg.razonyang.com/gopkgs/internal/core"
 	"pkg.razonyang.com/gopkgs/internal/middleware"
@@ -31,7 +30,7 @@ func (h *Handler) findDomain(c *clevergo.Context) (*models.Domain, error) {
 	if err != nil {
 		return nil, err
 	}
-	userID := authmiddleware.GetIdentity(ctx).GetID()
+	userID := h.UserID(ctx)
 	var domain models.Domain
 	err = models.FindDomainByUser(ctx, h.DB, &domain, id, userID)
 	return &domain, err

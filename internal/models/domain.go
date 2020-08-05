@@ -13,18 +13,17 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"pkg.razonyang.com/gopkgs/internal/core"
 )
 
 type Domain struct {
 	Model
-	UserID       string `json:"user_id" db:"user_id"`
+	UserID       int64  `json:"user_id" db:"user_id"`
 	Name         string `json:"name" db:"name"`
 	Verified     bool   `json:"verified" db:"verified"`
 	ChallengeTXT string `json:"-" db:"challenge_txt"`
 }
 
-func NewDomain(name, userID string) *Domain {
+func NewDomain(name string, userID int64) *Domain {
 	domain := &Domain{
 		Name:         name,
 		UserID:       userID,
@@ -58,7 +57,7 @@ func (d *Domain) Challenge(ctx context.Context, db *sqlx.DB) error {
 }
 
 func (d *Domain) verifyChallengeTXT(ctx context.Context) error {
-	multiErr := &core.MultiError{}
+	errs := &Errors{}
 	for _, schema := range []string{"https", "http"} {
 		u := &url.URL{
 			Scheme: schema,
@@ -69,31 +68,31 @@ func (d *Domain) verifyChallengeTXT(ctx context.Context) error {
 		defer cancel()
 		req, err := http.NewRequestWithContext(timeOutCtx, http.MethodGet, u.String(), nil)
 		if err != nil {
-			multiErr.Add(err)
+			errs.Add(err)
 			continue
 		}
 		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
-			multiErr.Add(err)
+			errs.Add(err)
 			continue
 		}
 		if resp.StatusCode != http.StatusOK {
-			multiErr.Add(fmt.Errorf("invalid response status code %d", resp.StatusCode))
+			errs.Add(fmt.Errorf("invalid response status code %d", resp.StatusCode))
 			continue
 		}
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			multiErr.Add(err)
+			errs.Add(err)
 			continue
 		}
 		if string(body) != d.ChallengeTXT {
-			multiErr.Add(fmt.Errorf("invalid challenge txt"))
+			errs.Add(fmt.Errorf("invalid challenge txt"))
 			continue
 		}
 
 		return nil
 	}
-	return multiErr
+	return errs
 }
 
 func (d *Domain) Insert(ctx context.Context, db *sqlx.DB) error {
@@ -127,17 +126,17 @@ func CountDomains(ctx context.Context, db *sqlx.DB, count *int64) error {
 	return db.GetContext(ctx, count, query)
 }
 
-func CountDomainsByUser(ctx context.Context, db *sqlx.DB, count *int64, userID string) error {
+func CountDomainsByUser(ctx context.Context, db *sqlx.DB, count *int64, userID int64) error {
 	query := "SELECT COUNT(id) FROM domains WHERE user_id = ?"
 	return db.GetContext(ctx, count, query, userID)
 }
 
-func FindDomainsByUser(ctx context.Context, db *sqlx.DB, dest interface{}, userID string) error {
+func FindDomainsByUser(ctx context.Context, db *sqlx.DB, dest interface{}, userID int64) error {
 	query := "SELECT * FROM domains WHERE user_id = ? ORDER BY domains.name ASC"
 	return db.SelectContext(ctx, dest, query, userID)
 }
 
-func FindDomainByUser(ctx context.Context, db *sqlx.DB, dest interface{}, id int64, userID string) error {
+func FindDomainByUser(ctx context.Context, db *sqlx.DB, dest interface{}, id int64, userID int64) error {
 	query := "SELECT * FROM domains WHERE id = ? AND user_id = ?"
 	return db.GetContext(ctx, dest, query, id, userID)
 }

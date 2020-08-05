@@ -113,7 +113,7 @@ func CountPackages(ctx context.Context, db *sqlx.DB, count *int64) error {
 	return db.GetContext(ctx, count, query)
 }
 
-func CountPackagesByUser(ctx context.Context, db *sqlx.DB, count *int64, userID string) error {
+func CountPackagesByUser(ctx context.Context, db *sqlx.DB, count *int64, userID int64) error {
 	query := "SELECT COUNT(p.id) FROM packages p LEFT JOIN domains d ON d.id = p.domain_id WHERE d.user_id = ?"
 	return db.GetContext(ctx, count, query, userID)
 }

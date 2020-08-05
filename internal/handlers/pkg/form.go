@@ -13,7 +13,7 @@ import (
 type Form struct {
 	db            *sqlx.DB
 	pkg           *models.Package
-	userID        string
+	userID        int64
 	DomainID      int64  `json:"domain_id" schema:"domain_id"`
 	Path          string `json:"path" schema:"path"`
 	VCS           string `json:"vcs" schema:"vcs"`
@@ -26,14 +26,14 @@ type Form struct {
 	License       string `json:"license" schema:"license"`
 }
 
-func newForm(db *sqlx.DB, userID string) *Form {
+func newForm(db *sqlx.DB, userID int64) *Form {
 	return &Form{
 		db:     db,
 		userID: userID,
 	}
 }
 
-func newFormPkg(db *sqlx.DB, userID string, pkg *models.Package) *Form {
+func newFormPkg(db *sqlx.DB, userID int64, pkg *models.Package) *Form {
 	f := newForm(db, userID)
 	f.pkg = pkg
 	f.DomainID = f.pkg.DomainID

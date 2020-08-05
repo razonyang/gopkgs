@@ -3,11 +3,11 @@ package core
 import (
 	"context"
 
-	"clevergo.tech/auth"
 	"clevergo.tech/authmiddleware"
 	"github.com/RichardKnop/machinery/v2"
 	"github.com/alexedwards/scs/v2"
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web/alert"
 )
 
@@ -25,12 +25,12 @@ func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager, queue *machiner
 	}
 }
 
-func (h Handler) User(ctx context.Context) auth.Identity {
-	return authmiddleware.GetIdentity(ctx)
+func (h Handler) User(ctx context.Context) *models.User {
+	return authmiddleware.GetIdentity(ctx).(*models.User)
 }
 
-func (h Handler) UserID(ctx context.Context) string {
-	return h.User(ctx).GetID()
+func (h Handler) UserID(ctx context.Context) int64 {
+	return h.User(ctx).ID
 }
 
 func (h Handler) AddAlert(ctx context.Context, a alert.Alert) {

@@ -15,11 +15,11 @@ import (
 type Form struct {
 	domain *models.Domain
 	db     *sqlx.DB
-	userID string
+	userID int64
 	Name   string `json:"name" schema:"name"`
 }
 
-func NewForm(db *sqlx.DB, userID string) *Form {
+func NewForm(db *sqlx.DB, userID int64) *Form {
 	return &Form{
 		db:     db,
 		userID: userID,

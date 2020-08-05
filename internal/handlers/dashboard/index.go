@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"clevergo.tech/authmiddleware"
 	"clevergo.tech/clevergo"
 	"pkg.razonyang.com/gopkgs/internal/core"
 	"pkg.razonyang.com/gopkgs/internal/models"
@@ -22,7 +21,7 @@ func (h *Handler) Register(router clevergo.Router) {
 
 func (h *Handler) index(c *clevergo.Context) error {
 	ctx := c.Context()
-	userID := authmiddleware.GetIdentity(ctx).GetID()
+	userID := h.UserID(ctx)
 	domainCard, err := h.getDomainCard(ctx, userID)
 	if err != nil {
 		return err
@@ -51,29 +50,29 @@ func (h *Handler) index(c *clevergo.Context) error {
 	})
 }
 
-func (h *Handler) getDomainCard(ctx context.Context, userID string) (card Card, err error) {
+func (h *Handler) getDomainCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("DOMAINS", "globe", "primary", "/domain")
 	err = models.CountDomainsByUser(ctx, h.DB, &card.Count, userID)
 	return
 }
 
-func (h *Handler) getPackageCard(ctx context.Context, userID string) (card Card, err error) {
+func (h *Handler) getPackageCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("PACKAGES", "cubes", "success", "/package")
 	err = models.CountPackagesByUser(ctx, h.DB, &card.Count, userID)
 	return
 }
 
-func (h *Handler) getDailyReportCard(ctx context.Context, userID string) (card Card, err error) {
+func (h *Handler) getDailyReportCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("Daily Report", "download", "secondary", "/report")
 	return card, h.getReport(ctx, &card.Count, userID, time.Now())
 }
 
-func (h *Handler) getMonthlyReportCard(ctx context.Context, userID string) (card Card, err error) {
+func (h *Handler) getMonthlyReportCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("Monthly Report", "download", "info", "/report")
 	return card, h.getReport(ctx, &card.Count, userID, time.Now().AddDate(0, 0, -29))
 }
 
-func (h *Handler) getReport(ctx context.Context, count *int64, userID string, fromDate time.Time) error {
+func (h *Handler) getReport(ctx context.Context, count *int64, userID int64, fromDate time.Time) error {
 	query := `
 SELECT COUNT(1) FROM actions 
 LEFT JOIN packages ON packages.id = actions.package_id
