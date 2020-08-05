@@ -48,6 +48,7 @@ require (
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/mail.v2 v2.3.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 	gorm.io/driver/mysql v0.3.1
 	gorm.io/gorm v0.2.24

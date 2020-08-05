@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"strconv"
 	"strings"
@@ -14,11 +15,11 @@ import (
 
 type User struct {
 	Model
-	Username          string `db:"username" json:"username"`
-	Email             string `db:"email" json:"email"`
-	EmailVerified     bool   `db:"email_verified" json:"email_verified"`
-	VerificationToken string `db:"verification_token" json:"verification_token"`
-	HashedPassword    string `db:"hashed_password" json:"hashed_password"`
+	Username          string         `db:"username" json:"username"`
+	Email             string         `db:"email" json:"email"`
+	EmailVerified     bool           `db:"email_verified" json:"email_verified"`
+	VerificationToken sql.NullString `db:"verification_token" json:"verification_token"`
+	HashedPassword    string         `db:"hashed_password" json:"hashed_password"`
 }
 
 func NewUser(username, email, password string) (*User, error) {
@@ -35,6 +36,10 @@ func NewUser(username, email, password string) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func FindUserByEmail(ctx context.Context, db *sqlx.DB, dest interface{}, email string) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE email = ?", email)
 }
 
 func FindUserByVerificationToken(ctx context.Context, db *sqlx.DB, dest interface{}, token string) error {
@@ -60,7 +65,10 @@ INSERT INTO users(username, email, email_verified, verification_token, hashed_pa
 }
 
 func (u *User) IsVerificationExpired() bool {
-	parts := strings.Split(u.VerificationToken, "-")
+	if !u.VerificationToken.Valid {
+		return false
+	}
+	parts := strings.Split(u.VerificationToken.String, "-")
 	if len(parts) != 2 {
 		return true
 	}
@@ -73,6 +81,9 @@ func (u *User) IsVerificationExpired() bool {
 	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
 }
 
-func GenerateVerificationToken() string {
-	return fmt.Sprintf("%s-%d", strings.ReplaceAll(uuid.New().String(), "-", ""), time.Now().Unix())
+func GenerateVerificationToken() sql.NullString {
+	return sql.NullString{
+		String: fmt.Sprintf("%s-%d", strings.ReplaceAll(uuid.New().String(), "-", ""), time.Now().Unix()),
+		Valid:  true,
+	}
 }

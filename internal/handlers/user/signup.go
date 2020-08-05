@@ -12,6 +12,7 @@ import (
 	"clevergo.tech/clevergo"
 	"clevergo.tech/osenv"
 	"github.com/RichardKnop/machinery/v1/tasks"
+	"github.com/RichardKnop/machinery/v2"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
@@ -103,7 +104,7 @@ func (h *Handler) signup(c *clevergo.Context) error {
 		ctx := c.Context()
 		if err := c.Decode(form); err != nil {
 		} else if user, err := form.signup(ctx); err != nil {
-		} else if h.sendVerificationMail(user); err != nil {
+		} else if sendVerificationMail(h.Queue, user); err != nil {
 			log.Println(err)
 		} else {
 			return c.Redirect(http.StatusFound, "/login")
@@ -115,7 +116,7 @@ func (h *Handler) signup(c *clevergo.Context) error {
 	})
 }
 
-func (h *Handler) sendVerificationMail(user *models.User) error {
+func sendVerificationMail(queue *machinery.Server, user *models.User) error {
 	var buf bytes.Buffer
 	err := tmplVerificationMail.Execute(&buf, clevergo.Map{
 		"user": user,
@@ -125,7 +126,7 @@ func (h *Handler) sendVerificationMail(user *models.User) error {
 		return err
 	}
 
-	_, err = h.Queue.SendTaskWithContext(context.Background(), &tasks.Signature{
+	_, err = queue.SendTaskWithContext(context.Background(), &tasks.Signature{
 		UUID: uuid.New().String(),
 		Name: "sendMail",
 		Args: []tasks.Arg{
