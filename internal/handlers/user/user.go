@@ -18,4 +18,6 @@ func (h *Handler) Register(router clevergo.Router) {
 	router.Get("/verify-email", h.verifyEmail)
 	router.Get("/send-verification-email", h.sendVerificationEmail)
 	router.Post("/send-verification-email", h.sendVerificationEmail)
+	router.Get("/forgot-password", h.forgotPassword)
+	router.Post("/forgot-password", h.forgotPassword)
 }

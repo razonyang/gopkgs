@@ -77,7 +77,7 @@ var serveCmd = &cli.Command{
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(
 				"/", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*",
 				"/trending", "/debug/pprof/*",
-				"/signup", "/verify-email", "/send-verification-email",
+				"/signup", "/verify-email", "/send-verification-email", "/forgot-password",
 			)),
 			clevergo.WrapHH(nosurf.NewPure),
 		)

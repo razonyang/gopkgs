@@ -20,11 +20,12 @@ func init() {
 
 type User struct {
 	Model
-	Username          string         `db:"username" json:"username"`
-	Email             string         `db:"email" json:"email"`
-	EmailVerified     bool           `db:"email_verified" json:"email_verified"`
-	VerificationToken sql.NullString `db:"verification_token" json:"verification_token"`
-	HashedPassword    string         `db:"hashed_password" json:"hashed_password"`
+	Username           string         `db:"username" json:"username"`
+	Email              string         `db:"email" json:"email"`
+	EmailVerified      bool           `db:"email_verified" json:"email_verified"`
+	VerificationToken  sql.NullString `db:"verification_token" json:"verification_token"`
+	HashedPassword     string         `db:"hashed_password" json:"hashed_password"`
+	PasswordResetToken sql.NullString `db:"password_reset_token" json:"password_reset_token"`
 }
 
 func NewUser(username, email, password string) (*User, error) {
@@ -78,10 +79,40 @@ INSERT INTO users(username, email, email_verified, verification_token, hashed_pa
 }
 
 func (u *User) IsVerificationExpired() bool {
-	if !u.VerificationToken.Valid {
-		return false
+	return isUniqueTokenExpired(u.VerificationToken)
+}
+
+func (u *User) IsPasswordResetTokenExpired() bool {
+	return isUniqueTokenExpired(u.PasswordResetToken)
+}
+
+func (u *User) ValidatePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(password))
+}
+
+func GenerateVerificationToken() sql.NullString {
+	return sql.NullString{
+		String: generateUniqueToken(),
+		Valid:  true,
 	}
-	parts := strings.Split(u.VerificationToken.String, "-")
+}
+
+func GeneratePasswordResetToken() sql.NullString {
+	return sql.NullString{
+		String: generateUniqueToken(),
+		Valid:  true,
+	}
+}
+
+func generateUniqueToken() string {
+	return fmt.Sprintf("%s-%d", strings.ReplaceAll(uuid.New().String(), "-", ""), time.Now().Unix())
+}
+
+func isUniqueTokenExpired(token sql.NullString) bool {
+	if !token.Valid {
+		return true
+	}
+	parts := strings.Split(token.String, "-")
 	if len(parts) != 2 {
 		return true
 	}
@@ -92,15 +123,4 @@ func (u *User) IsVerificationExpired() bool {
 	}
 
 	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
-}
-
-func (u *User) ValidatePassword(password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(password))
-}
-
-func GenerateVerificationToken() sql.NullString {
-	return sql.NullString{
-		String: fmt.Sprintf("%s-%d", strings.ReplaceAll(uuid.New().String(), "-", ""), time.Now().Unix()),
-		Valid:  true,
-	}
 }
