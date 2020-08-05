@@ -120,7 +120,7 @@ func sendVerificationMail(queue *machinery.Server, user *models.User) error {
 	var buf bytes.Buffer
 	err := tmplVerificationMail.Execute(&buf, clevergo.Map{
 		"user": user,
-		"link": fmt.Sprintf("%s/verify-email?token=%s", osenv.Get("APP_URL", "http://localhost:8080"), user.VerificationToken),
+		"link": fmt.Sprintf("%s/verify-email?token=%s", osenv.Get("APP_URL", "http://localhost:8080"), user.VerificationToken.String),
 	})
 	if err != nil {
 		return err
