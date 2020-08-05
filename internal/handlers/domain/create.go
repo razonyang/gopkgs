@@ -5,11 +5,16 @@ import (
 	"net/http"
 
 	"clevergo.tech/clevergo"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 func (h *Handler) create(c *clevergo.Context) error {
 	ctx := c.Context()
-	form := NewForm(h.DB, h.UserID(ctx))
+	user := h.User(ctx).(*models.User)
+	if !user.EmailVerified {
+		return c.Redirect(http.StatusFound, "/send-verification-email")
+	}
+	form := NewForm(h.DB, user.GetID())
 	if c.IsPost() {
 		if err := c.Decode(form); err != nil {
 			h.AddErrorAlert(ctx, err)

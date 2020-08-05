@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 
+	"clevergo.tech/auth"
 	"clevergo.tech/authmiddleware"
 	"github.com/RichardKnop/machinery/v2"
 	"github.com/alexedwards/scs/v2"
@@ -24,8 +25,12 @@ func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager, queue *machiner
 	}
 }
 
+func (h Handler) User(ctx context.Context) auth.Identity {
+	return authmiddleware.GetIdentity(ctx)
+}
+
 func (h Handler) UserID(ctx context.Context) string {
-	return authmiddleware.GetIdentity(ctx).GetID()
+	return h.User(ctx).GetID()
 }
 
 func (h Handler) AddAlert(ctx context.Context, a alert.Alert) {
