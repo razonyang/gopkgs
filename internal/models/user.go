@@ -2,6 +2,8 @@ package models
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,7 +18,7 @@ type User struct {
 	Email             string `db:"email" json:"email"`
 	EmailVerified     bool   `db:"email_verified" json:"email_verified"`
 	VerificationToken string `db:"verification_token" json:"verification_token"`
-	HashedPassword    string `db:"hash_password" json:"hash_password"`
+	HashedPassword    string `db:"hashed_password" json:"hashed_password"`
 }
 
 func NewUser(username, email, password string) (*User, error) {
@@ -29,10 +31,14 @@ func NewUser(username, email, password string) (*User, error) {
 		Username:          username,
 		Email:             email,
 		HashedPassword:    string(hashedPassword),
-		VerificationToken: strings.ReplaceAll(uuid.New().String(), "-", ""),
+		VerificationToken: GenerateVerificationToken(),
 	}
 
 	return user, nil
+}
+
+func FindUserByVerificationToken(ctx context.Context, db *sqlx.DB, dest interface{}, token string) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE verification_token = ?", token)
 }
 
 func (u *User) Insert(ctx context.Context, db *sqlx.DB) error {
@@ -51,4 +57,22 @@ INSERT INTO users(username, email, email_verified, verification_token, hashed_pa
 	}
 
 	return nil
+}
+
+func (u *User) IsVerificationExpired() bool {
+	parts := strings.Split(u.VerificationToken, "-")
+	if len(parts) != 2 {
+		return true
+	}
+
+	expiredAt, err := strconv.ParseInt(parts[1], 10, 64)
+	if err != nil {
+		return true
+	}
+
+	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
+}
+
+func GenerateVerificationToken() string {
+	return fmt.Sprintf("%s-%d", strings.ReplaceAll(uuid.New().String(), "-", ""), time.Now().Unix())
 }

@@ -3,7 +3,7 @@ CREATE TABLE `users`(
     `username` VARCHAR(32) NOT NULL,
     `email` VARCHAR(64) NOT NULL,
     `email_verified` TINYINT NOT NULL DEFAULT 0,
-    `verification_token` VARCHAR(32) NULL,
+    `verification_token` CHAR(43) NULL,
     `hashed_password` VARCHAR(128) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,
