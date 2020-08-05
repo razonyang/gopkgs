@@ -5,6 +5,7 @@ import (
 	"io"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"clevergo.tech/authmiddleware"
@@ -124,6 +125,11 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 			args.RequireNumOfArguments("date", 1, 1)
 			date := args.Get(0).Interface().(time.Time)
 			return reflect.ValueOf(date.Format(osenv.Get("DATE_FORMAT", "2006-01-02 15:04:05")))
+		})
+		vars.SetFunc("title", func(args jet.Arguments) reflect.Value {
+			args.RequireNumOfArguments("title", 1, 1)
+			s := args.Get(0).Interface().(string)
+			return reflect.ValueOf(strings.Title(s))
 		})
 		return nil
 	})
