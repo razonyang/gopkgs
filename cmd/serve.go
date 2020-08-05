@@ -74,7 +74,7 @@ var serveCmd = &cli.Command{
 			middleware.GoGet(db, queue, cache),
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(
-				"/", "/callback", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*",
+				"/", "/login", "/assets/*", "/.well-known/*", "/api/badges/*", "/badges/*",
 				"/trending", "/debug/pprof/*",
 				"/signup", "/verify-email", "/send-verification-email",
 			)),
