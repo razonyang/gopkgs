@@ -82,6 +82,7 @@ func (gg *goGet) middleware(next clevergo.Handle) clevergo.Handle {
 				Args: []tasks.Arg{
 					{Name: "kind", Type: "string", Value: models.ActionGoGet},
 					{Name: "packageID", Type: "int64", Value: pkg.ID},
+					{Name: "createdAt", Type: "int64", Value: time.Now().Unix()},
 				},
 				RetryCount: 3,
 			})
