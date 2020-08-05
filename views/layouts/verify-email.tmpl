@@ -1,0 +1,7 @@
+{{ block verifyEmail() }}
+{{ if user && !user.EmailVerified }}
+<div class="alert alert-warning" role="alert">
+    Please <a href="/send-verification-email">verify your email</a> to activate your account.
+</div>
+{{ end }}
+{{ end }}
