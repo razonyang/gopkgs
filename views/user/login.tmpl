@@ -1,0 +1,47 @@
+{{ extends "/layouts/main.tmpl" }}
+{{ import "/widgets/form.tmpl" }}
+
+{{ block body() }}
+<div class="jumbotron bg-white">
+    <h1 class="display-4 text-center">
+        Login
+    </h1>
+    <hr class="my-4">
+    <div class="mb-5 col-md-6 offset-md-3 col-sm-12">
+
+        <p class="mb-4 text-muted text-center">
+            Don't have an account yet? <a href="{{ siteURL }}/signup">Sign up</a> now.
+        </p>
+        
+        {{ yield form(class="needs-validation") content }}
+
+            {{ yield formGroup() content }}
+                {{ yield inputGroup() content }}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-fw fa-user"></i></div>
+                    </div>
+                    {{ yield inputField(form=.form, field="account", value=.form.Account, placeholder="username or email address") }}
+                {{ end }}
+            {{ end }}
+
+            {{ yield formGroup() content }}
+                {{ yield inputGroup() content }}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-fw fa-lock"></i></div>
+                    </div>
+                    {{ yield inputField(form=.form, field="password", type="password", value=.form.Password) }}
+                {{ end }}
+            {{ end }}
+                
+            <div class="text-right text-muted">
+                <a href="{{ siteURL }}/forgot-password">Forgot password?</a>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        {{ end }}
+
+    </div>
+</div>
+{{ end }}

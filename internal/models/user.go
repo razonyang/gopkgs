@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"database/sql"
+	"encoding/gob"
 	"fmt"
 	"strconv"
 	"strings"
@@ -12,6 +13,10 @@ import (
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
 )
+
+func init() {
+	gob.Register(&User{})
+}
 
 type User struct {
 	Model
@@ -38,12 +43,20 @@ func NewUser(username, email, password string) (*User, error) {
 	return user, nil
 }
 
+func FindUserByUsername(ctx context.Context, db *sqlx.DB, dest interface{}, username string) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE username = ?", username)
+}
+
 func FindUserByEmail(ctx context.Context, db *sqlx.DB, dest interface{}, email string) error {
 	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE email = ?", email)
 }
 
 func FindUserByVerificationToken(ctx context.Context, db *sqlx.DB, dest interface{}, token string) error {
 	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE verification_token = ?", token)
+}
+
+func (u *User) GetID() string {
+	return strconv.FormatInt(u.ID, 10)
 }
 
 func (u *User) Insert(ctx context.Context, db *sqlx.DB) error {
@@ -79,6 +92,10 @@ func (u *User) IsVerificationExpired() bool {
 	}
 
 	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
+}
+
+func (u *User) ValidatePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(password))
 }
 
 func GenerateVerificationToken() sql.NullString {

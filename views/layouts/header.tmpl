@@ -16,10 +16,10 @@
           {{ if user }}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-              <img src="{{ user.Picture }}" width="20" height="20" class="d-inline-block align-top avatar-user" alt="" loading="lazy">
+              {{ user.Username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <span class="dropdown-item-text">Signed in as <strong>{{ user.Nickname }}</strong></span>
+              <span class="dropdown-item-text">Signed in as <strong>{{ user.Email }}</strong></span>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <a class="dropdown-item" href="{{ siteURL }}/dashboard">

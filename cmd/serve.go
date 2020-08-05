@@ -157,7 +157,7 @@ func provideSessionManager() *scs.SessionManager {
 }
 
 func provideLogger() (log.Logger, error) {
-	cfg := zap.NewProductionConfig()
+	cfg := zap.NewDevelopmentConfig()
 	cfg.OutputPaths = append(cfg.OutputPaths, osenv.Get("LOG_FILE", "/var/log/gopkgs.log"))
 	logger, err := cfg.Build()
 	if err != nil {

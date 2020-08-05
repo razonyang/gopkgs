@@ -22,7 +22,7 @@ require (
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/alexedwards/scs/redisstore v0.0.0-20200528164450-40c2a5f7eae8
 	github.com/alexedwards/scs/v2 v2.3.1
-	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/dgraph-io/ristretto v0.0.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
