@@ -19,7 +19,6 @@ The rest of sections introduces how to host on your own server.
 
 - MySQL/MariaDB.
 - Redis.
-- [Auth0](https://auth0.com/) Application.
 
 ## Configuration
 
