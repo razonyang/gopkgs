@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -49,11 +50,21 @@ WHERE package_id = ?
 		return err
 	}
 
-	badge := shields.New("downloads", fmt.Sprintf("%d/%s", count, interval))
+	badge := shields.New("downloads", fmt.Sprintf("%s/%s", formatCount(count), interval))
 	badge.Color = shields.ColorBrightGreen
 	if err := badge.ParseRequest(c.Request); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, badge)
+}
+
+func formatCount(count int64) string {
+	if count >= 1000000 {
+		return fmt.Sprintf("%.1fm", float64(count)/1000000)
+	}
+	if count >= 1000 {
+		return fmt.Sprintf("%.1fk", float64(count)/1000)
+	}
+	return strconv.FormatInt(count, 10)
 }
