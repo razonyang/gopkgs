@@ -6,6 +6,7 @@ import (
 	"clevergo.tech/authmiddleware"
 	"github.com/RichardKnop/machinery/v2"
 	"github.com/alexedwards/scs/v2"
+	"github.com/dgraph-io/ristretto"
 	"github.com/jmoiron/sqlx"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web/alert"
@@ -15,13 +16,15 @@ type Handler struct {
 	DB             *sqlx.DB
 	SessionManager *scs.SessionManager
 	Queue          *machinery.Server
+	Cache          *ristretto.Cache
 }
 
-func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager, queue *machinery.Server) Handler {
+func NewHandler(db *sqlx.DB, sessionManager *scs.SessionManager, queue *machinery.Server, cache *ristretto.Cache) Handler {
 	return Handler{
 		DB:             db,
 		SessionManager: sessionManager,
 		Queue:          queue,
+		Cache:          cache,
 	}
 }
 

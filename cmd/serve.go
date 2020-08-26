@@ -86,7 +86,7 @@ var serveCmd = &cli.Command{
 
 		pprof.RegisterHandler(app)
 
-		basicHandler := core.NewHandler(db, sessionManager, queue)
+		basicHandler := core.NewHandler(db, sessionManager, queue, cache)
 		handlers := []web.Handler{
 			&home.Handler{basicHandler},
 			&dashboard.Handler{basicHandler},
