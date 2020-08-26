@@ -1,6 +1,8 @@
 package trending
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -9,25 +11,53 @@ import (
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
-type Packages struct {
+type Package struct {
 	models.Package
 	Downloads int64 `json:"downloads" db:"downloads"`
 }
 
 func (h *Handler) index(c *clevergo.Context) error {
-	limit := 20
-	packages := make([]Packages, 0, limit)
-	fromDate := time.Now()
-
 	interval := c.DefaultQuery("interval", "month")
+	ctx := c.Context()
+
+	packages, err := h.getPackages(ctx, interval)
+	if err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "trending/index.tmpl", clevergo.Map{
+		"page":     web.NewPage("Trending"),
+		"interval": interval,
+		"intervals": []Interval{
+			{"Today", "day"},
+			{"Last 7 days", "week"},
+			{"Last 30 days", "month"},
+		},
+		"packages": packages,
+	})
+}
+
+func (h *Handler) getPackages(ctx context.Context, interval string) ([]Package, error) {
+	fromDate := time.Now()
 	switch interval {
 	case "day":
 	case "week":
 		fromDate = fromDate.AddDate(0, 0, -6)
-	default:
+	case "month":
 		fromDate = fromDate.AddDate(0, 0, -29)
+	default:
+		return nil, fmt.Errorf("invalid interval parameter")
 	}
 
+	key := fmt.Sprintf("trending:%s", interval)
+	if v, found := h.Cache.Get(key); found {
+		if pkgs, ok := v.([]Package); ok {
+			return pkgs, nil
+		}
+	}
+
+	limit := 20
+	packages := make([]Package, 0, limit)
 	query := `
 SELECT
 	packages.*,
@@ -47,21 +77,12 @@ WHERE packages.private = 0
 ORDER BY actions.downloads DESC, domains.name ASC, packages.path ASC
 LIMIT ?
 `
-	ctx := c.Context()
 	if err := h.DB.SelectContext(ctx, &packages, query, fromDate.Format("2006-01-02"), limit); err != nil {
-		return err
+		return nil, err
 	}
 
-	return c.Render(http.StatusOK, "trending/index.tmpl", clevergo.Map{
-		"page":     web.NewPage("Trending"),
-		"interval": interval,
-		"intervals": []Interval{
-			{"Today", "day"},
-			{"Last 7 days", "week"},
-			{"Last 30 days", "month"},
-		},
-		"packages": packages,
-	})
+	h.Cache.SetWithTTL(key, packages, 0, 5*time.Minute)
+	return packages, nil
 }
 
 type Interval struct {
