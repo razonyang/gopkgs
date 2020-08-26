@@ -5,13 +5,13 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/shields"
 	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/stringhelper"
 )
 
 func (h *Handler) download(c *clevergo.Context) error {
@@ -36,7 +36,7 @@ func (h *Handler) download(c *clevergo.Context) error {
 		return err
 	}
 
-	badge := shields.New("downloads", fmt.Sprintf("%s/%s", formatCount(count), interval))
+	badge := shields.New("downloads", fmt.Sprintf("%s/%s", stringhelper.ShortScale(count), interval))
 	badge.Color = shields.ColorBrightGreen
 	if err := badge.ParseRequest(c.Request); err != nil {
 		return err
@@ -79,14 +79,4 @@ WHERE package_id = ?
 	h.Cache.SetWithTTL(key, count, 0, 5*time.Minute)
 
 	return count, err
-}
-
-func formatCount(count int64) string {
-	if count >= 1000000 {
-		return fmt.Sprintf("%.1fm", float64(count)/1000000)
-	}
-	if count >= 1000 {
-		return fmt.Sprintf("%.1fk", float64(count)/1000)
-	}
-	return strconv.FormatInt(count, 10)
 }
