@@ -22,12 +22,36 @@ func (h *Handler) index(c *clevergo.Context) error {
 	if err != nil {
 		return err
 	}
+	totalDownloads, err := h.getTotalDownloads(ctx)
+	if err != nil {
+		return err
+	}
 
 	return c.Render(http.StatusOK, "home/index.tmpl", clevergo.Map{
-		"domains":   domains,
-		"packages":  packages,
-		"downloads": downloads,
+		"domains":        domains,
+		"packages":       packages,
+		"downloads":      downloads,
+		"totalDownloads": totalDownloads,
 	})
+}
+
+func (h *Handler) getTotalDownloads(ctx context.Context) (count int64, err error) {
+	v, found := h.Cache.Get("index:downloads:total")
+	if found {
+		var ok bool
+		count, ok = v.(int64)
+		if ok {
+			return
+		}
+	}
+	err = models.CountActionsByKind(ctx, h.DB, &count, models.ActionGoGet)
+	if err != nil {
+		return
+	}
+
+	h.Cache.SetWithTTL("index:downloads:total", count, 0, 5*time.Minute)
+
+	return
 }
 
 func (h *Handler) getDownloads(ctx context.Context) (count int64, err error) {

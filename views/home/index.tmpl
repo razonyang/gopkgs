@@ -8,7 +8,7 @@
     <p class="lead text-center">Custom your Go package import paths.</p>
     <hr class="my-4">
     <div class="row mb-5">
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
@@ -28,13 +28,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
             <div class="card text-white bg-info mb-3">
                 <div class="card-body">
                     <h1 class="card-title">
                         <i class="fas fa-fw fa-download"></i> {{ .downloads }}
                     </h1>
                     <p class="card-text">Serving <b>go get</b> requests per month</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <i class="fas fa-fw fa-download"></i> {{ .totalDownloads }}
+                    </h1>
+                    <p class="card-text">Serving <b>go get</b> requests since 2020-07-24</p>
                 </div>
             </div>
         </div>
