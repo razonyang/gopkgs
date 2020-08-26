@@ -49,6 +49,8 @@ var serveCmd = &cli.Command{
 	Name:  "serve",
 	Usage: "start a HTTP server",
 	Action: func(c *cli.Context) error {
+		db.DB.SetMaxIdleConns(10)
+		db.DB.SetMaxOpenConns(100)
 		startCrond()
 
 		logger, err := provideLogger()
