@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -15,16 +16,6 @@ import (
 
 func (h *Handler) download(c *clevergo.Context) error {
 	interval := c.Params.String("interval")
-	fromDate := time.Now()
-	switch interval {
-	case "day":
-	case "week":
-		fromDate = fromDate.AddDate(0, 0, -6)
-	case "month":
-		fromDate = fromDate.AddDate(0, 0, -29)
-	default:
-		return fmt.Errorf("invalid interval parameter")
-	}
 
 	path := strings.Split(strings.TrimPrefix(c.Params.String("path"), "/"), "/")
 	if len(path) < 2 {
@@ -40,13 +31,8 @@ func (h *Handler) download(c *clevergo.Context) error {
 		return err
 	}
 
-	query := `
-SELECT COUNT(1) FROM actions
-WHERE package_id = ? 
-	AND created_at >= ?
-`
-	var count int64
-	if err := h.DB.GetContext(ctx, &count, query, pkg.ID, fromDate.Format("2006-01-02")); err != nil {
+	count, err := h.getDownloads(ctx, interval, pkg.ID)
+	if err != nil {
 		return err
 	}
 
@@ -57,6 +43,42 @@ WHERE package_id = ?
 	}
 
 	return c.JSON(http.StatusOK, badge)
+}
+
+func (h *Handler) getDownloads(ctx context.Context, interval string, id int64) (int64, error) {
+	fromDate := time.Now()
+	switch interval {
+	case "day":
+	case "week":
+		fromDate = fromDate.AddDate(0, 0, -6)
+	case "month":
+		fromDate = fromDate.AddDate(0, 0, -29)
+	default:
+		return 0, fmt.Errorf("invalid interval parameter")
+	}
+
+	key := fmt.Sprintf("badge:downloads:%s:%d", interval, id)
+	v, found := h.Cache.Get(key)
+	if found {
+		if count, ok := v.(int64); ok {
+			return count, nil
+		}
+	}
+
+	query := `
+SELECT COUNT(1) FROM actions
+WHERE package_id = ? 
+	AND created_at >= ?
+`
+	var count int64
+	err := h.DB.GetContext(ctx, &count, query, id, fromDate.Format("2006-01-02"))
+	if err != nil {
+		return 0, err
+	}
+
+	h.Cache.SetWithTTL(key, count, 0, 5*time.Minute)
+
+	return count, err
 }
 
 func formatCount(count int64) string {
