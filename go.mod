@@ -12,7 +12,7 @@ require (
 	clevergo.tech/jetrenderer v0.3.0
 	clevergo.tech/jsend v1.1.1
 	clevergo.tech/log v0.3.0
-	clevergo.tech/osenv v0.2.0
+	clevergo.tech/osenv v0.3.0
 	clevergo.tech/pagination v0.3.0
 	clevergo.tech/pprof v0.1.0
 	clevergo.tech/shields v0.2.1
