@@ -75,22 +75,24 @@ func (gg *goGet) middleware(next clevergo.Handle) clevergo.Handle {
 			return err
 		}
 
-		go func() {
-			_, err := gg.queue.SendTaskWithContext(context.Background(), &tasks.Signature{
-				UUID: uuid.New().String(),
-				Name: "package.action",
-				Args: []tasks.Arg{
-					{Name: "kind", Type: "string", Value: models.ActionGoGet},
-					{Name: "packageID", Type: "int64", Value: pkg.ID},
-					{Name: "createdAt", Type: "int64", Value: time.Now().Unix()},
-				},
-				RetryCount: 3,
-			})
+		if c.QueryParam("preview") == "" {
+			go func() {
+				_, err := gg.queue.SendTaskWithContext(context.Background(), &tasks.Signature{
+					UUID: uuid.New().String(),
+					Name: "package.action",
+					Args: []tasks.Arg{
+						{Name: "kind", Type: "string", Value: models.ActionGoGet},
+						{Name: "packageID", Type: "int64", Value: pkg.ID},
+						{Name: "createdAt", Type: "int64", Value: time.Now().Unix()},
+					},
+					RetryCount: 3,
+				})
 
-			if err != nil {
-				c.Logger().Errorf("failed to enqueue a task: %s", err.Error())
-			}
-		}()
+				if err != nil {
+					c.Logger().Errorf("failed to enqueue a task: %s", err.Error())
+				}
+			}()
+		}
 
 		return c.Render(http.StatusOK, "package/view.tmpl", clevergo.Map{
 			"page": web.NewPage(pkg.Prefix()),

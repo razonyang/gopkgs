@@ -26,9 +26,12 @@
         {{ range .packages }}
         <div class="card mb-3 col-12">
             <div class="card-header bg-transparent">
-                <i class="fas fa-fw fa-cube"></i> <span class="font-weight-bold">{{ .Prefix() }}</span> 
-                <span class="badge badge-success">
-                    <i class="fas fa-fw fa-download"></i> {{ .Downloads }}
+                <i class="fas fa-fw fa-cube"></i> 
+                <a class="text-dark" href="http://{{ .Prefix() }}?go-get=1&preview=1" target="_blank">
+                    <span class="font-weight-bold">{{ .Prefix() }}</span>
+                </a>
+                <span class="badge badge-secondary">
+                    <i class="fas fa-fw fa-download"></i> {{ .Downloads | shortScale }}
                 </span>
             </div>
             <div class="card-body">
