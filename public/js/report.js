@@ -81,7 +81,8 @@ function loadInfo() {
                 label: "go-get",
                 // lineTension: 0,
                 data: dataset,
-                fill: false,
+                // fill: false,
+                backgroundColor: 'rgba(0, 113, 206, 0.75)',
                 borderColor: 'rgb(87, 146, 221)',
             }
         ]; 
