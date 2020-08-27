@@ -10,7 +10,7 @@
     <div class="col-sm-12 col-md-3">
         <div class="card text-white bg-{{ .Background }} mb-3">
             <div class="card-body">
-                <h1 class="card-title"><i class="fas fa-fw fa-{{ .Icon }}"></i> {{ .Count }}</h1>
+                <h1 class="card-title"><i class="fas fa-fw fa-{{ .Icon }}"></i> {{ .Count | shortScale }}</h1>
                 <p class="card-text">{{ .Title }}</p>
             </div>
             <div class="card-footer text-center">
