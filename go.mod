@@ -10,6 +10,7 @@ require (
 	clevergo.tech/form v0.1.0
 	clevergo.tech/jetpackr v0.3.0
 	clevergo.tech/jetrenderer v0.3.0
+	clevergo.tech/jetsprig v0.0.3
 	clevergo.tech/jsend v1.1.1
 	clevergo.tech/log v0.3.0
 	clevergo.tech/osenv v0.3.0

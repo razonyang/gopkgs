@@ -5,7 +5,6 @@ import (
 	"io"
 	"reflect"
 	"strconv"
-	"strings"
 	"time"
 
 	"clevergo.tech/authmiddleware"
@@ -13,6 +12,7 @@ import (
 	"clevergo.tech/form"
 	"clevergo.tech/jetpackr"
 	"clevergo.tech/jetrenderer"
+	"clevergo.tech/jetsprig"
 	"clevergo.tech/log"
 	"clevergo.tech/osenv"
 	"clevergo.tech/pprof"
@@ -117,26 +117,18 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 		args.RequireNumOfArguments("shortScale", 1, 1)
 		return reflect.ValueOf(stringhelper.ShortScale(args.Get(0).Int()))
 	})
+	set.AddGlobal("siteURL", osenv.MustGet("APP_URL"))
+	jetsprig.GenericFuncMap().AttachTo(set)
 	renderer := jetrenderer.New(set)
 	renderer.SetBeforeRender(func(w io.Writer, name string, vars jet.VarMap, data interface{}, c *clevergo.Context) error {
 		ctx := c.Context()
 		vars.Set("user", authmiddleware.GetIdentity(ctx))
 		vars.Set("csrf", nosurf.Token(c.Request))
 		vars.Set("alert", sessionManager.Pop(ctx, "alert"))
-		schema := "http://"
-		if c.Request.TLS != nil {
-			schema = "https://"
-		}
-		vars.Set("siteURL", schema+osenv.MustGet("APP_HOST"))
 		vars.SetFunc("date", func(args jet.Arguments) reflect.Value {
 			args.RequireNumOfArguments("date", 1, 1)
 			date := args.Get(0).Interface().(time.Time)
 			return reflect.ValueOf(date.Format(osenv.Get("DATE_FORMAT", "2006-01-02 15:04:05")))
-		})
-		vars.SetFunc("title", func(args jet.Arguments) reflect.Value {
-			args.RequireNumOfArguments("title", 1, 1)
-			s := args.Get(0).Interface().(string)
-			return reflect.ValueOf(strings.Title(s))
 		})
 		return nil
 	})
