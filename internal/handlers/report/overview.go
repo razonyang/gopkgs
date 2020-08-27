@@ -8,6 +8,7 @@ import (
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
 	"pkg.razonyang.com/gopkgs/internal/models"
+	"pkg.razonyang.com/gopkgs/internal/stringhelper"
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
 
@@ -18,16 +19,14 @@ func (h *Handler) overview(c *clevergo.Context) error {
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.Format("2006-01-02")), "today")).
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -1).Format("2006-01-02")), "yesterday")).
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)>=?, 1, 0)), 0)", now.AddDate(0, 0, -6).Format("2006-01-02")), "last_seven_days")).
-		Column(squirrel.Alias(squirrel.Expr("COUNT(1)"), "last_thirty_days")).
+		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)>=?, 1, 0)), 0)", now.AddDate(0, 0, -29).Format("2006-01-02")), "last_thirty_days")).
+		Column(squirrel.Alias(squirrel.Expr("COUNT(1)"), "total")).
 		From("actions").
 		LeftJoin("packages ON packages.id = actions.package_id").
 		LeftJoin("domains ON domains.id = packages.domain_id").
 		Where(squirrel.Eq{
 			"actions.kind":    models.ActionGoGet,
 			"domains.user_id": h.UserID(ctx),
-		}).
-		Where(squirrel.GtOrEq{
-			"actions.created_at": now.AddDate(0, 0, -29).Format("2006-01-02"),
 		})
 
 	var queryParams QueryParams
@@ -54,7 +53,13 @@ func (h *Handler) overview(c *clevergo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, jsend.New(overview))
+	return c.JSON(http.StatusOK, jsend.New(clevergo.Map{
+		"today":            stringhelper.ShortScale(overview.Today),
+		"yesterday":        stringhelper.ShortScale(overview.Yesterday),
+		"last_seven_days":  stringhelper.ShortScale(overview.LastSevenDays),
+		"last_thirty_days": stringhelper.ShortScale(overview.LastThirtyDays),
+		"total":            stringhelper.ShortScale(overview.Total),
+	}))
 }
 
 type Overview struct {
@@ -62,4 +67,5 @@ type Overview struct {
 	Yesterday      int64 `db:"yesterday" json:"yesterday"`
 	LastSevenDays  int64 `db:"last_seven_days" json:"last_seven_days"`
 	LastThirtyDays int64 `db:"last_thirty_days" json:"last_thirty_days"`
+	Total          int64 `db:"total" json:"total"`
 }

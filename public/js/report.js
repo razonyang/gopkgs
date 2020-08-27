@@ -56,11 +56,13 @@ function loadOverview() {
     $('#overviewYesterday').html(loading);
     $('#overviewLastSevenDays').html(loading);
     $('#overviewLastThirtyDays').html(loading);
+    $('#overviewTotal').html(loading);
     $.get("/report/overview", $('#reportFilterForm').serialize(), function(resp) {
         $('#overviewToday').text(resp.data.today);
         $('#overviewYesterday').text(resp.data.yesterday);
         $('#overviewLastSevenDays').text(resp.data.last_seven_days);
         $('#overviewLastThirtyDays').text(resp.data.last_thirty_days);
+        $('#overviewTotal').text(resp.data.total);
     }, 'json');
 }
 
