@@ -36,7 +36,14 @@ func (h *Handler) download(c *clevergo.Context) error {
 		return err
 	}
 
-	badge := shields.New("downloads", fmt.Sprintf("%s/%s", stringhelper.ShortScale(count), interval))
+	var downloads string
+	if interval == "total" {
+		downloads = stringhelper.ShortScale(count)
+	} else {
+		downloads = fmt.Sprintf("%s/%s", stringhelper.ShortScale(count), interval)
+	}
+
+	badge := shields.New("downloads", downloads)
 	badge.Color = shields.ColorBrightGreen
 	if err := badge.ParseRequest(c.Request); err != nil {
 		return err
@@ -53,6 +60,8 @@ func (h *Handler) getDownloads(ctx context.Context, interval string, id int64) (
 		fromDate = fromDate.AddDate(0, 0, -6)
 	case "month":
 		fromDate = fromDate.AddDate(0, 0, -29)
+	case "total":
+		fromDate = time.Time{}
 	default:
 		return 0, fmt.Errorf("invalid interval parameter")
 	}
