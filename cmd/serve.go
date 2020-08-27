@@ -36,6 +36,7 @@ import (
 	"pkg.razonyang.com/gopkgs/internal/handlers/trending"
 	"pkg.razonyang.com/gopkgs/internal/handlers/user"
 	"pkg.razonyang.com/gopkgs/internal/middleware"
+	"pkg.razonyang.com/gopkgs/internal/stringhelper"
 	"pkg.razonyang.com/gopkgs/internal/web"
 
 	_ "github.com/doug-martin/goqu/v9/dialect/mysql"
@@ -112,6 +113,10 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 	box := packr.New("views", "../views")
 	set := jet.NewHTMLSetLoader(jetpackr.New(box))
 	set.SetDevelopmentMode(core.IsDevelopMode())
+	set.AddGlobalFunc("shortScale", func(args jet.Arguments) reflect.Value {
+		args.RequireNumOfArguments("shortScale", 1, 1)
+		return reflect.ValueOf(stringhelper.ShortScale(args.Get(0).Int()))
+	})
 	renderer := jetrenderer.New(set)
 	renderer.SetBeforeRender(func(w io.Writer, name string, vars jet.VarMap, data interface{}, c *clevergo.Context) error {
 		ctx := c.Context()

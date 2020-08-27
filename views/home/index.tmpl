@@ -7,46 +7,40 @@
     </h1>
     <p class="lead text-center">Custom your Go package import paths.</p>
     <hr class="my-4">
-    <div class="row mb-5">
-        <div class="col-md-3 col-sm-12">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        <i class="fas fa-fw fa-globe"></i> {{ .domains }}
-                    </h1>
-                    <p class="card-text">Domains</p>
-                </div>
+    <div  id="carousel" class="carousel slide pointer-event mb-5" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel" data-slide-to="1" class=""></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100 bg-dark" width="800" height="180"
+             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+             focusable="false" role="img">
+            </svg>
+            <div class="carousel-caption d-md-block">
+                <h3><i class="fas fa-fw fa-download"></i> Downloads</h3>
+                <p>
+                    Serving go-get <span class="text-warning font-weight-bold">{{ .downloads | shortScale }}</span> requests per month, 
+                    <span class="text-warning font-weight-bold">{{ .totalDownloads | shortScale }}</span> requests since 2020-07-23.
+                </p>
             </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        <i class="fas fa-fw fa-cubes"></i> {{ .packages }}
-                    </h1>
-                    <p class="card-text">Packages</p>
-                </div>
+          </div>
+          <div class="carousel-item">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100 bg-dark" width="800" height="180"
+             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+             focusable="false" role="img">
+            </svg>
+            <div class="carousel-caption d-md-block">
+              <h3>
+                <i class="fas fa-fw fa-info-circle"></i> Information 
+              </h3>
+              <p>
+                <i class="fas fa-fw fa-globe"></i> <span class="text-warning font-weight-bold">{{ .domains }}</span> Domains 
+                <i class="fas fa-fw fa-cubes"></i> <span class="text-warning font-weight-bold">{{ .packages }}</span> Packages
+              </p>
             </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="card text-white bg-info mb-3">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        <i class="fas fa-fw fa-download"></i> {{ .downloads }}
-                    </h1>
-                    <p class="card-text">Serving <b>go get</b> requests per month</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="card text-white bg-secondary mb-3">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        <i class="fas fa-fw fa-download"></i> {{ .totalDownloads }}
-                    </h1>
-                    <p class="card-text">Serving <b>go get</b> requests since 2020-07-24</p>
-                </div>
-            </div>
+          </div>
         </div>
     </div>
     <div class="text-center">
