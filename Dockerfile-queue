@@ -15,7 +15,7 @@ RUN go mod download
 RUN go build -o dist/main
 
 
-FROM alpine
+FROM ubuntu
 
 WORKDIR /app
 
