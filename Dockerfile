@@ -17,7 +17,7 @@ RUN go build github.com/gobuffalo/packr/v2/packr2
 RUN ./packr2 build -o dist/main
 
 
-FROM scratch
+FROM alpine
 
 WORKDIR /app
 
