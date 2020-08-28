@@ -13,6 +13,7 @@ import (
 	"github.com/dgraph-io/ristretto"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/core"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
@@ -70,7 +71,7 @@ func (gg *goGet) middleware(next clevergo.Handle) clevergo.Handle {
 		}
 
 		ctx := c.Context()
-		pkg, err := gg.getPackage(ctx, c.Host(), c.Request.URL.Path[1:])
+		pkg, err := gg.getPackage(ctx, core.GetHost(c), c.Request.URL.Path[1:])
 		if err != nil {
 			return err
 		}

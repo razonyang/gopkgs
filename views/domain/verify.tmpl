@@ -73,7 +73,7 @@
 }
 
 location @gopkgsproxy {
-  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Host $host;
   proxy_pass https://{{ .host }};
 }</code></pre>
         </p>
