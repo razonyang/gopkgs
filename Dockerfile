@@ -17,7 +17,9 @@ RUN go build -o dist/main
 
 FROM scratch
 
-COPY --from=builder /src/dist/main /
+WORKDIR /app
+
+COPY --from=builder /src/dist/main /app/main
 
 # Command to run
-ENTRYPOINT ["/main", "serve"]
+ENTRYPOINT ["/app/main", "serve"]
