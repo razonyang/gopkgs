@@ -19,7 +19,7 @@ FROM scratch
 
 WORKDIR /app
 
-COPY --from=builder /src/dist/main /app/main
+COPY --from=builder /src/dist/main /main
 
 # Command to run
-ENTRYPOINT ["/app/main", "serve"]
+ENTRYPOINT ["/main", "serve"]
