@@ -19,9 +19,6 @@ RUN ./packr2 build -o dist/main
 
 FROM ubuntu
 
-ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 WORKDIR /app
 
 COPY --from=builder /src/dist/main /app/main
