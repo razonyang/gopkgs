@@ -60,9 +60,7 @@ var serveCmd = &cli.Command{
 		}
 		app := clevergo.Pure()
 		app.Logger = logger
-		if core.IsDevelopMode() {
-			app.Use(clevergo.Logging(clevergo.LoggingLogger(logger)))
-		}
+		app.Use(clevergo.Logging(clevergo.LoggingLogger(logger)))
 
 		cache := provideCache()
 
