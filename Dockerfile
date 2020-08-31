@@ -21,6 +21,7 @@ FROM ubuntu
 
 WORKDIR /app
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /src/dist/main /app/main
 
 # Command to run
