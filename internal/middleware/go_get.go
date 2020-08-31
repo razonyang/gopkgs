@@ -2,15 +2,19 @@ package middleware
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"clevergo.tech/clevergo"
 	"github.com/RichardKnop/machinery/v1/tasks"
 	"github.com/RichardKnop/machinery/v2"
 	"github.com/dgraph-io/ristretto"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"pkg.razonyang.com/gopkgs/internal/core"
@@ -66,17 +70,39 @@ func (gg *goGet) getPackageFromDB(ctx context.Context, host, path string) (*mode
 
 func (gg *goGet) middleware(next clevergo.Handle) clevergo.Handle {
 	return func(c *clevergo.Context) error {
-		if !c.IsGet() || c.QueryParam("go-get") != "1" {
+		if !c.IsGet() {
 			return next(c)
 		}
 
+		var host, path string
+		goGet := c.QueryParam("go-get") == "1"
+		if goGet {
+			host = core.GetHost(c)
+			path = c.Request.URL.Path[1:]
+		} else {
+			parts := strings.Split(c.Request.URL.Path, "/")
+			if len(parts) < 3 {
+				return next(c)
+			}
+			if err := validation.Validate(parts[1], validation.Required, is.Domain); err != nil {
+				fmt.Println(err)
+				return next(c)
+			}
+
+			host = parts[1]
+			path = strings.Join(parts[2:], "/")
+		}
+
 		ctx := c.Context()
-		pkg, err := gg.getPackage(ctx, core.GetHost(c), c.Request.URL.Path[1:])
+		pkg, err := gg.getPackage(ctx, host, path)
 		if err != nil {
+			if err == sql.ErrNoRows {
+				return c.NotFound()
+			}
 			return err
 		}
 
-		if c.QueryParam("preview") == "" {
+		if goGet {
 			go func() {
 				_, err := gg.queue.SendTaskWithContext(context.Background(), &tasks.Signature{
 					UUID: uuid.New().String(),
