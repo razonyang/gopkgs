@@ -85,7 +85,6 @@ func (gg *goGet) middleware(next clevergo.Handle) clevergo.Handle {
 				return next(c)
 			}
 			if err := validation.Validate(parts[1], validation.Required, is.Domain); err != nil {
-				fmt.Println(err)
 				return next(c)
 			}
 
