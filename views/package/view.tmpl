@@ -16,13 +16,13 @@
           <h1 class="border-bottom mb-3 text-break">
             <i class="fas fa-cube"></i> <span>{{ .pkg.Prefix() }}</span>
           </h1>
-          {{ if .pkg.Description }}
           <p>
             <img src="{{ siteURL }}/badges/downloads/day/{{ .pkg.Prefix() }}" />
             <img src="{{ siteURL }}/badges/downloads/week/{{ .pkg.Prefix() }}" />
             <img src="{{ siteURL }}/badges/downloads/month/{{ .pkg.Prefix() }}" />
             <img src="{{ siteURL }}/badges/downloads/total/{{ .pkg.Prefix() }}" />
           </p>
+          {{ if .pkg.Description }}
           <p>{{ .pkg.Description }}</p>
           {{ end }}
           <div class="table-responsive">
