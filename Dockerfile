@@ -22,7 +22,7 @@ FROM ubuntu
 WORKDIR /app
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /src/dist/main /app/main
+COPY --from=builder /src/dist/main /app/gopkgs
 
 # Command to run
-ENTRYPOINT ["/app/main", "serve"]
+ENTRYPOINT ["/app/gopkgs", "serve"]
