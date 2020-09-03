@@ -3,7 +3,6 @@ package cmd
 import (
 	"log"
 	"os"
-	"path"
 	"strconv"
 
 	"clevergo.tech/osenv"
@@ -25,8 +24,15 @@ var (
 		Version:              core.Version,
 		Name:                 "gopkgs",
 		Usage:                "Go Packages",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:    "config",
+				Aliases: []string{"c"},
+				Value:   "configs/prod",
+			},
+		},
 		Before: func(c *cli.Context) error {
-			if err := godotenv.Load(path.Join("configs", osenv.Get("APP_MODE", "prod"))); err != nil {
+			if err := godotenv.Load(c.String("config")); err != nil {
 				return err
 			}
 
