@@ -18,6 +18,6 @@ func NewPackage(db *sqlx.DB) *Package {
 
 func (pkg *Package) Action(kind string, packageID int64, createdAt int64) error {
 	action := models.NewAction(kind, packageID)
-	action.CreatedAt = time.Unix(createdAt, 0)
+	action.CreatedAt = time.Unix(createdAt, 0).UTC()
 	return action.Save(context.Background(), pkg.db)
 }
