@@ -20,13 +20,18 @@ type QueryParams struct {
 
 func (h *Handler) info(c *clevergo.Context) error {
 	ctx := c.Context()
+	user := h.User(ctx)
+	loc, err := time.LoadLocation(user.Timezone)
+	if err != nil {
+		return err
+	}
 
 	var queryParams QueryParams
 	if err := web.DecodeQueryParams(c, &queryParams); err != nil {
 		return err
 	}
 
-	fromDate := helper.CurrentUTC().AddDate(0, 0, -29).Format("2006-01-02")
+	fromDate := helper.CurrentUTC().In(loc).AddDate(0, 0, -29).Format("2006-01-02")
 	actionsQuery := squirrel.Select("DATE(actions.created_at) as date", "COUNT(1) as count").
 		From("actions").
 		LeftJoin("packages ON packages.id = actions.package_id").

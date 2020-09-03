@@ -22,4 +22,6 @@ func (h *Handler) Register(router clevergo.Router) {
 	router.Post("/forgot-password", h.forgotPassword)
 	router.Get("/reset-password", h.resetPassword)
 	router.Post("/reset-password", h.resetPassword)
+	router.Get("/settings", h.settings)
+	router.Post("/settings", h.settings)
 }

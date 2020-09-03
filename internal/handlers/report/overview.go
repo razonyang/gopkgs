@@ -2,6 +2,7 @@ package report
 
 import (
 	"net/http"
+	"time"
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
@@ -14,7 +15,12 @@ import (
 
 func (h *Handler) overview(c *clevergo.Context) error {
 	ctx := c.Context()
-	now := helper.CurrentUTC()
+	user := h.User(ctx)
+	loc, err := time.LoadLocation(user.Timezone)
+	if err != nil {
+		return err
+	}
+	now := helper.CurrentUTC().In(loc)
 	query := squirrel.Select().
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.Format("2006-01-02")), "today")).
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -1).Format("2006-01-02")), "yesterday")).
@@ -26,7 +32,7 @@ func (h *Handler) overview(c *clevergo.Context) error {
 		LeftJoin("domains ON domains.id = packages.domain_id").
 		Where(squirrel.Eq{
 			"actions.kind":    models.ActionGoGet,
-			"domains.user_id": h.UserID(ctx),
+			"domains.user_id": user.ID,
 		})
 
 	var queryParams QueryParams

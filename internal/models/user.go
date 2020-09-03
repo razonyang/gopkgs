@@ -27,6 +27,7 @@ type User struct {
 	VerificationToken  sql.NullString `db:"verification_token" json:"verification_token"`
 	HashedPassword     string         `db:"hashed_password" json:"hashed_password"`
 	PasswordResetToken sql.NullString `db:"password_reset_token" json:"password_reset_token"`
+	Timezone           string         `db:"timezone" json:"timezone"`
 }
 
 func NewUser(username, email, password string) (*User, error) {
@@ -43,6 +44,10 @@ func NewUser(username, email, password string) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func FindUser(ctx context.Context, db *sqlx.DB, dest interface{}, id int64) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE id = ?", id)
 }
 
 func FindUserByUsername(ctx context.Context, db *sqlx.DB, dest interface{}, username string) error {

@@ -9,7 +9,7 @@
         {{ .Root }} 
         <span class="badge badge-primary">{{ .VCS }}</span>
     </td>
-    <td class="text-nowrap">{{ .UpdatedAt | dateInZone: _, timezone | date }}</td>
+    <td class="text-nowrap">{{ .UpdatedAt | dateInZone: _, user.Timezone | date }}</td>
     <td class="text-nowrap">
     <a class="btn btn-sm btn-success text-white" role="button" href="/package/view/{{ .ID }}" target="_blank">
         <i class="fas fa-fw fa-eye"></i> View

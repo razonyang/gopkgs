@@ -1,0 +1,30 @@
+{{ extends "/layouts/dashboard.tmpl" }}
+{{ import "/widgets/page-header.tmpl" }}
+
+{{ block body() }}
+
+{{ yield pageHeader(title="Settings") }}
+
+<form class="needs-validation" method="POST" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf }}">
+    <div class="form-group">
+      <label for="path">Timezone</label>
+      <select class="form-control" name="timezone">
+          {{ range _, timezone := .timezones }}
+          <option{{ if timezone.Name == .form.Timezone }} selected{{ end }}>{{ timezone.Name }}</option>
+          {{ end }}
+      </select>
+      {{ hasErr := .form.HasError("timezone") }}
+      {{ if hasErr }}
+        <div id="timezoneFeedback" class="invalid-feedback">
+            {{ .form.GetError("timezone") }}
+        </div>
+      {{ end }}
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+{{ end }}

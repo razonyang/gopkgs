@@ -10,8 +10,8 @@
           <span class="badge badge-primary"><i class="fas fa-fw fa-cubes"></i>  {{ .PackageCount }}</span>
       </a>
     </td>
-    <td class="text-nowrap">{{ .CreatedAt | dateInZone: _, timezone | date }}</td>
-    <td class="text-nowrap">{{ .UpdatedAt | dateInZone: _, timezone | date }}</td>
+    <td class="text-nowrap">{{ .CreatedAt | dateInZone: _, user.Timezone | date }}</td>
+    <td class="text-nowrap">{{ .UpdatedAt | dateInZone: _, user.Timezone | date }}</td>
     <td class="text-nowrap">
       {{ if !.Verified }}
       <a class="btn btn-sm btn-warning text-white btn-verify" href="/domain/verify/{{ .ID }}">
