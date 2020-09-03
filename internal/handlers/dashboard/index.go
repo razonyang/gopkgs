@@ -22,7 +22,8 @@ func (h *Handler) Register(router clevergo.Router) {
 
 func (h *Handler) index(c *clevergo.Context) error {
 	ctx := c.Context()
-	userID := h.UserID(ctx)
+	user := h.User(ctx)
+	userID := user.ID
 	domainCard, err := h.getDomainCard(ctx, userID)
 	if err != nil {
 		return err
@@ -31,11 +32,15 @@ func (h *Handler) index(c *clevergo.Context) error {
 	if err != nil {
 		return err
 	}
-	dailyReportCard, err := h.getDailyReportCard(ctx, userID)
+	loc, err := time.LoadLocation(user.Timezone)
 	if err != nil {
 		return err
 	}
-	monthlyReportCard, err := h.getMonthlyReportCard(ctx, userID)
+	dailyReportCard, err := h.getDailyReportCard(ctx, userID, loc)
+	if err != nil {
+		return err
+	}
+	monthlyReportCard, err := h.getMonthlyReportCard(ctx, userID, loc)
 	if err != nil {
 		return err
 	}
@@ -63,14 +68,14 @@ func (h *Handler) getPackageCard(ctx context.Context, userID int64) (card Card, 
 	return
 }
 
-func (h *Handler) getDailyReportCard(ctx context.Context, userID int64) (card Card, err error) {
+func (h *Handler) getDailyReportCard(ctx context.Context, userID int64, loc *time.Location) (card Card, err error) {
 	card = NewCard("Daily Report", "download", "secondary", "/report")
-	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC())
+	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC().In(loc))
 }
 
-func (h *Handler) getMonthlyReportCard(ctx context.Context, userID int64) (card Card, err error) {
+func (h *Handler) getMonthlyReportCard(ctx context.Context, userID int64, loc *time.Location) (card Card, err error) {
 	card = NewCard("Monthly Report", "download", "info", "/report")
-	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC().AddDate(0, 0, -29))
+	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC().In(loc).AddDate(0, 0, -29))
 }
 
 func (h *Handler) getReport(ctx context.Context, count *int64, userID int64, fromDate time.Time) error {
