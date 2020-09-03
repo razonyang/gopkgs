@@ -2,11 +2,11 @@ package report
 
 import (
 	"net/http"
-	"time"
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/stringhelper"
 	"pkg.razonyang.com/gopkgs/internal/web"
@@ -14,7 +14,7 @@ import (
 
 func (h *Handler) overview(c *clevergo.Context) error {
 	ctx := c.Context()
-	now := time.Now()
+	now := helper.CurrentUTC()
 	query := squirrel.Select().
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.Format("2006-01-02")), "today")).
 		Column(squirrel.Alias(squirrel.Expr("IFNULL(SUM(IF(DATE(actions.created_at)=?, 1, 0)), 0)", now.AddDate(0, 0, -1).Format("2006-01-02")), "yesterday")).

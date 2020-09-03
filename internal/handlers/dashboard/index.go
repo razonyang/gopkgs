@@ -7,6 +7,7 @@ import (
 
 	"clevergo.tech/clevergo"
 	"pkg.razonyang.com/gopkgs/internal/core"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
@@ -64,12 +65,12 @@ func (h *Handler) getPackageCard(ctx context.Context, userID int64) (card Card, 
 
 func (h *Handler) getDailyReportCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("Daily Report", "download", "secondary", "/report")
-	return card, h.getReport(ctx, &card.Count, userID, time.Now())
+	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC())
 }
 
 func (h *Handler) getMonthlyReportCard(ctx context.Context, userID int64) (card Card, err error) {
 	card = NewCard("Monthly Report", "download", "info", "/report")
-	return card, h.getReport(ctx, &card.Count, userID, time.Now().AddDate(0, 0, -29))
+	return card, h.getReport(ctx, &card.Count, userID, helper.CurrentUTC().AddDate(0, 0, -29))
 }
 
 func (h *Handler) getReport(ctx context.Context, count *int64, userID int64, fromDate time.Time) error {

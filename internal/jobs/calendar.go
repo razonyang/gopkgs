@@ -3,9 +3,9 @@ package jobs
 import (
 	"log"
 	"strings"
-	"time"
 
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 )
 
 type Calendar struct {
@@ -22,7 +22,7 @@ func (c *Calendar) Run() {
 	query := "INSERT IGNORE INTO calendars(id) VALUES "
 	query = strings.TrimSuffix(query+strings.Repeat("(?),", 30), ",")
 	args := make([]interface{}, 30)
-	now := time.Now().AddDate(0, 0, -29)
+	now := helper.CurrentUTC().AddDate(0, 0, -29)
 	for i := 0; i < 30; i++ {
 		args[i] = now.AddDate(0, 0, i)
 	}

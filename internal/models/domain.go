@@ -13,6 +13,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 )
 
 type Domain struct {
@@ -30,7 +31,7 @@ func NewDomain(name string, userID int64) *Domain {
 		ChallengeTXT: strings.ReplaceAll(uuid.New().String(), "-", ""),
 	}
 
-	now := time.Now()
+	now := helper.CurrentUTC()
 	domain.CreatedAt = now
 	domain.UpdatedAt = now
 	return domain
@@ -106,7 +107,7 @@ func (d *Domain) Insert(ctx context.Context, db *sqlx.DB) error {
 }
 
 func (d *Domain) Update(ctx context.Context, db *sqlx.DB) error {
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = helper.CurrentUTC()
 	query := "UPDATE domains SET name = ?, verified = ?, challenge_txt = ?, updated_at = ? WHERE id = ?"
 	_, err := db.ExecContext(ctx, query, d.Name, d.Verified, d.ChallengeTXT, d.UpdatedAt, d.ID)
 	if err != nil {

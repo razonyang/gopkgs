@@ -3,9 +3,9 @@ package models
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 )
 
 // Version control system constants.
@@ -46,7 +46,7 @@ func NewPackage(domainID int64, path, vcs, root string) *Package {
 
 // Insert saves package into database.
 func (pkg *Package) Insert(ctx context.Context, db *sqlx.DB) error {
-	now := time.Now()
+	now := helper.CurrentUTC()
 	pkg.CreatedAt = now
 	pkg.UpdatedAt = now
 	query := `
@@ -65,7 +65,7 @@ VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 }
 
 func (pkg *Package) Update(ctx context.Context, db *sqlx.DB) error {
-	pkg.UpdatedAt = time.Now()
+	pkg.UpdatedAt = helper.CurrentUTC()
 	query := "UPDATE packages SET domain_id = ?, private = ?, path = ?, vcs = ?, root = ?, docs = ?, description = ?, homepage = ?, license = ?, updated_at = ? WHERE id = ?"
 	_, err := db.ExecContext(ctx, query, pkg.DomainID, pkg.Private, pkg.Path, pkg.VCS, pkg.Root, pkg.Docs, pkg.Description, pkg.Homepage, pkg.License, pkg.UpdatedAt, pkg.ID)
 	if err != nil {

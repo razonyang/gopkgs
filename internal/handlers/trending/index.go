@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"clevergo.tech/clevergo"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
@@ -38,7 +39,7 @@ func (h *Handler) index(c *clevergo.Context) error {
 }
 
 func (h *Handler) getPackages(ctx context.Context, interval string) ([]Package, error) {
-	fromDate := time.Now()
+	fromDate := helper.CurrentUTC()
 	switch interval {
 	case "day":
 	case "week":

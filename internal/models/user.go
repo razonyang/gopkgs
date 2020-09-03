@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 )
 
 func init() {
@@ -74,7 +75,7 @@ func (u *User) SetPassword(ctx context.Context, db *sqlx.DB, password string) (e
 }
 
 func (u *User) Insert(ctx context.Context, db *sqlx.DB) error {
-	u.CreatedAt = time.Now()
+	u.CreatedAt = helper.CurrentUTC()
 	u.UpdatedAt = u.CreatedAt
 	query := `
 INSERT INTO users(username, email, email_verified, verification_token, hashed_password, created_at, updated_at) VALUES
@@ -135,7 +136,7 @@ func isUniqueTokenExpired(token sql.NullString) bool {
 		return true
 	}
 
-	return time.Now().Add(-10*time.Minute).Unix() > expiredAt
+	return helper.CurrentUTC().Add(-10*time.Minute).Unix() > expiredAt
 }
 
 func generatePassword(password string) (string, error) {

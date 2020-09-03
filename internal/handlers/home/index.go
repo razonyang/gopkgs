@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"clevergo.tech/clevergo"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
@@ -63,7 +64,7 @@ func (h *Handler) getDownloads(ctx context.Context) (count int64, err error) {
 			return
 		}
 	}
-	err = models.CountActionsByKindAndDate(ctx, h.DB, &count, models.ActionGoGet, time.Now().AddDate(0, 0, -29))
+	err = models.CountActionsByKindAndDate(ctx, h.DB, &count, models.ActionGoGet, helper.CurrentUTC().AddDate(0, 0, -29))
 	if err != nil {
 		return
 	}

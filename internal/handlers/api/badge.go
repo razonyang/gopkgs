@@ -10,6 +10,7 @@ import (
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/shields"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/stringhelper"
 )
@@ -53,7 +54,7 @@ func (h *Handler) download(c *clevergo.Context) error {
 }
 
 func (h *Handler) getDownloads(ctx context.Context, interval string, id int64) (int64, error) {
-	fromDate := time.Now()
+	fromDate := helper.CurrentUTC()
 	switch interval {
 	case "day":
 	case "week":

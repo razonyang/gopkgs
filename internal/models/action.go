@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 )
 
 const (
@@ -25,7 +26,7 @@ func NewAction(kind string, packageID int64) *Action {
 		ID:        strings.ReplaceAll(uuid.New().String(), "-", ""),
 		Kind:      kind,
 		PackageID: packageID,
-		CreatedAt: time.Now(),
+		CreatedAt: helper.CurrentUTC(),
 	}
 }
 

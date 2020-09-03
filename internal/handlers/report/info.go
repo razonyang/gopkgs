@@ -8,6 +8,7 @@ import (
 	"clevergo.tech/clevergo"
 	"clevergo.tech/jsend"
 	"github.com/Masterminds/squirrel"
+	"pkg.razonyang.com/gopkgs/internal/helper"
 	"pkg.razonyang.com/gopkgs/internal/models"
 	"pkg.razonyang.com/gopkgs/internal/web"
 )
@@ -25,7 +26,7 @@ func (h *Handler) info(c *clevergo.Context) error {
 		return err
 	}
 
-	fromDate := time.Now().AddDate(0, 0, -29).Format("2006-01-02")
+	fromDate := helper.CurrentUTC().AddDate(0, 0, -29).Format("2006-01-02")
 	actionsQuery := squirrel.Select("DATE(actions.created_at) as date", "COUNT(1) as count").
 		From("actions").
 		LeftJoin("packages ON packages.id = actions.package_id").
