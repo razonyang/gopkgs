@@ -24,5 +24,8 @@ WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /src/dist/main /app/gopkgs
 
+RUN apt update 
+RUN apt install -f tzdata
+
 # Command to run
 ENTRYPOINT ["/app/gopkgs", "serve"]
