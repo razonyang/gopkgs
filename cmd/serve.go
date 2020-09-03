@@ -72,7 +72,7 @@ var serveCmd = &cli.Command{
 			clevergo.WrapHH(sessionManager.LoadAndSave),
 			core.ErrorHandler,
 			// clevergo.WrapHH(middleware.Minify()),
-			authmiddleware.New(core.NewSessionAuthenticator(sessionManager)),
+			authmiddleware.New(core.NewSessionAuthenticator(sessionManager, db)),
 			middleware.GoGet(db, queue, cache),
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(

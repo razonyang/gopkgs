@@ -62,7 +62,10 @@ func (f *loginForm) validatePassword(ctx context.Context, value interface{}) (er
 }
 
 func (f *loginForm) login(ctx context.Context, sessionManager *scs.SessionManager) error {
-	sessionManager.Put(ctx, "auth_user", f.user)
+	if err := f.user.GenerateAuthKey(ctx, f.db); err != nil {
+		return err
+	}
+	sessionManager.Put(ctx, "auth_key", f.user.AuthKey.String)
 	return nil
 }
 

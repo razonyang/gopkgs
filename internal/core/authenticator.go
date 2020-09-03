@@ -6,26 +6,34 @@ import (
 
 	"clevergo.tech/auth"
 	"github.com/alexedwards/scs/v2"
+	"github.com/jmoiron/sqlx"
+	"pkg.razonyang.com/gopkgs/internal/models"
 )
 
 type SessionAuthenticator struct {
 	sessionManager *scs.SessionManager
+	db             *sqlx.DB
 }
 
-func NewSessionAuthenticator(sessionManager *scs.SessionManager) *SessionAuthenticator {
+func NewSessionAuthenticator(sessionManager *scs.SessionManager, db *sqlx.DB) *SessionAuthenticator {
 	return &SessionAuthenticator{
 		sessionManager: sessionManager,
+		db:             db,
 	}
 }
 
 // Authenticates the current user.
 func (a *SessionAuthenticator) Authenticate(r *http.Request, w http.ResponseWriter) (auth.Identity, error) {
 	ctx := r.Context()
-	identity, ok := a.sessionManager.Get(ctx, "auth_user").(auth.Identity)
-	if !ok {
-		return nil, errors.New("no logged on user")
+	authKey := a.sessionManager.GetString(ctx, "auth_key")
+	if authKey == "" {
+		return nil, errors.New("no logged user")
 	}
-	return identity, nil
+	var user models.User
+	if err := models.FindUserByAuthKey(ctx, a.db, &user, authKey); err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 // Challenge generates challenges upon authentication failure.

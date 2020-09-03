@@ -28,6 +28,7 @@ type User struct {
 	HashedPassword     string         `db:"hashed_password" json:"hashed_password"`
 	PasswordResetToken sql.NullString `db:"password_reset_token" json:"password_reset_token"`
 	Timezone           string         `db:"timezone" json:"timezone"`
+	AuthKey            sql.NullString `db:"auth_key" json:"auth_key"`
 }
 
 func NewUser(username, email, password string) (*User, error) {
@@ -66,6 +67,10 @@ func FindUserByPasswordResetToken(ctx context.Context, db *sqlx.DB, dest interfa
 	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE password_reset_token = ?", token)
 }
 
+func FindUserByAuthKey(ctx context.Context, db *sqlx.DB, dest interface{}, key string) error {
+	return db.GetContext(ctx, dest, "SELECT * FROM users WHERE auth_key = ?", key)
+}
+
 func (u *User) GetID() string {
 	return strconv.FormatInt(u.ID, 10)
 }
@@ -76,6 +81,15 @@ func (u *User) SetPassword(ctx context.Context, db *sqlx.DB, password string) (e
 		return
 	}
 	_, err = db.ExecContext(ctx, "UPDATE users SET hashed_password = ?, password_reset_token = null WHERE id = ?", u.HashedPassword, u.ID)
+	return
+}
+
+func (u *User) GenerateAuthKey(ctx context.Context, db *sqlx.DB) (err error) {
+	u.AuthKey = sql.NullString{
+		String: strings.ReplaceAll(uuid.New().String(), "-", ""),
+		Valid:  true,
+	}
+	_, err = db.ExecContext(ctx, "UPDATE users SET auth_key = ? WHERE id = ?", u.AuthKey, u.ID)
 	return
 }
 

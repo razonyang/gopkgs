@@ -24,9 +24,6 @@ func (h *Handler) verifyEmail(c *clevergo.Context) error {
 			return err
 		}
 
-		// update session
-		h.SessionManager.Put(ctx, "auth_user", user)
-
 		h.AddAlert(ctx, alert.NewSuccess("Email verified."))
 
 		return c.Redirect(http.StatusFound, "/login")

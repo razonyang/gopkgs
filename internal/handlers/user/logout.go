@@ -10,7 +10,7 @@ import (
 func (h *Handler) logout(c *clevergo.Context) error {
 	ctx := c.Context()
 	// remove user information from session
-	h.SessionManager.Remove(ctx, "auth_user")
+	h.SessionManager.Remove(ctx, "auth_key")
 	h.AddAlert(ctx, alert.NewSuccess("Logout successfully."))
 	return c.Redirect(http.StatusFound, "/")
 }
