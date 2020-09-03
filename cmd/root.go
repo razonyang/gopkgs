@@ -13,7 +13,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
-	"pkg.razonyang.com/gopkgs/internal/core"
 )
 
 var (
@@ -21,7 +20,6 @@ var (
 	queue *machinery.Server
 	app   = &cli.App{
 		EnableBashCompletion: true,
-		Version:              core.Version,
 		Name:                 "gopkgs",
 		Usage:                "Go Packages",
 		Flags: []cli.Flag{
