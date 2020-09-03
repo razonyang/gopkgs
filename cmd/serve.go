@@ -120,6 +120,7 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 	renderer := jetrenderer.New(set)
 	renderer.SetBeforeRender(func(w io.Writer, name string, vars jet.VarMap, data interface{}, c *clevergo.Context) error {
 		ctx := c.Context()
+		vars.Set("timezone", "Asia/Shanghai")
 		vars.Set("user", authmiddleware.GetIdentity(ctx))
 		vars.Set("csrf", nosurf.Token(c.Request))
 		vars.Set("alert", sessionManager.Pop(ctx, "alert"))
