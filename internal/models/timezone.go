@@ -11,7 +11,7 @@ type Timezone struct {
 }
 
 func FindAllTimezones(ctx context.Context, db *sqlx.DB, dest interface{}) error {
-	query := "SELECT Name FROM mysql.time_zone_name ORDER BY Name ASC"
+	query := "SELECT Name FROM mysql.time_zone_name WHERE Name NOT LIKE 'posix/%' AND Name NOT LIKE 'right/%' ORDER BY Name ASC"
 	return db.SelectContext(ctx, dest, query)
 }
 
