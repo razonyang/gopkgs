@@ -28,13 +28,10 @@ func (h *Handler) index(c *clevergo.Context) error {
 	}
 
 	pageNum, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 64)
-	if err != nil {
-		return err
-	}
-	if pageNum < 1 {
+	if err != nil || pageNum < 1 {
 		pageNum = 1
 	}
-	limit := int64(2)
+	limit := int64(10)
 
 	ctx := c.Context()
 
