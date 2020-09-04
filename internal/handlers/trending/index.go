@@ -18,7 +18,7 @@ type Package struct {
 }
 
 func (h *Handler) index(c *clevergo.Context) error {
-	interval := c.DefaultQuery("interval", "month")
+	interval := c.DefaultQuery("interval", "day")
 	ctx := c.Context()
 
 	packages, err := h.getPackages(ctx, interval)
