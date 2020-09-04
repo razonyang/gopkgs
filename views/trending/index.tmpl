@@ -2,8 +2,8 @@
 
 {{ block body() }}
 
-<div class="jumbotron bg-white">
-    <h1 class="display-4 text-center">
+<div class="container">
+    <h1>
         <i class="fas fa-fw fa-chart-line"></i> Trending
     </h1>
     <hr class="my-4">
@@ -19,47 +19,50 @@
     
     <div class="clearfix"></div>
 
-    <div class="card-body bg-transparent">
-        {{ if len(.packages) == 0 }}
-        <h1 class="text-center text-muted">No data</h1>
-        {{ end }}
+    <div>
         {{ range .packages }}
-        <div class="card mb-3 col-12">
-            <div class="card-header bg-transparent">
+        <div class="col-12 mb-4 border-bottom">
+            <p>
                 <i class="fas fa-fw fa-cube"></i> 
-                <a class="text-dark" href="{{ siteURL }}/{{ .Prefix() }}">
+                <a href="{{ siteURL }}/{{ .Prefix() }}">
                     <span class="font-weight-bold">{{ .Prefix() }}</span>
                 </a>
-                <span class="badge badge-secondary">
-                    <i class="fas fa-fw fa-download"></i> {{ .Downloads | shortScale }}
-                </span>
-            </div>
-            <div class="card-body">
+            </p>
+            <p class="text-secondary">
                 {{ if .Description }}
                     {{ .Description }}
                 {{ else }}
-                    <span class="text-muted">No description provided.</span>
+                    No description provided.
                 {{ end }}
-            </div>
-            <div class="card-footer bg-transparent text-right">
+            </p>
+            <p>
+                <span class="text-muted">|</span>
                 {{ if .Homepage }}
-                <a class="btn btn-success btn-sm mb-2" href="{{ .Homepage }}" target="_blank">
-                    <i class="fas fa-fw fa-home"></i> Homepage
+                <a class="text-muted" href="{{ .Homepage }}" target="_blank">
+                    Homepage
                 </a>
+                <span class="text-muted">|</span>
                 {{ end }}
-                <a class="btn btn-primary btn-sm mb-2" href="{{ .Root }}" target="_blank">
-                    <i class="fas fa-fw fa-code"></i> Repository
+                <a class="text-muted" href="{{ .Root }}" target="_blank">
+                    Repository
                 </a>
-                <a class="btn btn-info btn-sm mb-2" href="{{ .DocsURL() }}" target="_blank">
-                    <i class="fas fa-fw fa-file"></i> Documentations
+                <span class="text-muted">|</span> 
+                <a class="text-muted" href="{{ .DocsURL() }}" target="_blank">
+                    Documentations
                 </a>
+                <span class="text-muted">|</span>
                 {{ if .License }}
-                <a class="btn btn-secondary btn-sm mb-2" href="{{ .License }}" target="_blank">
-                    <i class="fas fa-fw fa-ribbon"></i> License
+                <a class="text-muted" href="{{ .License }}" target="_blank">
+                    License
                 </a>
+                <span class="text-muted">|</span>
                 {{ end }}
-            </div>
+                <span class="text-muted">Downloads: {{ .Downloads | shortScale }} </span>
+                <span class="text-muted">|</span>
+            </p>
         </div>
+        {{ else }}
+        <p class="text-center text-muted">No data</p>
         {{ end }}
     </div>
 </div>
