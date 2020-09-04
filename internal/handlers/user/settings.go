@@ -69,6 +69,7 @@ func (h *Handler) settings(c *clevergo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "user/settings.tmpl", clevergo.Map{
+		"page":      web.NewPage("Settings"),
 		"form":      form,
 		"timezones": timezones,
 	})
