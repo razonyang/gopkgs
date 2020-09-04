@@ -4,7 +4,10 @@
 
 <div class="container">
     <h1>Search result for "{{ .q }}"</h1>
-    <p class="text-muted px-2">{{ .totalCount }} results</p>
+    <p class="text-muted px-2">
+        {{ .totalCount }} results
+    </p>
+    
     <hr class="my-4">
     <div>
         {{ range .packages }}
@@ -44,10 +47,34 @@
                 </a>
                 <span class="text-muted">|</span>
                 {{ end }}
+                <span class="text-muted">Downloads: {{ .Downloads | shortScale }}</span>
+                <span class="text-muted">|</span>
             </p>
         </div>
         {{ end }}
     </div>
+
+    <ul id="pagination" class="pagination-sm"></ul>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/twbs-pagination@1.4.1/jquery.twbsPagination.min.js" integrity="sha256-IBEH1IP83PwVcp2JrSp5OWsLw/iDmms7LpXnrz9tsPs=" crossorigin="anonymous"></script>
+<script>
+    var current = {{ .pageNum }}
+    var total = parseInt(({{ .totalCount }}+1)/{{ .limit }})
+    $('#pagination').twbsPagination({
+        totalPages: total,
+        visiblePages: 5,
+        startPage: current,
+        hideOnlyOnePage: true,
+        onPageClick: function (event, page) {
+            if (page == current) {
+                return
+            }
+            var searchForm = $('#searchForm');
+            searchForm.find('input[name="page"]').val(page);
+            searchForm.submit();
+        }
+    });
+</script>
 
 {{ end }}
