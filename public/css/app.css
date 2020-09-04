@@ -44,3 +44,13 @@ body > .container-fluid {
 .bg-orange {
     background-color: orange !important;
 }
+
+.navbar .form-control {
+    border-width: 0;
+    border-radius: 0;
+}
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}

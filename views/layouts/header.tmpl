@@ -2,17 +2,21 @@
 <header>
   <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap pt-0 pb-0">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{ siteURL }}">Go Packages</a>
+      <a class="navbar-brand" href="{{ siteURL }}">
+        <i class="fas fa-fw fa-cubes"></i> 
+        GOPKGS
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <form action="/search" class="w-100">
+          <input class="form-control form-control-dark w-100" type="text" name="q" placeholder="Search for a package" aria-label="Search" value="{{ if isset(.q) }}{{ .q }}{{ end }}">
+        </form>
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="{{ siteURL }}/trending">Trending</a>
           </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
           {{ if user }}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">

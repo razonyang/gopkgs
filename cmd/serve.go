@@ -33,6 +33,7 @@ import (
 	"pkg.razonyang.com/gopkgs/internal/handlers/home"
 	"pkg.razonyang.com/gopkgs/internal/handlers/pkg"
 	"pkg.razonyang.com/gopkgs/internal/handlers/report"
+	"pkg.razonyang.com/gopkgs/internal/handlers/search"
 	"pkg.razonyang.com/gopkgs/internal/handlers/trending"
 	"pkg.razonyang.com/gopkgs/internal/handlers/user"
 	"pkg.razonyang.com/gopkgs/internal/middleware"
@@ -98,6 +99,7 @@ var serveCmd = &cli.Command{
 			&api.Handler{basicHandler},
 			&badge.Handler{basicHandler},
 			&trending.Handler{basicHandler},
+			&search.Handler{basicHandler},
 		}
 		for _, handler := range handlers {
 			handler.Register(app)
