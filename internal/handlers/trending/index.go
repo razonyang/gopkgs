@@ -33,6 +33,7 @@ func (h *Handler) index(c *clevergo.Context) error {
 			{"Today", "day"},
 			{"Last 7 days", "week"},
 			{"Last 30 days", "month"},
+			{"Total", "total"},
 		},
 		"packages": packages,
 	})
@@ -46,6 +47,8 @@ func (h *Handler) getPackages(ctx context.Context, interval string) ([]Package, 
 		fromDate = fromDate.AddDate(0, 0, -6)
 	case "month":
 		fromDate = fromDate.AddDate(0, 0, -29)
+	case "total":
+		fromDate = time.Time{}
 	default:
 		return nil, fmt.Errorf("invalid interval parameter")
 	}
