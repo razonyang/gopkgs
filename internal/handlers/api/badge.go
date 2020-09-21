@@ -20,14 +20,14 @@ func (h *Handler) download(c *clevergo.Context) error {
 
 	path := strings.Split(strings.TrimPrefix(c.Params.String("path"), "/"), "/")
 	if len(path) < 2 {
-		return c.NotFound()
+		return h.notFound(c)
 	}
 	ctx := c.Context()
 	var pkg models.Package
 	err := models.FindPackageByDomainAndPath(ctx, h.DB, &pkg, path[0], strings.Join(path[1:], "/"))
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return c.NotFound()
+			return h.notFound(c)
 		}
 		return err
 	}
@@ -50,6 +50,12 @@ func (h *Handler) download(c *clevergo.Context) error {
 		return err
 	}
 
+	return c.JSON(http.StatusOK, badge)
+}
+
+func (h *Handler) notFound(c *clevergo.Context) error {
+	badge := shields.New("downloads", "package not found")
+	badge.Color = shields.ColorRed
 	return c.JSON(http.StatusOK, badge)
 }
 
