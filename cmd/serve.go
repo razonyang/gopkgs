@@ -55,6 +55,10 @@ var serveCmd = &cli.Command{
 		db.DB.SetMaxOpenConns(100)
 		startCrond()
 
+		if err := startQueue(); err != nil {
+			return err
+		}
+
 		logger, err := provideLogger()
 		if err != nil {
 			return err
