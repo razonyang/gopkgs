@@ -12,10 +12,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{ siteURL }}/trending">Trending</a>
+            <a class="nav-link" href="{{ siteURL }}/trending">{{ "trending" | i18n }}</a>
           </li>
         </ul>
-        <form id="searchForm" action="/search" class="w-100">
+        <form id="searchForm" action="/search">
           <input class="form-control form-control-dark" type="text" name="q" placeholder="Search for a package" aria-label="Search" value="{{ if isset(.q) }}{{ .q }}{{ end }}">
           <input type="hidden" name="page">
         </form>

@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/gob"
 	"io"
+	stdlog "log"
 	"reflect"
 	"strconv"
 	"time"
@@ -10,12 +11,14 @@ import (
 	"clevergo.tech/authmiddleware"
 	"clevergo.tech/clevergo"
 	"clevergo.tech/form"
+	"clevergo.tech/i18nmiddleware"
 	"clevergo.tech/jetpackr"
 	"clevergo.tech/jetrenderer"
 	"clevergo.tech/jetsprig"
 	"clevergo.tech/log"
 	"clevergo.tech/osenv"
 	"clevergo.tech/pprof"
+	"github.com/BurntSushi/toml"
 	"github.com/CloudyKit/jet/v5"
 	"github.com/alexedwards/scs/redisstore"
 	"github.com/alexedwards/scs/v2"
@@ -23,8 +26,10 @@ import (
 	"github.com/gobuffalo/packr/v2"
 	"github.com/gomodule/redigo/redis"
 	"github.com/justinas/nosurf"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/urfave/cli/v2"
 	"go.uber.org/zap"
+	"golang.org/x/text/language"
 	"pkg.razonyang.com/gopkgs/internal/core"
 	"pkg.razonyang.com/gopkgs/internal/handlers/api"
 	"pkg.razonyang.com/gopkgs/internal/handlers/badge"
@@ -54,10 +59,7 @@ var serveCmd = &cli.Command{
 		db.DB.SetMaxIdleConns(10)
 		db.DB.SetMaxOpenConns(100)
 		startCrond()
-
-		if err := startQueue(); err != nil {
-			return err
-		}
+		go startQueue()
 
 		logger, err := provideLogger()
 		if err != nil {
@@ -86,6 +88,7 @@ var serveCmd = &cli.Command{
 				"/signup", "/verify-email", "/send-verification-email", "/forgot-password", "/reset-password",
 			)),
 			clevergo.WrapHH(nosurf.NewPure),
+			i18nmiddleware.New(provideI18N()),
 		)
 		app.Renderer = provideRenderer(sessionManager)
 		app.ServeFiles("/assets", packr.New("public", "../public"))
@@ -113,6 +116,18 @@ var serveCmd = &cli.Command{
 	},
 }
 
+func provideI18N() *i18n.Bundle {
+	b := i18n.NewBundle(language.English)
+	b.RegisterUnmarshalFunc("toml", toml.Unmarshal)
+	for _, lang := range []string{"en", "zh-CN", "zh-TW"} {
+		_, err := b.LoadMessageFile("locales/" + lang + ".toml")
+		if err != nil {
+			stdlog.Fatal(err)
+		}
+	}
+	return b
+}
+
 func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 	box := packr.New("views", "../views")
 	set := jet.NewHTMLSetLoader(jetpackr.New(box))
@@ -126,6 +141,18 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 	renderer := jetrenderer.New(set)
 	renderer.SetBeforeRender(func(w io.Writer, name string, vars jet.VarMap, data interface{}, c *clevergo.Context) error {
 		ctx := c.Context()
+		localizer := i18nmiddleware.Localizer(c)
+		vars.SetFunc("i18n", func(args jet.Arguments) reflect.Value {
+			args.RequireNumOfArguments("i18n", 1, 1)
+			msgID := args.Get(0).String()
+			v, _, err := localizer.LocalizeWithTag(&i18n.LocalizeConfig{
+				MessageID: msgID,
+			})
+			if err != nil {
+				c.Logger().Warnf("failed to translate %s: %s", msgID, err)
+			}
+			return reflect.ValueOf(v)
+		})
 		vars.Set("user", authmiddleware.GetIdentity(ctx))
 		vars.Set("csrf", nosurf.Token(c.Request))
 		vars.Set("alert", sessionManager.Pop(ctx, "alert"))
