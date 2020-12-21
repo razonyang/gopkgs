@@ -1,2 +1,8 @@
+[domain]
+other = "域名"
+
+[package]
+other = "包"
+
 [trending]
 other = "趋势"

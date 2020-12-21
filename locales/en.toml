@@ -1,2 +1,8 @@
+[domain]
+other = "Domain"
+
+[package]
+other = "Package"
+
 [trending]
 other = "Trending"
