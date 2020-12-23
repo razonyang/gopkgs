@@ -1,7 +1,7 @@
-[domain]
+[domains]
 other = "域名"
 
-[package]
+[packages]
 other = "包"
 
 [trending]

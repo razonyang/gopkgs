@@ -81,6 +81,7 @@ var serveCmd = &cli.Command{
 			core.ErrorHandler,
 			// clevergo.WrapHH(middleware.Minify()),
 			authmiddleware.New(core.NewSessionAuthenticator(sessionManager, db)),
+			i18nmiddleware.New(provideI18N()),
 			middleware.GoGet(db, queue, cache),
 			middleware.Host(osenv.MustGet("APP_HOST"), clevergo.PathSkipper("/assets/*", "/.well-known/*")),
 			middleware.IsAuthenticated("/login", clevergo.PathSkipper(
@@ -89,7 +90,6 @@ var serveCmd = &cli.Command{
 				"/signup", "/verify-email", "/send-verification-email", "/forgot-password", "/reset-password",
 			)),
 			clevergo.WrapHH(nosurf.NewPure),
-			i18nmiddleware.New(provideI18N()),
 		)
 		app.Renderer = provideRenderer(sessionManager)
 		app.ServeFiles("/assets", packr.New("public", "../public"))
@@ -153,10 +153,28 @@ func provideRenderer(sessionManager *scs.SessionManager) clevergo.Renderer {
 		ctx := c.Context()
 		localizer := i18nmiddleware.Localizer(c)
 		vars.SetFunc("i18n", func(args jet.Arguments) reflect.Value {
-			args.RequireNumOfArguments("i18n", 1, 1)
+			args.RequireNumOfArguments("i18n", 1, 2)
 			msgID := args.Get(0).String()
+			var tmplData interface{}
+			var pc interface{}
+			if args.NumOfArguments() > 1 {
+				data := args.Get(1)
+				switch data.Kind() {
+				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+					reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+					reflect.Float32, reflect.Float64:
+					pc = data.Interface()
+					tmplData = clevergo.Map{
+						"Count": pc,
+					}
+				default:
+					tmplData = data.Interface()
+				}
+			}
 			v, _, err := localizer.LocalizeWithTag(&i18n.LocalizeConfig{
-				MessageID: msgID,
+				MessageID:    msgID,
+				TemplateData: tmplData,
+				PluralCount:  pc,
 			})
 			if err != nil {
 				c.Logger().Warnf("failed to translate %s: %s", msgID, err)

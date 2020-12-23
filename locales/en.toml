@@ -1,7 +1,7 @@
-[domain]
+[domains]
 other = "Domain"
 
-[package]
+[packages]
 other = "Package"
 
 [trending]

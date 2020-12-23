@@ -7,6 +7,7 @@ clevergo.tech/authmidware v0.2.0/go.mod h1:EyN3Nc6//j3Q1fEV1lONdC+zVheoJhkFIzwRC
 clevergo.tech/clevergo v0.1.0/go.mod h1:T/O3eumTaCGhGYyUa2SsKfihykKsw48D6wwSuQTSyk0=
 clevergo.tech/clevergo v0.4.1 h1:59DbGr0WxbVQvWpJIeiIV7bEv4Pv2LkVRKTiKM6JHnM=
 clevergo.tech/clevergo v0.4.1/go.mod h1:i8p1KgNDl2TlwfVV541OQDDRJpySNUyP6eOA0qEfI4Y=
+clevergo.tech/clevergo v0.5.0/go.mod h1:DKjcOs3CrayCTcm5j7gDht2p9u/zakSKClz9cObvO3E=
 clevergo.tech/clevergo v0.5.2 h1:VRaK/R55Ku351Jcbzt5uWcujR0BUM41TgZBXJ6AN1/c=
 clevergo.tech/clevergo v0.5.2/go.mod h1:DKjcOs3CrayCTcm5j7gDht2p9u/zakSKClz9cObvO3E=
 clevergo.tech/form v0.1.0 h1:yrQRSx3sPj555brJMuFc+tWOnaEgqz7f7HLJgH2u9gk=
@@ -17,6 +18,9 @@ clevergo.tech/jetpackr v0.3.0 h1:uYpTCUEQdyhFVCZg8KIw9GMRW489nokRYlTY7bQ4Fu0=
 clevergo.tech/jetpackr v0.3.0/go.mod h1:6rIIUflGhaYbPkRMSqDoMYZAHyh6FV0o4qxFezZApV4=
 clevergo.tech/jetrenderer v0.3.0 h1:yfWW56+aJleP91+fXcGtJk/lFqUGy+BNKs1Rg1/7poQ=
 clevergo.tech/jetrenderer v0.3.0/go.mod h1:gvvr1XY3UayzshXi7cA5WnyZRoCHj+4ZhSS9VA/9zNI=
+clevergo.tech/jetrenderer v1.0.0 h1:CC0M26qWdt+PzV1tCou506cKhF79uwABpMr8QcIm30E=
+clevergo.tech/jetrenderer/v2 v2.0.0 h1:QW1UWzh6XiK66+3bDPOHpTEmwD3y4hf6jZ2GMEvywzY=
+clevergo.tech/jetrenderer/v2 v2.0.0/go.mod h1:PjG1AtESnj9h9Lmq5mQkLtwpD1k2QVQiOxYcyoatDno=
 clevergo.tech/jetsprig v0.0.4 h1:S4nqNe3nyDnQWuYUkep80myhswfltA+070salIOnY8w=
 clevergo.tech/jetsprig v0.0.4/go.mod h1:8fG2oeLvrDgwLZ+8+W1z+q29qwtGQ30FDCiZ//n+lyk=
 clevergo.tech/jsend v1.1.1 h1:gCJppcBlLGbDHA9zxYN5+c4Sy0YL3lM1doroz+w7FZw=
@@ -83,6 +87,8 @@ github.com/CloudyKit/jet/v5 v5.0.0 h1:iS7jV4P+tey1bmTXDycIq1Q2can3rsblyZlt5g6LDs
 github.com/CloudyKit/jet/v5 v5.0.0/go.mod h1:dmmuzWBdd8bDyJYGZVFdhD21ptN+mjyigFubrffTGTw=
 github.com/CloudyKit/jet/v5 v5.0.2 h1:BRmCtzF/jn8JlZk+c93WcO2bzaJJVjjAhGmsa/6JBoE=
 github.com/CloudyKit/jet/v5 v5.0.2/go.mod h1:dmmuzWBdd8bDyJYGZVFdhD21ptN+mjyigFubrffTGTw=
+github.com/CloudyKit/jet/v6 v6.0.1 h1:HrLxunEn2CpUsZqd6dY5VZQUgXyUdinZUqR9QqvpIkA=
+github.com/CloudyKit/jet/v6 v6.0.1/go.mod h1:d3ypHeIRNo2+XyqnGA8s+aphtcVpjP5hPwP/Lzo7Ro4=
 github.com/DATA-DOG/go-sqlmock v1.3.3 h1:CWUqKXe0s8A2z6qCgkP4Kru7wC11YoAnoupUKFDnH08=
 github.com/DATA-DOG/go-sqlmock v1.3.3/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/DataDog/sketches-go v0.0.0-20190923095040-43f19ad77ff7 h1:qELHH0AWCvf98Yf+CNIJx9vOZOfHFDDzgDRYsnNk/vs=

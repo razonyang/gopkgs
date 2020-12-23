@@ -11,6 +11,7 @@ require (
 	clevergo.tech/i18nmiddleware v0.1.0
 	clevergo.tech/jetpackr v0.3.0
 	clevergo.tech/jetrenderer v0.3.0
+	clevergo.tech/jetrenderer/v2 v2.0.0 // indirect
 	clevergo.tech/jetsprig v0.0.4
 	clevergo.tech/jsend v1.1.1
 	clevergo.tech/log v0.3.0
