@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/gob"
 	"io"
+	"io/ioutil"
 	stdlog "log"
 	"reflect"
 	"strconv"
@@ -119,8 +120,17 @@ var serveCmd = &cli.Command{
 func provideI18N() *i18n.Bundle {
 	b := i18n.NewBundle(language.English)
 	b.RegisterUnmarshalFunc("toml", toml.Unmarshal)
+	box := packr.New("locales", "../locales")
 	for _, lang := range []string{"en", "zh-CN", "zh-TW"} {
-		_, err := b.LoadMessageFile("locales/" + lang + ".toml")
+		f, err := box.Open(lang + ".toml")
+		if err != nil {
+			stdlog.Fatal(err)
+		}
+		buf, err := ioutil.ReadAll(f)
+		if err != nil {
+			stdlog.Fatal(err)
+		}
+		_, err = b.ParseMessageFileBytes(buf, lang+".toml")
 		if err != nil {
 			stdlog.Fatal(err)
 		}
