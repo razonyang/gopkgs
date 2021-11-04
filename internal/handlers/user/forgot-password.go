@@ -11,8 +11,8 @@ import (
 
 	"clevergo.tech/clevergo"
 	"clevergo.tech/osenv"
-	"github.com/RichardKnop/machinery/v1/tasks"
 	"github.com/RichardKnop/machinery/v2"
+	"github.com/RichardKnop/machinery/v2/tasks"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"

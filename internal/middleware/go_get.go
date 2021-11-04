@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"clevergo.tech/clevergo"
-	"github.com/RichardKnop/machinery/v1/tasks"
 	"github.com/RichardKnop/machinery/v2"
+	"github.com/RichardKnop/machinery/v2/tasks"
 	"github.com/dgraph-io/ristretto"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
